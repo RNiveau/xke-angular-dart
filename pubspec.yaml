@@ -1,0 +1,5 @@
+name: xke_angular_dart
+description: A sample web application
+dependencies:
+  angular: 0.9.9
+  browser: any
