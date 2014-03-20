@@ -1,0 +1,54 @@
+Fichier workshop-angular/app/js/app.js
+<pre highlight conf="brush: js">
+	...
+    app.config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.
+            when('/', {templateUrl: 'views/log-list.html', controller: LogCtrl}).
+            when('/logs/:logId', {templateUrl: 'views/log-details.html', controller: LogDetailCtrl })
+    }]);
+
+    function LogDetailCtrl($scope, $routeParams, $http) {
+        $http.get('/logs/' + $routeParams.logId).success(function (data) {
+            $scope.log = data;
+        });
+    }
+    ...
+</pre>
+
+Fichier workshop-angular/views/log-list.html
+<pre highlight conf="brush: html">
+    ...
+    <td><a href="#/logs/{{log.id}}">{{log.date}}</a></td>
+    ...
+</pre>
+
+Fichier workshop-angular/views/log-details.html
+<pre highlight conf="brush: html">
+    <header></header>
+
+    <a href="#/">back</a>
+
+    <div id="content">
+        <table id="hor-zebra" summary="Employee Pay Sheet">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>URL</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{log.date}}</td>
+                <td>{{log.url}}</td>
+                <td>{{log.method}}</td>
+                <td>{{log.status}}</td>
+                <td>{{log.message}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</pre>

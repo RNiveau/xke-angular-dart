@@ -1,0 +1,255 @@
+@myPink : #c90a0a;
+@myComplementaryPink: #FFFF00;
+@myComplementaryPinkDark: #FF9900;
+@myBlue: #5CE;
+
+.border-radius (@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.box-shadow (@params) {
+  box-shadow: @params;
+}
+
+@font-face {
+  font-family: 'IM Fell French Canon';
+  font-style: normal;
+  font-weight: 400;
+  //src: local('IM FELL French Canon Roman'), local('IM_FELL_French_Canon_Roman'), url(font.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'IM Fell French Canon';
+  font-style: italic;
+  font-weight: 400;
+  //src: local('IM FELL French Canon Italic'), local('IM_FELL_French_Canon_Italic'), url(font-italic.woff) format('woff');
+}
+
+.drop-shadow (@x: 0, @y: 2px, @blur: 4px, @spread: 0, @alpha: 0.35) {
+  -webkit-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-shadow (@x: 0, @y: 2px, @blur: 4px, @spread: 0, @color: rgba(0,0,0,0.5)) {
+  -webkit-box-shadow: @x @y @blur @spread @color;
+  -moz-box-shadow: @x @y @blur @spread @color;
+  box-shadow: @x @y @blur @spread @color;
+}
+
+.inset-box-shadow (@string, @string2) {
+  -webkit-box-shadow: @string , @string2;
+  -moz-box-shadow: @string, @string2;
+  box-shadow: @string, @string2;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+}
+
+.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
+  -webkit-animation: @name @duration @delay @ease;
+  -moz-animation: @name @duration @delay @ease;
+  -ms-animation: @name @duration @delay @ease;
+}
+
+.mixi-frames () {
+  0% {
+    color: @myPink;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  17% {
+    color: @myBlue;
+    text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  50% {
+    color: darken(lime, 10%);
+    text-shadow: 1px -1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  83% {
+    color: darken(@myBlue, 20%);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  100% {
+    color: @myPink;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+}
+
+@-webkit-keyframes letterColor {
+
+  .mixi-frames
+
+  }
+
+@-moz-keyframes letterColor {
+
+  .mixi-frames
+
+  }
+
+@tutoWidth: 35%;
+
+#angular-app {
+  display: inline-block;
+//  color: @myPink;
+  margin-left: @tutoWidth;
+  padding-left: 3%;
+  padding-right: 3%;
+  width: 100% - @tutoWidth - 6%;
+//  * {
+//    font-family: 'IM Fell French Canon', serif;
+//  }
+//
+//  a {
+//    text-decoration: none;
+//    color: @myPink;
+//    &:hover {
+//      text-decoration: underline;
+//    }
+//  }
+}
+
+
+#tutorial {
+  min-height: 100%;
+  margin-left: 0px;
+  box-shadow: 5px 0px 5px gray;
+  font-family: 'IM Fell French Canon', serif;
+  font-style: italic;
+//  background: url("/img/tutorial-bg.jpg");
+  z-index: 10;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  overflow: auto;
+  height: 100%;
+  width: @tutoWidth;
+
+  #header {
+    margin-left: 10px;
+    margin-top: 10px;
+
+    img {
+      width: 70px;
+    }
+
+    h2 {
+      padding-left: 10px;
+      display: inline;
+      font-size: 50px;
+      text-shadow: 0px 2px 3px rgba(255, 255, 255, 0.5);
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      background-clip: text;
+    }
+  }
+
+  .steps {
+
+    position: relative;
+
+    bottom: 0px;
+
+    .step {
+      font-size: 18px;
+      padding-left: 40px;
+      padding-top: 5px;
+      padding-bottom: 25px;
+      color: #bfbfbf;
+
+      .picto {
+      /*background: url(/img/picto.png) no-repeat 0px 0px;*/
+        width: 14px;
+        height: 14px;
+        background-color: @myPink;
+        display: block;
+        margin-left: -18px;
+        margin-top: -17px;
+        .border-radius(14px);
+      }
+
+      &.is-active {
+        color: #000000;
+      }
+      .step-title {
+        font-size: 22px;
+        font-weight: bold;
+        padding-left: 15px;
+        cursor: pointer;
+        &:hover {
+          color: #5f5f5f;
+        }
+      }
+      .step-detail {
+        font-family: 'Helvetica Neue';
+        font-size: 15px;
+        margin-left: 15px;
+        margin-top: 10px;
+        margin-right: 15px;
+
+      }
+      .vline {
+        width: 1px;
+        position: absolute;
+        left: 42px;
+        border-left: 4px solid @myPink;
+        z-index: 0;
+        &.a {
+          top: -1px;
+          bottom: 50%;
+        }
+        &.b {
+          top: 50%;
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .solHidden {
+    display: none;
+  }
+
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  #tutorial {
+    display: block;
+    position: relative;
+    width: auto;
+  }
+
+  #angular-app {
+    margin: 2%;
+  }
+}
+
+.code {
+  font-size: 11px;
+}

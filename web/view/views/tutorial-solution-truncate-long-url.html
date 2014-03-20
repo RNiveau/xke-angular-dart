@@ -1,0 +1,17 @@
+Fichier workshop-angular/app/js/app.js
+<script type="syntaxhighlighter" class="brush: js"><![CDATA[
+    ...
+    app.filter('truncate', function () {
+        return function (text) {
+            return text.length > 12 ? text.substring(0, 12) + '...' : text;
+        };
+    });
+    ...
+]]></script>
+
+Fichier workshop-angular/app/index.html
+<pre highlight conf="brush: html">
+    ...
+    <td>{{log.url | truncate}}</td>
+    ...
+</pre>

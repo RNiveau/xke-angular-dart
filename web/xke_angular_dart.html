@@ -4,27 +4,72 @@
 <head>
 <meta charset="utf-8">
 <title>Xke angular dart</title>
-<link rel="stylesheet" href="xke_angular_dart.css">
+<link href="css/bootstrap.min.css" media="screen" rel="stylesheet"
+  type="text/css">
+<link type="text/css" rel="stylesheet" href="css/shCore.css" />
+<link type="text/css" rel="stylesheet" href="css/shThemeDefault.css" />
+<link href="css/main.less" media="screen" rel="stylesheet/less"
+  type="text/css">
+
+<link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-  <div id="tutorial" tuto-ctrl >
-    {{tutoCtrl.name}}
-  </div>
+  <div id="tutorial" ng-include="view/tuto.html"></div>
 
   <!-- Your code here -->
-  <div id="angular-app" ng-app >
-    <h1>Xke angular dart</h1>
+  <div id="angular-app" ng-app>
 
-    <p>Hello world from Dart!</p>
+    <header>
+      <div>
+        <input type="text" />
+      </div>
+    </header>
 
-
-    <div id="sample_container_id" angular-ctrl>
-      <p id="sample_text_id">{{angularCtrl.name}}</p>
+    <div id="navigation">
+      <div>HTTP status</div>
+      <ul>
+        <li><input type="checkbox" id="200"><label
+          for="200">200</label></li>
+        <li><input type="checkbox" id="404"><label
+          for="404">404</label></li>
+        <li><input type="checkbox" id="500"><label
+          for="500">500</label></li>
+      </ul>
+      <br>
+      <div>HTTP method</div>
+      <ul>
+        <li><input type="checkbox" id="GET"><label
+          for="GET">GET</label></li>
+        <li><input type="checkbox" id="POST"><label
+          for="POST">POST</label></li>
+        <li><input type="checkbox" id="PUT"><label
+          for="PUT">PUT</label></li>
+        <li><input type="checkbox" id="DELETE"><label
+          for="DELETE">DELETE</label></li>
+      </ul>
     </div>
-  </div>
 
+    <div id="content">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  <!-- End of your code -->
   <script type="application/dart" src="xke_angular_dart.dart"></script>
   <script src="packages/browser/dart.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/highlighter/shCore.js"></script>
+  <script src="js/highlighter/shBrushJScript.js"></script>
+  <script src="js/highlighter/shBrushXml.js"></script>
+  <script src="js/less.js"></script>
 </body>
 </html>

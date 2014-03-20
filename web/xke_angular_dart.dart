@@ -8,6 +8,7 @@ import 'dart:mirrors';
 import 'package:angular/angular.dart';
 import 'package:logging/logging.dart';
 import 'package:angular/routing/module.dart';
+import '../lib/tuto/tuto_module.dart';
 
 class MyAppModule extends Module {
   MyAppModule() {
@@ -15,11 +16,6 @@ class MyAppModule extends Module {
   }
 }
 
-class MyTutoModule extends Module {
-  MyTutoModule() {
-    type(TutoController);
-  }
-}
 
 
 @NgController(
@@ -33,18 +29,14 @@ class AngularController {
   String get name => "appli";
 }
 
-@NgController(
-    selector: '[tuto-ctrl]',
-    publishAs: 'tutoCtrl')
-class TutoController {
-  String get name => "tuto";
-}
-
 void main() {
   Logger.root.level = Level.FINEST;
   Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
   Injector injector = ngBootstrap(module: new MyAppModule());
-  ngBootstrap(module: new MyTutoModule(), element:querySelector('#tutorial'));
+  // Don't touch this
+  tutoBootstrap();
+
+  
   querySelector("#angular-app");
 //  ngProbe (querySelector("#sample_container_id")).injector.instances.values.first is AngularController
 
