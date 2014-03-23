@@ -16,21 +16,20 @@
         <div class="step-detail well" ng-class="{solHidden: !opened, solShown: opened}">
             <h4>Explications</h4>
 
-{{step.detailTemplateName}}
             <div ng-include="{{step.detailTemplateName}}" class="well"></div>
 
             <div ng-hide="step.errors.length == 0">
                 <h4>Que manque t'il ?</h4>
 
                 <div class="well">
-                    
+                    {{step.getFirstError()}}
                 </div>
             </div>
 
             <button class="btn btn-success" type="button" ng-click="solOpened = !solOpened">
                 Solution <span class="caret"></span></button>
             <div class="solution" ng-class="{solHidden: !solOpened, solShown: solOpened}"
-                 ng-include="step.solutionTemplateName"></div>
+                 ng-include="{{step.solutionTemplateName}}"></div>
         </div>
     </div>
     

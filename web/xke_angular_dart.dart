@@ -38,7 +38,7 @@ void main() {
 
   
   querySelector("#angular-app");
-//  ngProbe (querySelector("#sample_container_id")).injector.instances.values.first is AngularController
+//ngProbe (querySelector("#sample_container_id")).injector.instances.values.first is AngularController;
 
   
 }

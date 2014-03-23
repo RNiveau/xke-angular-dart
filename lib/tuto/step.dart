@@ -1,3 +1,5 @@
+library step;
+
 
 class Step {
   String title;
@@ -16,5 +18,7 @@ class Step {
   bool isActive() {
       return !this.passed && this.executed;
   }
+  
+  String getFirstError() => errors.length != 0 ? errors.first : "";
 
 }
