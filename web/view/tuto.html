@@ -7,13 +7,13 @@
     
     <div ng-repeat="step in tutoCtrl.steps" class="step" ng-class="{'is-active': step.isActive()}"
          ng-init="opened = step.isActive(); solOpened = false">
-        <div class="step-title" ng-click="opened = !opened">{{step.title}}
+        <div class="step-title" ng-click="step.setOpened(!step.opened)">{{step.title}}
             <span class="vline a"></span>
             <span class="picto"></span>
             <span class="vline b"></span>
         </div>
 
-        <div class="step-detail well" ng-class="{solHidden: !opened, solShown: opened}">
+        <div class="step-detail well" ng-class="{solHidden: !step.opened, solShown: step.opened}">
             <h4>Explications</h4>
 
             <div ng-include="{{step.detailTemplateName}}" class="well"></div>
