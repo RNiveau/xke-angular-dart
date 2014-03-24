@@ -5,6 +5,8 @@ import 'package:angular/angular.dart';
 import 'step.dart';
 import 'failed.dart';
 import '../../web/main.dart';
+import '../../web/log_controller.dart';
+import 'dart:mirrors';
 
 @NgInjectableService()
 class StepProvider {
@@ -25,7 +27,7 @@ class StepProvider {
       try {
         new WorkshopModule();
       } catch (e) {
-        throw new Failed("WorkshopModule is not defined");
+        fail("WorkshopModule is not defined");
       }
       if (!(new WorkshopModule() is Module)) throw new Failed(
           "WorkshopModule is not a Module instance");
@@ -33,7 +35,7 @@ class StepProvider {
           "ng-app directive missing");
 
       if (querySelector("#test").text != "Test") throw new Failed(
-          "Application is not bootstrapped");
+          "Application n'est pas initialisée");
     }));
 
     _steps.add(new Step("Le two-way data binding",
@@ -55,6 +57,51 @@ class StepProvider {
     _steps.add(new Step("Création d'un contrôleur",
         "view/views/tutorial-step-creation-controleur.html",
         "view/views/tutorial-solution-creation-controleur.html", () {
+
+        var logCtrl;
+        try {
+          logCtrl = new LogController();
+        } catch(error) {
+          fail("Le contrôleur 'LogController' n'est pas défini");
+        }
+
+        var obj;
+        try {
+          ClassMirror classMirror = reflectClass(LogController);
+          List<InstanceMirror> metadata = classMirror.metadata;
+          obj = metadata.first.reflectee;
+        } catch(error) {
+          fail("Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
+        }
+
+        ok(obj != null, "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
+        ok(obj is NgController, "Le contrôleur 'LogController' doit avoir l'annotation @NgController");
+        ok(obj.selector != null, "L'annotation @NgController doit avoir un selecteur spécifique");
+        ok(obj.selector == "[log-ctrl]", "L'annotation @NgController doit avoir un selecteur [log-ctrl]");
+        ok(obj.publishAs == "logCtrl", "L'annotation @NgController doit être publié en tant que 'logCtrl'");
+
+      // This can be used when testing private fields presence ;)
+      //  reflectClass(LogController).declarations.keys.forEach((Simbol e) => print(e))
+      // and
+      //  reflectClass(LogController).declarations.values.forEach((Simbol e) => print(e))
+
+        try {
+          logCtrl.logs;
+        } catch(error) {
+          fail("La proprieté 'logs' n'est pas définie dans le controlleur");
+        }
+        ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
+        ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
+
+
+
+//        ok(scope.logs.length === 7 && scope.logs[0].url === "http://my/site/name/for/fun/and/filtering/demonstration/ok.html",
+//        "Copier les logs depuis le fichier workshop-angular/data/log-list.json et les assigner en dur dans la propriété $scope.logs");
+//
+//        ok($('#angular-app[ng-controller*="LogCtrl"]').length, "Le contrôleur 'LogCtrl' doit être défini au niveau du div #angular-app à l'aide de l'attribut ng-controller");
+//        ok($('#angular-app:contains("http://my/site/name/for/fun/and/filtering/demonstration/ok.html")').length,
+//        "Les logs doivent être affichés dans la page")
+
 
     }));
 
@@ -100,6 +147,10 @@ class StepProvider {
     if (!testPassed) {
       throw new Failed(msg);
     }
+  }
+
+  void fail(msg) {
+    ok(false, msg);
   }
 
 }
