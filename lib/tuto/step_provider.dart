@@ -16,10 +16,12 @@ class StepProvider {
     init();
   }
 
+
   void init() {
     _steps.add(new Step("Initialisation de l'application",
         "view/views/tutorial-step-initialisation.html",
-        "view/views/tutorial-solution-initialisation.html", () {
+        "view/views/tutorial-solution-initialisation.html",
+        () {
       try {
         new WorkshopModule();
       } catch (e) {
@@ -38,6 +40,16 @@ class StepProvider {
         "view/views/tutorial-step-two-way-binding.html",
         "view/views/tutorial-solution-two-way-binding.html", () {
 
+        ok(querySelector('#angular-app input[ng-model="query"]') != null, "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
+
+        querySelector("input")..focus()
+          ..dispatchEvent(new TextEvent('textInput', data: "TestDataBinding"));
+        bool found = querySelectorAll('#angular-app')[0].text.contains("TestDataBinding");
+        querySelector("input").value = "";
+        querySelector("input")..focus()
+          ..dispatchEvent(new TextEvent('textInput', data: " "));
+        querySelector("input").value = "";
+        ok(found, "La valeur entrée dans le champ de recherche doit être affichée dans la page");
     }));
 
     _steps.add(new Step("Création d'un contrôleur",
@@ -80,6 +92,14 @@ class StepProvider {
     //        "view/views/tutorial-step-directive.html",
     //        "view/views/tutorial-solution-directive.html", () {}));
 
+
+
+  }
+
+  void ok(bool testPassed, String msg) {
+    if (!testPassed) {
+      throw new Failed(msg);
+    }
   }
 
 }
