@@ -29,6 +29,9 @@ class StepProvider {
           "WorkshopModule is not a Module instance");
       if (querySelector("#angular-app[ng-app]") == null) throw new Failed(
           "ng-app directive missing");
+
+      if (querySelector("#test").text != "Test") throw new Failed(
+          "Application is not bootstrapped");
     }));
 
     _steps.add(new Step("Le two-way data binding",
