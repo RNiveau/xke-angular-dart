@@ -9,14 +9,14 @@ import '../lib/tuto/tuto_module.dart';
 import 'log_controller.dart';
 
 class WorkshopModule extends Module {
-  WorkshopModule() {
+  WorkshopModule()  {
     type(LogController);
   }
 }
 
 void main() {
   // Write your code here
-  ngBootstrap(module: new WorkshopModule());
+  ngBootstrap(     module   : new WorkshopModule());
   
   // Don't touch this =====
   tutoBootstrap();
