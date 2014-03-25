@@ -6,7 +6,7 @@ import 'dart:mirrors';
 
 import 'package:angular/angular.dart';
 import '../lib/tuto/tuto_module.dart';
-import 'log_controller.dart';
+import '../lib/workshop/log_controller.dart';
 
 class WorkshopModule extends Module {
   WorkshopModule()  {

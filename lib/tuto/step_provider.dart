@@ -2,13 +2,14 @@ library step_provider;
 
 import 'dart:async';
 import 'dart:html';
-import 'package:angular/angular.dart';
 import 'step.dart';
 import 'failed.dart';
-import '../../web/main.dart';
-import '../../web/log_controller.dart';
 import 'dart:mirrors';
-import '../log.dart';
+import 'package:angular/angular.dart';
+
+import '../../web/main.dart';
+import '../workshop/log_controller.dart';
+import '../workshop/log.dart';
 
 @NgInjectableService()
 class StepProvider {

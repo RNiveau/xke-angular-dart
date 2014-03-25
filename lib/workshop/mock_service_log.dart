@@ -1,6 +1,6 @@
 library mock;
 
-import '../lib/log.dart';
+import 'log.dart';
 
 class MockServiceLog {
 
