@@ -18,12 +18,12 @@
   <div id="tutorial" ng-include="view/tuto.html"></div>
 
   <!-- Your code here -->
-  <div id="angular-app" ng-app >
+  <div id="angular-app" ng-app log-ctrl >
 
     <header>
       <div>
         <input type="text" ng-model="query"/>
-        <span id="qTest">{{query}}</span>
+        <span>{{query}}</span>
       </div>
 
     </header>
@@ -53,6 +53,8 @@
     </div>
 
     <div id="content">
+    
+     {{logCtrl.logs}}
       <table>
         <tr>
           <td></td>

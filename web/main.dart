@@ -6,14 +6,17 @@ import 'dart:mirrors';
 
 import 'package:angular/angular.dart';
 import '../lib/tuto/tuto_module.dart';
+import 'log_controller.dart';
 
 class WorkshopModule extends Module {
-
+  WorkshopModule() {
+    type(LogController);
+  }
 }
 
 void main() {
   // Write your code here
-  ngBootstrap();
+  ngBootstrap(module: new WorkshopModule());
   
   // Don't touch this =====
   tutoBootstrap();

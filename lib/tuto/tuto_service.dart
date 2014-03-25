@@ -29,7 +29,7 @@ class TutoService {
       if (e is Failed) {
         assertionFailed.add(e.cause);
       } else {
-        assertionFailed.add("Error: " + e.cause);
+        assertionFailed.add("Error: " + e.toString());
       }
     } finally {
       step.executed = true;

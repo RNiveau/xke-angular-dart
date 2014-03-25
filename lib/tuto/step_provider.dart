@@ -1,5 +1,7 @@
 library step_provider;
 
+import 'dart:io';
+import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'step.dart';
@@ -7,6 +9,7 @@ import 'failed.dart';
 import '../../web/main.dart';
 import '../../web/log_controller.dart';
 import 'dart:mirrors';
+import '../log.dart';
 
 @NgInjectableService()
 class StepProvider {
@@ -22,8 +25,7 @@ class StepProvider {
   void init() {
     _steps.add(new Step("Initialisation de l'application",
         "view/views/tutorial-step-initialisation.html",
-        "view/views/tutorial-solution-initialisation.html",
-        () {
+        "view/views/tutorial-solution-initialisation.html", () {
       try {
         new WorkshopModule();
       } catch (e) {
@@ -42,66 +44,93 @@ class StepProvider {
         "view/views/tutorial-step-two-way-binding.html",
         "view/views/tutorial-solution-two-way-binding.html", () {
 
-        ok(querySelector('#angular-app input[ng-model="query"]') != null, "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
+      ok(querySelector('#angular-app input[ng-model="query"]') != null,
+          "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
 
-        querySelector("input")..focus()
+      querySelector("input")
+          ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "TestDataBinding"));
-        bool found = querySelectorAll('#angular-app')[0].text.contains("TestDataBinding");
-        querySelector("input").value = "";
-        querySelector("input")..focus()
+      bool found = querySelectorAll('#angular-app')[0].text.contains(
+          "TestDataBinding");
+      querySelector("input").value = "";
+      querySelector("input")
+          ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: " "));
-        querySelector("input").value = "";
-        ok(found, "La valeur entrée dans le champ de recherche doit être affichée dans la page");
+      querySelector("input").value = "";
+      ok(found,
+          "La valeur entrée dans le champ de recherche doit être affichée dans la page");
     }));
 
     _steps.add(new Step("Création d'un contrôleur",
         "view/views/tutorial-step-creation-controleur.html",
         "view/views/tutorial-solution-creation-controleur.html", () {
 
-        var logCtrl;
-        try {
-          logCtrl = new LogController();
-        } catch(error) {
-          fail("Le contrôleur 'LogController' n'est pas défini");
-        }
+      var logCtrl;
+      try {
+        logCtrl = new LogController();
+      } catch (error) {
+        if (error is TypeError) fail(
+            "Le contrôleur 'LogController' n'est pas défini");
+        throw error;
+      }
 
-        var obj;
-        try {
-          ClassMirror classMirror = reflectClass(LogController);
-          List<InstanceMirror> metadata = classMirror.metadata;
-          obj = metadata.first.reflectee;
-        } catch(error) {
-          fail("Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
-        }
+      var obj;
+      try {
+        ClassMirror classMirror = reflectClass(LogController);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail(
+            "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur"
+            );
+      }
 
-        ok(obj != null, "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
-        ok(obj is NgController, "Le contrôleur 'LogController' doit avoir l'annotation @NgController");
-        ok(obj.selector != null, "L'annotation @NgController doit avoir un selecteur spécifique");
-        ok(obj.selector == "[log-ctrl]", "L'annotation @NgController doit avoir un selecteur [log-ctrl]");
-        ok(obj.publishAs == "logCtrl", "L'annotation @NgController doit être publié en tant que 'logCtrl'");
+      ok(obj != null,
+          "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur"
+          );
+      ok(obj is NgController,
+          "Le contrôleur 'LogController' doit avoir l'annotation @NgController");
+      ok(obj.selector != null,
+          "L'annotation @NgController doit avoir un selecteur spécifique");
+      ok(obj.selector == "[log-ctrl]",
+          "L'annotation @NgController doit avoir un selecteur [log-ctrl]");
+      ok(obj.publishAs == "logCtrl",
+          "L'annotation @NgController doit être publié en tant que 'logCtrl'");
 
       // This can be used when testing private fields presence ;)
-      //  reflectClass(LogController).declarations.keys.forEach((Simbol e) => print(e))
+      //   reflectClass(LogController).declarations.keys.forEach((Simbol e) => print(e))
       // and
       //  reflectClass(LogController).declarations.values.forEach((Simbol e) => print(e))
 
-        try {
-          logCtrl.logs;
-        } catch(error) {
-          fail("La proprieté 'logs' n'est pas définie dans le controlleur");
-        }
-        ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
-        ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
+      try {
+        logCtrl.logs;
+      } catch (error) {
+        fail("La proprieté 'logs' n'est pas définie dans le controlleur");
+      }
+      ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
+      ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
 
 
-//        ok(scope.logs.length === 7 && scope.logs[0].url === "http://my/site/name/for/fun/and/filtering/demonstration/ok.html",
-//        "Copier les logs depuis le fichier workshop-angular/data/log-list.json et les assigner en dur dans la propriété $scope.logs");
-//
-//        ok($('#angular-app[ng-controller*="LogCtrl"]').length, "Le contrôleur 'LogCtrl' doit être défini au niveau du div #angular-app à l'aide de l'attribut ng-controller");
-//        ok($('#angular-app:contains("http://my/site/name/for/fun/and/filtering/demonstration/ok.html")').length,
-//        "Les logs doivent être affichés dans la page")
+      ok(logCtrl.logs.length == 7 && logCtrl.logs[0] is Log &&
+          logCtrl.logs[0].url ==
+          "http://my/site/name/for/fun/and/filtering/demonstration/ok.html",
+          "Utiliser le MockServiceLog pour injecter les logs dans le controller");
 
+      ok(querySelector('#angular-app[log-ctrl]') != null,
+          "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
+          );
+
+      var file = new File("step_provider.dart");
+        Future<String> finishedReading = file.readAsString(encoding: UTF-8);
+        finishedReading.then((text) => print(text));
+      
+      bool found = querySelectorAll('#angular-app')[0].text.contains(
+          "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
+      ok(found, "Les logs doivent être affichés dans la page");
+
+      
+      
 
     }));
 
