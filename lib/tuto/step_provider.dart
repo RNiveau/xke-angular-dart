@@ -23,8 +23,8 @@ class StepProvider {
 
   void init() {
     _steps.add(new Step("Initialisation de l'application",
-        "view/views/tutorial-step-initialisation.html",
-        "view/views/tutorial-solution-initialisation.html", () {
+        "tuto/steps/tutorial-step-initialisation.html",
+        "tuto/steps/tutorial-solution-initialisation.html", () {
       try {
         new WorkshopModule();
       } catch (e) {
@@ -40,8 +40,8 @@ class StepProvider {
     }));
 
     _steps.add(new Step("Le two-way data binding",
-        "view/views/tutorial-step-two-way-binding.html",
-        "view/views/tutorial-solution-two-way-binding.html", () {
+        "tuto/steps/tutorial-step-two-way-binding.html",
+        "tuto/steps/tutorial-solution-two-way-binding.html", () {
 
       ok(querySelector('#angular-app input[ng-model="query"]') != null,
           "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
@@ -61,8 +61,8 @@ class StepProvider {
     }));
 
     _steps.add(new Step("Création d'un contrôleur",
-        "view/views/tutorial-step-creation-controleur.html",
-        "view/views/tutorial-solution-creation-controleur.html", () {
+        "tuto/steps/tutorial-step-creation-controleur.html",
+        "tuto/steps/tutorial-solution-creation-controleur.html", () {
 
       var logCtrl;
       try {
@@ -139,8 +139,8 @@ class StepProvider {
     }));
 
     _steps.add(new Step("Mise en forme des logs",
-        "view/views/tutorial-step-mise-en-forme-log.html",
-        "view/views/tutorial-solution-mise-en-forme-log.html", () {
+        "tuto/steps/tutorial-step-mise-en-forme-log.html",
+        "tuto/steps/tutorial-solution-mise-en-forme-log.html", () {
 
       var repeat = querySelector("[ng-repeat]");
       ok(repeat != null, "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau");
@@ -150,34 +150,32 @@ class StepProvider {
     }));
 
     //    _steps.add(new Step("Tronquer les URL",
-    //        "view/views/tutorial-step-trunc-long-url.html",
-    //        "view/views/tutorial-solution-trunc-long-url.html", () {}));
+    //        "tuto/steps/tutorial-step-trunc-long-url.html",
+    //        "tuto/steps/tutorial-solution-trunc-long-url.html", () {}));
     //
     //    _steps.add(new Step("Filtrer les logs par mots clés",
-    //        "view/views/tutorial-step-filtrer-log.html",
-    //        "view/views/tutorial-solution-filtrer-log.html", () {}));
+    //        "tuto/steps/tutorial-step-filtrer-log.html",
+    //        "tuto/steps/tutorial-solution-filtrer-log.html", () {}));
     //
     //    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
-    //        "view/views/tutorial-step-filter-by-status-and-methods.html",
-    //        "view/views/tutorial-solution-filter-by-status-and-methods.html", () {}));
+    //        "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
+    //        "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {}));
     //
     //    _steps.add(new Step("Requêter le backend",
-    //        "view/views/tutorial-step-requete-backend.html",
-    //        "view/views/tutorial-solution-requete-backend.html", () {}));
+    //        "tuto/steps/tutorial-step-requete-backend.html",
+    //        "tuto/steps/tutorial-solution-requete-backend.html", () {}));
     //
     //    _steps.add(new Step("Utiliser le routeur",
-    //        "view/views/tutorial-step-routeur.html",
-    //        "view/views/tutorial-solution-routeur.html", () {}));
+    //        "tuto/steps/tutorial-step-routeur.html",
+    //        "tuto/steps/tutorial-solution-routeur.html", () {}));
     //
     //    _steps.add(new Step("Afficher le détail d'un log",
-    //        "view/views/tutorial-step-log-details.html",
-    //        "view/views/tutorial-solution-log-details.html", () {}));
+    //        "tuto/steps/tutorial-step-log-details.html",
+    //        "tuto/steps/tutorial-solution-log-details.html", () {}));
     //
     //    _steps.add(new Step("Bonus : Créer une directive",
-    //        "view/views/tutorial-step-directive.html",
-    //        "view/views/tutorial-solution-directive.html", () {}));
-
-
+    //        "tuto/steps/tutorial-step-directive.html",
+    //        "tuto/steps/tutorial-solution-directive.html", () {}));
 
   }
 
