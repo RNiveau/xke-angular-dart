@@ -136,16 +136,17 @@ class StepProvider {
       bool found = querySelectorAll('#angular-app')[0].text.contains(
           "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
       ok(found, "Les logs doivent être affichés dans la page");
-
-      
-      
-
     }));
 
     _steps.add(new Step("Mise en forme des logs",
         "view/views/tutorial-step-mise-en-forme-log.html",
         "view/views/tutorial-solution-mise-en-forme-log.html", () {
 
+      var repeat = querySelector("[ng-repeat]");
+      ok(repeat != null, "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau");
+      String attr = repeat.attributes["ng-repeat"];
+      ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr), "La directive ng-repeat doit parcourir l'attribut logs du controller");
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll("#angular-app tr").length == 7 , "Afficher les logs dans le tableau");
     }));
 
     //    _steps.add(new Step("Tronquer les URL",
