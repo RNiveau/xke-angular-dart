@@ -120,9 +120,18 @@ class StepProvider {
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
 
-//      var file = new File("step_provider.dart");
-//        Future<String> finishedReading = file.readAsString(encoding: UTF-8);
-//        finishedReading.then((text) => print(text));
+      
+      HttpRequest request = new HttpRequest();
+      request.open("GET", "main.dart", async : false);
+      request.send();
+      RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
+      ok(regExp.hasMatch(request.responseText), "Le module WorkshopModule doit contenir un constructeur");
+
+      regExp = new RegExp("type\\(\\s*LogController\\s*\\)\\s*;");
+      ok(regExp.hasMatch(request.responseText), "Le constructeur doit déclarer le type LogController");
+
+      regExp = new RegExp("ngBootstrap\\(\\s*module\\s*:\\s*new\\s*WorkshopModule\\(\\)\\s*\\)\\s*;");
+      ok(regExp.hasMatch(request.responseText), "L'applicatin doit être bootstrapper avec le module WorkshopModule");
       
       bool found = querySelectorAll('#angular-app')[0].text.contains(
           "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
