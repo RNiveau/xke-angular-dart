@@ -1,6 +1,5 @@
 library step_provider;
 
-import 'dart:io';
 import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
@@ -121,9 +120,9 @@ class StepProvider {
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
 
-      var file = new File("step_provider.dart");
-        Future<String> finishedReading = file.readAsString(encoding: UTF-8);
-        finishedReading.then((text) => print(text));
+//      var file = new File("step_provider.dart");
+//        Future<String> finishedReading = file.readAsString(encoding: UTF-8);
+//        finishedReading.then((text) => print(text));
       
       bool found = querySelectorAll('#angular-app')[0].text.contains(
           "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
