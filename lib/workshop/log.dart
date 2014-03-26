@@ -26,7 +26,6 @@ class Log {
     "url": url,
     "date": date.toString()
   };
-
   
   String toString() {
     return JSON.encode(this);

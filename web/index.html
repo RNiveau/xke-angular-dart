@@ -54,14 +54,13 @@
 
     <div id="content">
 
-     {{logCtrl.logs}}
       <table ng-repeat="log in logCtrl.logs" >
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{log.id}}</td>
+          <td>{{log.message}}</td>
+          <td>{{log.status}}</td>
+          <td>{{log.url}}</td>
+          <td>{{log.method}}</td>
         </tr>
       </table>
     </div>

@@ -3,22 +3,22 @@
 </p>
 
 <p>
-    Un filtre permet de formatter une donn��e afin de la pr��senter �� l'utilisateur.
+    Un filtre permet de formatter une donnée afin de la présenter à l'utilisateur.
     AngularJS propose "out of the box" quelques filtres : <a href="http://docs.angularjs.org/api/ng.filter:currency" target="_blank">currency</a>, <a href="http://docs.angularjs.org/api/ng.filter:date" target="_blank">date</a>, <a href="http://docs.angularjs.org/api/ng.filter:uppercase" target="_blank">uppercase</a>, <a href="http://docs.angularjs.org/api/ng.filter:orderBy" target="_blank">orderBy</a>.
-    Par exemple, <code>log.url | uppercase</code> va formatter l'URL du log courant pour l'afficher en majuscule. Bien entendu, il est possible de <a href="http://docs.angularjs.org/guide/dev_guide.templates.filters.creating_filters" target="_blank">cr��er ses propres filtres</a>.
+    Par exemple, <code>log.url | uppercase</code> va formatter l'URL du log courant pour l'afficher en majuscule. Bien entendu, il est possible de <a href="http://docs.angularjs.org/guide/dev_guide.templates.filters.creating_filters" target="_blank">créer ses propres filtres</a>.
 </p>
 <p>
-    L'objectif de cette ��tape est de formatter l'attribut <code>url</code> des logs pour le tronquer en fonction d'un nombre de caract��res.
+    L'objectif de cette étape est de formatter l'attribut <code>url</code> des logs pour le tronquer en fonction d'un nombre de caractères.
 </p>
 
 <p>
-    Pour ce faire, il faut d��clarer un filtre au sein du module et l'invoquer �� l'aide du <code>|</code> (pipe) dans la vue.
+    Pour ce faire, il faut déclarer un filtre au sein du module et l'invoquer à l'aide du <code>|</code> (pipe) dans la vue.
     <ul>
-        <li>Dans le fichier workshop-angular/app/js/app.js, d��clarer un <a href="http://docs.angularjs.org/guide/dev_guide.templates.filters.creating_filters" target="_blank">filtre</a> <code>truncate</code> au sein du module.
-            Le filtre retourne une fonction qui prend un param��tre le texte �� filtrer.
+        <li>Dans le fichier workshop-angular/app/js/app.js, déclarer un <a href="http://docs.angularjs.org/guide/dev_guide.templates.filters.creating_filters" target="_blank">filtre</a> <code>truncate</code> au sein du module.
+            Le filtre retourne une fonction qui prend un paramètre le texte à filtrer.
         </li>
         <li>
-            Coder la fonction qui consiste �� tronquer les URLs des logs en les limitant �� <code>12</code> caract��res et en leur rajoutant <code>...</code> �� la fin
+            Coder la fonction qui consiste à tronquer les URLs des logs en les limitant à <code>12</code> caractères et en leur rajoutant <code>...</code> à la fin
         </li>
         <li>Dans le fichier workshop-angular/app/index.html, rajouter le filtre <code>truncate</code> au niveau de l'affichage de l'URL des logs</li>
     </ul>

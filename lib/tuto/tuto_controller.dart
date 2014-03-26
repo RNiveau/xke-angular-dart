@@ -16,7 +16,7 @@ class TutoController {
 
   TutoController(this._tutoService, this._stepProvider) {
     _steps = _stepProvider.steps;
-    _tutoService.execTestsSteps(steps, 0);
+    _tutoService.start(_steps);
   }
 
   List<Step> get steps => _steps;

@@ -3,12 +3,16 @@ library tuto_service;
 import 'package:angular/angular.dart';
 import 'step.dart';
 import 'failed.dart';
+import 'dart:html';
 
 @NgInjectableService()
 class TutoService {
   String get name => "tuto";
 
-  List<Step> _steps = new List();
+  void start(List<Step> steps) {
+    var lastRunningTestIdx = window.localStorage["lastRunningTestIdx"] != null ? int.parse(window.localStorage["lastRunningTestIdx"], onError: (_) => 0) : 0;
+    execTestsSteps(steps, lastRunningTestIdx);
+  }
 
   void execTestsSteps(List<Step> steps, int index) {
     List<String> assertionFailed = new List();
@@ -24,7 +28,7 @@ class TutoService {
         execTestsSteps(steps, 1 + index);
       }
     } catch (e) {
-      //          localStorage.lastRunningTestIdx = index;
+      window.localStorage["lastRunningTestIdx"] = index.toString();
       failed = true;
       if (e is Failed) {
         assertionFailed.add(e.cause);

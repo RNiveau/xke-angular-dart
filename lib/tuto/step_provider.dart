@@ -10,6 +10,8 @@ import 'package:angular/angular.dart';
 import '../../web/main.dart';
 import '../workshop/log_controller.dart';
 import '../workshop/log.dart';
+import '../workshop/mock_service_log.dart';
+import '../workshop/truncate_filter.dart';
 
 @NgInjectableService()
 class StepProvider {
@@ -121,19 +123,22 @@ class StepProvider {
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
 
-      
       HttpRequest request = new HttpRequest();
-      request.open("GET", "main.dart", async : false);
+      request.open("GET", "main.dart", async: false);
       request.send();
       RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
-      ok(regExp.hasMatch(request.responseText), "Le module WorkshopModule doit contenir un constructeur");
+      ok(regExp.hasMatch(request.responseText),
+          "Le module WorkshopModule doit contenir un constructeur");
 
       regExp = new RegExp("type\\(\\s*LogController\\s*\\)\\s*;");
-      ok(regExp.hasMatch(request.responseText), "Le constructeur doit déclarer le type LogController");
+      ok(regExp.hasMatch(request.responseText),
+          "Le constructeur doit déclarer le type LogController");
 
-      regExp = new RegExp("ngBootstrap\\(\\s*module\\s*:\\s*new\\s*WorkshopModule\\(\\)\\s*\\)\\s*;");
-      ok(regExp.hasMatch(request.responseText), "L'applicatin doit être bootstrapper avec le module WorkshopModule");
-      
+      regExp = new RegExp(
+          "ngBootstrap\\(\\s*module\\s*:\\s*new\\s*WorkshopModule\\(\\)\\s*\\)\\s*;");
+      ok(regExp.hasMatch(request.responseText),
+          "L'applicatin doit être bootstrapper avec le module WorkshopModule");
+
       bool found = querySelectorAll('#angular-app')[0].text.contains(
           "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
       ok(found, "Les logs doivent être affichés dans la page");
@@ -144,16 +149,69 @@ class StepProvider {
         "tuto/steps/tutorial-solution-mise-en-forme-log.html", () {
 
       var repeat = querySelector("[ng-repeat]");
-      ok(repeat != null, "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau");
+      ok(repeat != null,
+          "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau"
+          );
       String attr = repeat.attributes["ng-repeat"];
-      ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr), "La directive ng-repeat doit parcourir l'attribut logs du controller");
-      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll("#angular-app tr").length == 7 , "Afficher les logs dans le tableau");
+      ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr),
+          "La directive ng-repeat doit parcourir l'attribut logs du controller");
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
+          "#angular-app tr").length == 7, "Afficher les logs dans le tableau");
+
+      multiple([_stringExistInLog(querySelector(
+          "#angular-app tr td:nth-child(1)"), MockServiceLog.getLogs()[0]),
+          _stringExistInLog(querySelector("#angular-app tr td:nth-child(2)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector(
+          "#angular-app tr td:nth-child(3)"), MockServiceLog.getLogs()[0]),
+          _stringExistInLog(querySelector("#angular-app tr td:nth-child(4)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector(
+          "#angular-app tr td:nth-child(5)"), MockServiceLog.getLogs()[0])],
+          "Le tableau doit afficher la date, l'url, le verbe, le statut et le message de chaque log"
+          );
+      bool found = querySelectorAll('#angular-app')[0].text.contains("[{");
+      ok(!found, "Le JSON brut ne doit plus être affiché");
+
     }));
 
-    //    _steps.add(new Step("Tronquer les URL",
-    //        "tuto/steps/tutorial-step-trunc-long-url.html",
-    //        "tuto/steps/tutorial-solution-trunc-long-url.html", () {}));
-    //
+    _steps.add(new Step("Tronquer les URL",
+        "tuto/steps/tutorial-step-trunc-long-url.html",
+        "tuto/steps/tutorial-solution-trunc-long-url.html", () {
+
+      try {
+        new TruncateFilter();
+      } catch (error) {
+        fail("La classe TruncateFilter doit exister");
+      }
+
+      var obj;
+      try {
+        ClassMirror classMirror = reflectClass(TruncateFilter);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail(
+            "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
+      }
+      ok(obj != null,
+          "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter"
+          );
+      ok(obj is NgFilter,
+          "Le filter 'TruncateFilter' doit avoir l'annotation @NgFilter");
+      ok(obj.name != null,
+          "L'annotation @NgFilter doit avoir un name spécifique");
+      ok(obj.name == "truncate",
+          "L'annotation @NgFilter doit avoir le name 'truncate'");
+
+      try {
+        TruncateFilter truncateFilter = new TruncateFilter();
+        truncateFilter.call(null);
+      } catch (e) {
+        fail("Le filter doit posséder une méthode call qui prend un String en paramètre");
+      }
+  
+
+    }));
+
     //    _steps.add(new Step("Filtrer les logs par mots clés",
     //        "tuto/steps/tutorial-step-filtrer-log.html",
     //        "tuto/steps/tutorial-solution-filtrer-log.html", () {}));
@@ -188,6 +246,25 @@ class StepProvider {
 
   void fail(msg) {
     ok(false, msg);
+  }
+
+  void multiple(List<bool> testArray, String msg) {
+    var successfulTest = 0;
+    testArray.forEach((bool fl) {
+      if (fl) successfulTest++;
+    });
+    if (successfulTest < testArray.length) {
+      throw new Failed(msg + " (" + successfulTest.toString() + "/" +
+          testArray.length.toString() + ")");
+    }
+  }
+
+  bool _stringExistInLog(Element element, Log log) {
+    if (element == null) return false;
+    String text = element.text;
+    if (text == null) return false;
+    return log.id == text || log.message == text || log.method == text ||
+        log.status == text || log.url == text;
   }
 
 }
