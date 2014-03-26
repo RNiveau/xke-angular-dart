@@ -123,20 +123,19 @@ class StepProvider {
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
 
-      HttpRequest request = new HttpRequest();
-      request.open("GET", "main.dart", async: false);
-      request.send();
+      
+      String text = _getTextMain();
       RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
-      ok(regExp.hasMatch(request.responseText),
+      ok(regExp.hasMatch(text),
           "Le module WorkshopModule doit contenir un constructeur");
 
-      regExp = new RegExp("type\\(\\s*LogController\\s*\\)\\s*;");
-      ok(regExp.hasMatch(request.responseText),
-          "Le constructeur doit déclarer le type LogController");
+      regExp = new RegExp("type\\s*\\(\\s*LogController\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text),
+          "Le constructeur du module doit déclarer le type LogController");
 
       regExp = new RegExp(
           "ngBootstrap\\(\\s*module\\s*:\\s*new\\s*WorkshopModule\\(\\)\\s*\\)\\s*;");
-      ok(regExp.hasMatch(request.responseText),
+      ok(regExp.hasMatch(text),
           "L'applicatin doit être bootstrapper avec le module WorkshopModule");
 
       bool found = querySelectorAll('#angular-app')[0].text.contains(
@@ -202,13 +201,21 @@ class StepProvider {
       ok(obj.name == "truncate",
           "L'annotation @NgFilter doit avoir le name 'truncate'");
 
+      TruncateFilter truncateFilter = null;
       try {
-        TruncateFilter truncateFilter = new TruncateFilter();
-        truncateFilter.call(null);
+        truncateFilter = new TruncateFilter();
+        truncateFilter.call("unelongueurljustepourtester");
       } catch (e) {
-        fail("Le filter doit posséder une méthode call qui prend un String en paramètre");
+        fail("Le filter doit posséder une méthode call qui prend un String en paramètre et le retourne tronqué à 12 caractères, suivie de '...'");
       }
-  
+      
+      ok(truncateFilter.call("shorturl") == "shorturl", "Si on passe 'shorturl' en paramètre du filtre, il doit retourner 'shorturl'");
+      ok(truncateFilter.call("unelongueurljustepourtester") == "unelongueurl...", "Si on passe 'unelongueurljustepourtester' en paramètre du filtre, il doit retourner 'unelongueurl...'");
+      
+      String text = _getTextMain();
+      RegExp regExp = new RegExp("type\\s*\\(\\s*TruncateFilter\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter");
+      ok(querySelector("#angular-app tr").text.contains("..."), "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
 
     }));
 
@@ -267,4 +274,11 @@ class StepProvider {
         log.status == text || log.url == text;
   }
 
+  String _getTextMain() {
+    HttpRequest request = new HttpRequest();
+          request.open("GET", "main.dart", async: false);
+          request.send();
+    return request.responseText;
+  }
+  
 }
