@@ -123,7 +123,7 @@ class StepProvider {
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
 
-      
+
       String text = _getTextMain();
       RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
       ok(regExp.hasMatch(text),
@@ -192,8 +192,7 @@ class StepProvider {
             "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
       }
       ok(obj != null,
-          "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter"
-          );
+          "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
       ok(obj is NgFilter,
           "Le filter 'TruncateFilter' doit avoir l'annotation @NgFilter");
       ok(obj.name != null,
@@ -206,23 +205,68 @@ class StepProvider {
         truncateFilter = new TruncateFilter();
         truncateFilter.call("unelongueurljustepourtester");
       } catch (e) {
-        fail("Le filter doit posséder une méthode call qui prend un String en paramètre et le retourne tronqué à 12 caractères, suivie de '...'");
+        fail(
+            "Le filter doit posséder une méthode call qui prend un String en paramètre et le retourne tronqué à 12 caractères, suivie de '...'"
+            );
       }
-      
-      ok(truncateFilter.call("shorturl") == "shorturl", "Si on passe 'shorturl' en paramètre du filtre, il doit retourner 'shorturl'");
-      ok(truncateFilter.call("unelongueurljustepourtester") == "unelongueurl...", "Si on passe 'unelongueurljustepourtester' en paramètre du filtre, il doit retourner 'unelongueurl...'");
-      
+
+      ok(truncateFilter.call("shorturl") == "shorturl",
+          "Si on passe 'shorturl' en paramètre du filtre, il doit retourner 'shorturl'");
+      ok(truncateFilter.call("unelongueurljustepourtester") ==
+          "unelongueurl...",
+          "Si on passe 'unelongueurljustepourtester' en paramètre du filtre, il doit retourner 'unelongueurl...'"
+          );
+
       String text = _getTextMain();
       RegExp regExp = new RegExp("type\\s*\\(\\s*TruncateFilter\\s*\\)\\s*;");
-      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter");
-      ok(querySelector("#angular-app tr").text.contains("..."), "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
+      ok(regExp.hasMatch(text),
+          "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter"
+          );
+      ok(querySelector("#angular-app tr").text.contains("..."),
+          "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
 
     }));
 
-    //    _steps.add(new Step("Filtrer les logs par mots clés",
-    //        "tuto/steps/tutorial-step-filtrer-log.html",
-    //        "tuto/steps/tutorial-solution-filtrer-log.html", () {}));
-    //
+    _steps.add(new Step("Filtrer les logs par mots clés",
+        "tuto/steps/tutorial-step-filtrer-log.html",
+        "tuto/steps/tutorial-solution-filtrer-log.html", () {
+
+      ok(querySelector('#angular-app input[ng-model="query"]') != null,
+          "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
+          );
+
+      Element input = querySelector("input");
+      input
+          ..focus()
+          ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
+      ElementProbe inputProbe = ngProbe(input);
+      NgModel model = null;
+      inputProbe.directives.forEach((e) {
+        if (e is NgModel) model = e;
+      });
+      if (model == null) fail(
+          "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
+          );
+      ok(model.modelValue == "zhkc8fjk",
+          "Le texte 'zhkc8fjk' doit être affiché dans le champ de recherche");
+      input.value = "";
+      input
+          ..focus()
+          ..dispatchEvent(new TextEvent('textInput', data: " "));
+      ok(model.modelValue == ' ',
+          "La valeur du champ de recherche ne doit plus être affichée dans la page");
+
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
+               "#angular-app tr").length == 7, "Les logs doivent être affichés dans un tableau");
+      
+      input.value = "";
+            input
+                ..focus()
+                ..dispatchEvent(new TextEvent('textInput', data: "200"));
+            ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
+                           "#angular-app tr").length == 3, "Les logs doivent être filtrées avec la valeur du champ de recherche");
+    }));
+
     //    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
     //        "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
     //        "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {}));
@@ -276,9 +320,9 @@ class StepProvider {
 
   String _getTextMain() {
     HttpRequest request = new HttpRequest();
-          request.open("GET", "main.dart", async: false);
-          request.send();
+    request.open("GET", "main.dart", async: false);
+    request.send();
     return request.responseText;
   }
-  
+
 }
