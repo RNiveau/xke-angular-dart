@@ -1,5 +1,7 @@
 library tuto_controller;
 
+import 'dart:js';
+import 'dart:async';
 import 'package:angular/angular.dart';
 import 'step.dart';
 import 'failed.dart';
@@ -17,6 +19,10 @@ class TutoController {
   TutoController(this._tutoService, this._stepProvider) {
     _steps = _stepProvider.steps;
     _tutoService.start(_steps);
+
+    new Timer(new Duration(milliseconds: 100), () {
+      context['hljs'].callMethod('initHighlighting');
+    });
   }
 
   List<Step> get steps => _steps;
