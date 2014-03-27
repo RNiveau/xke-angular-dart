@@ -1,13 +1,15 @@
 <p>
-    Le <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller" target="_blank">contrôleur</a> est l'un des composants fondamentaux du framework AngularDart.
-    Il s'agit de la class Dart spécial qui permet de définir l'état initial de son <a href="http://docs.angularjs.org/guide/scope" target="_blank">scope</a> (le modèle, ses attributs) et de lui ajouter du comportement (de nouvelles fonctions).
+    Le <a href="https://angulardart.org/tutorial/04-ch02-controller.html" target="_blank" >contrôleur</a> est l'un des composants fondamentaux du framework AngularDart.
+    Il s'agit d'une classe Dart spéciale qui permet de faire le lien entre le model et la vue selon les principes du MVC.
 </p>
-
+<p><a href="https://docs.angulardart.org/#angular/angular.NgController" target="_blank" >L'annotation</a> <code>@NgController</code> permet de définir une classe comme Controller</p>
 <p>
     L'objectif de cette étape est donc la création d'un contrôleur et l'affichage d'un élément de son scope dans la page (en l'occurence les logs) :
     <ul>
-        <li>Dans le fichier workshop-angular/app/js/app.js, définir une function <code>LogCtrl</code> qui prend en paramètre <code>$scope</code></li>
-        <li>Définir l'attribut <code>logs</code> au sein du <code>$scope</code> et copier/coller le contenu du fichier <code>workshop-angular/data/log-list.json</code> (pour le moment, les logs sont mis en dur dans le contrôleur, par la suite ils seront récupérés depuis un backend)</li>
-        <li>Dans le fichier workshop-angular/app/index.html, ajouter l'attribut <a href="http://docs.angularjs.org/api/ng.directive:ngController" target="_blank">ng-controller</a> au div <code>#angular-app</code>, puis afficher le contenu de la variable <code>$scope.logs</code> dans la page</li>
+        <li>Dans le fichier xke-angular-dart/lib/log_controller.dart, Créer la classe <code>LogController</code></li>
+        <li>Définir la classe comme controller en lui donnant le nom <code>logCtrl</code> et le sélecteur <code>log-ctrl</code></li>
+        <li>Définir l'attribut <code>logs</code> au sein du <code>LogController</code> et appeler le service <code>MockServiceLog.getLogs()</code> pour lui donner une valeur (pour le moment, les logs sont mis en dur dans le contrôleur, par la suite ils seront récupérés depuis un backend)</li>
+        <li>Déclarer le <a href="https://docs.angulardart.org/#angular/angular.Module@id_type" target="_blank" >type</a> <code>LogController</code> dans le constructeur du <code>WorkshopModule</code>
+        <li>Dans le fichier xke-angular-dart/web/index.html, ajouter l'attribut <code>ng-controller</code> à la div <code>#angular-app</code>, puis afficher le contenu de la variable <code>logCtrl.logs</code> dans la page</li>
     </ul>
 </p>
