@@ -13,6 +13,4 @@ class LogController {
   LogController() {
     logs = MockServiceLog.getLogs();
   }
-  var _privateLogs = "AAA";
-  String test = "cool";
 }
