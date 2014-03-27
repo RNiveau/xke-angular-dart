@@ -112,8 +112,6 @@ class StepProvider {
       ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
       ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
-
-
       ok(logCtrl.logs.length == 7 && logCtrl.logs[0] is Log &&
           logCtrl.logs[0].url ==
           "http://my/site/name/for/fun/and/filtering/demonstration/ok.html",
@@ -122,7 +120,6 @@ class StepProvider {
       ok(querySelector('#angular-app[log-ctrl]') != null,
           "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
           );
-
 
       String text = _getTextMain();
       RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
@@ -235,36 +232,21 @@ class StepProvider {
           "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
           );
 
-      Element input = querySelector("input");
+      InputElement input = querySelector("input");
       input
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
-      ElementProbe inputProbe = ngProbe(input);
-      NgModel model = null;
-      inputProbe.directives.forEach((e) {
-        if (e is NgModel) model = e;
-      });
-      if (model == null) fail(
-          "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
-          );
-      ok(model.modelValue == "zhkc8fjk",
-          "Le texte 'zhkc8fjk' doit être affiché dans le champ de recherche");
-      input.value = "";
-      input
-          ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: " "));
-      ok(model.modelValue == ' ',
-          "La valeur du champ de recherche ne doit plus être affichée dans la page");
+      bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk");
+      ngScope(input).apply("query = ''");
+      ok(!found, "La valeur du champ de recherche ne doit plus être affichée dans la page");
 
-      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-               "#angular-app tr").length == 7, "Les logs doivent être affichés dans un tableau");
-      
       input.value = "";
       input
           ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: "200"));
+          ..dispatchEvent(new TextEvent('textInput', data: "OK"));
       ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
                      "#angular-app tr").length == 3, "Les logs doivent être filtrées avec la valeur du champ de recherche");
+      ngScope(input).apply("query = ''");
     }));
 
     //    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",

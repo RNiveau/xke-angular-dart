@@ -19,12 +19,11 @@
   <div id="tutorial" ng-include="tuto/tuto.html"></div>
 
   <!-- Your code here -->
-  <div id="angular-app" ng-app log-ctrl >
+  <div id="angular-app" ng-app log-ctrl>
 
     <header>
       <div>
-        <input type="text" ng-model="query"/>
-        <span>{{query}}</span>
+        <input type="text" ng-model="query" placeholder="Search a message..."/>
       </div>
 
     </header>
@@ -54,9 +53,8 @@
     </div>
 
     <div id="content">
-
       <table>
-        <tr ng-repeat="log in logCtrl.logs">
+        <tr ng-repeat="log in logCtrl.logs | filter:{message:query}">
           <td>{{log.id}}</td>
           <td>{{log.message}}</td>
           <td>{{log.status}}</td>
