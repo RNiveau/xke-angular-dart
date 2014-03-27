@@ -1,41 +1,11 @@
-Fichier workshop-angular/app/js/app.js
-<pre highlight conf="brush: js">
-	var app = angular.module('workshop', []);
-</pre>
-
-<pre><code class="dart">library stuff;
-import 'dart:mirrors';
-
-/// Non-sense, pushing syntax to the limits, to stress syntax highlighter...
-/// [Stuff] uses [variable] and [otherVariable] too.
-abstract class Stuff extends Animal with NameBrick implements Product, Vector
-{
-  static int variable = 5, otherVariable = 6, z = 5;
-  static var sym = #someSymbol;
-  // $ is legal in identifiers, like in Java (and not recommended, like in Java!)
-  String a$_ = "foo-${symbolToString(sym)}\"$z bar, and ${addFrenchQuotes('I am French')}";
-  String _$b = 'bar\$\'foo${otherVariable * 7}', b_$ = "";
-  final String $c_1 = """line one\"""
-  $variable$otherVariable -#- ${4 * variable / 3} - line two""";
-  final String $c_2 = '''One\'''
-  \u2661 line with Unicode \u000ATwo''';
-  static const String d$d = r"d$z.f\" r'm${not interpolation}m';
-  /* A constructor /* Non /**/ comment */ Nesting /***/ block /****/ comments! */
-  Stuff(this._$b, this.d$d) : super('Natural');
-  /** This creates a default [Stuff] object. */
-  Stuff.defaultObject() : this(3.14.toString(), 42.toString());
-
-  static String addFrenchQuotes(String input) { return "« $input »"; }
-  static String symbolToString(Symbol s) { return MirrorSystem.getName(s); }
-
-  @override toString() =&gt; a$_ + d$d;
+<p><br/>Fichier xke-angular-dart/web/main.dart</p>
+<pre><code class="dart" >class WorkshopModule extends Module {
+  
 }
-</code></pre>
 
-Fichier workshop-angular/app/index.html
-<pre highlight conf="brush: html">
-    ...
-    <div id="angular-app" ng-app="workshop">
-    </div>
-    ...
-</pre>
+void main() {
+  ngBootstrap();
+}</code></pre>
+
+<p><br/>Fichier xke-angular-dart/web/index.html</p>
+<pre><code class="html" >&lt;div id="angular-app" ng-app &gt;</code></pre>
