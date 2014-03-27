@@ -260,11 +260,11 @@ class StepProvider {
                "#angular-app tr").length == 7, "Les logs doivent être affichés dans un tableau");
       
       input.value = "";
-            input
-                ..focus()
-                ..dispatchEvent(new TextEvent('textInput', data: "200"));
-            ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-                           "#angular-app tr").length == 3, "Les logs doivent être filtrées avec la valeur du champ de recherche");
+      input
+          ..focus()
+          ..dispatchEvent(new TextEvent('textInput', data: "200"));
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
+                     "#angular-app tr").length == 3, "Les logs doivent être filtrées avec la valeur du champ de recherche");
     }));
 
     //    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
