@@ -11,7 +11,7 @@ import '../../web/main.dart';
 import '../workshop/log_controller.dart';
 import '../workshop/log.dart';
 import '../workshop/mock_service_log.dart';
-import '../workshop/truncate_filter.dart';
+import '../workshop/filters.dart';
 
 @NgInjectableService()
 class StepProvider {
@@ -236,22 +236,40 @@ class StepProvider {
       input
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
-      bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk");
-      ngScope(input).apply("query = ''");
-      ok(!found, "La valeur du champ de recherche ne doit plus être affichée dans la page");
+      bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk"
+          );
+      try {
+        ngScope(input).apply("query = ''");  
+      } catch (e) {
+        fail("La valeur du champ de recherche ne doit plus être affichée dans la page");
+      }
+      
+      ok(!found,
+          "La valeur du champ de recherche ne doit plus être affichée dans la page");
 
       input.value = "";
       input
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "OK"));
       ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-                     "#angular-app tr").length == 3, "Les logs doivent être filtrées avec la valeur du champ de recherche");
+          "#angular-app tr").length == 3,
+          "Les logs doivent être filtrées avec la valeur du champ de recherche");
       ngScope(input).apply("query = ''");
     }));
 
-    //    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
-    //        "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
-    //        "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {}));
+    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
+        "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
+        "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {
+
+LogController logCtrl = new LogController();
+try {
+  logCtrl.status;
+} catch (e) {
+  fail("Le controller doit avoir un attribut 'status'");
+}
+  ok(logCtrl.status is Map, "L'attribut 'status' doit être de type Map<String, bool>");
+
+    }));
     //
     //    _steps.add(new Step("Requêter le backend",
     //        "tuto/steps/tutorial-step-requete-backend.html",

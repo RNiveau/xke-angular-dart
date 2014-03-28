@@ -7,12 +7,13 @@ import 'dart:mirrors';
 import 'package:angular/angular.dart';
 import '../lib/tuto/tuto_module.dart';
 import '../lib/workshop/log_controller.dart';
-import '../lib/workshop/truncate_filter.dart';
+import '../lib/workshop/filters.dart';
 
 class WorkshopModule extends Module {
   WorkshopModule()  {
     type(LogController);
     type(TruncateFilter);
+    //type(StatusFilter);
   }
 }
 
