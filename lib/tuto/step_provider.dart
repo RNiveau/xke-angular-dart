@@ -239,11 +239,12 @@ class StepProvider {
       bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk"
           );
       try {
-        ngScope(input).apply("query = ''");  
+        ngScope(input).apply("query = ''");
       } catch (e) {
-        fail("La valeur du champ de recherche ne doit plus être affichée dans la page");
+        fail(
+            "La valeur du champ de recherche ne doit plus être affichée dans la page");
       }
-      
+
       ok(!found,
           "La valeur du champ de recherche ne doit plus être affichée dans la page");
 
@@ -261,13 +262,144 @@ class StepProvider {
         "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
         "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {
 
-LogController logCtrl = new LogController();
-try {
-  logCtrl.status;
-} catch (e) {
-  fail("Le controller doit avoir un attribut 'status'");
-}
-  ok(logCtrl.status is Map, "L'attribut 'status' doit être de type Map<String, bool>");
+      ngScope(querySelector("input")).apply("query = ''");
+      LogController logCtrl = new LogController();
+      try {
+        logCtrl.status;
+      } catch (e) {
+        fail("Le controller doit avoir un attribut 'status'");
+      }
+      ok(logCtrl.status is Map,
+          "L'attribut 'status' doit être de type Map<String, bool>");
+
+      ok(logCtrl.status.length == 3,
+          "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
+
+      ok(logCtrl.status["200"] != null && logCtrl.status["404"] != null &&
+          logCtrl.status["500"] != null,
+          "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
+      List<Element> checkbox = querySelectorAll("input[type=checkbox][ng-model]"
+          );
+
+      ok(checkbox != null && (checkbox.length == 3 || checkbox.length == 7),
+          "Binder les checkboxs avec la map 'status' du logCtrl");
+      try {
+        new StatusFilter();
+      } catch (e) {
+        fail("Créer un filter StatusFilter");
+      }
+
+      var obj;
+      try {
+        ClassMirror classMirror = reflectClass(StatusFilter);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail(
+            "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
+      }
+      ok(obj != null,
+          "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
+      ok(obj is NgFilter,
+          "Le filter 'StatusFilter' doit avoir l'annotation @NgFilter");
+      ok(obj.name != null,
+          "L'annotation @NgFilter doit avoir un name spécifique");
+      ok(obj.name == "statusFilter",
+          "L'annotation @NgFilter doit avoir le name 'statusFilter'");
+
+      StatusFilter filter = new StatusFilter();
+      try {
+        filter.call(new List(), new Map());
+      } catch (e) {
+        fail(
+            "Le filtrer StatusFilter doit avoir une méthode 'List call(List, Map);'");
+      }
+
+      logCtrl.status['404'] = false;
+      List logs = filter.call(MockServiceLog.getLogs(), logCtrl.status);
+      ok(logs.length == 5,
+          "La méthode call doit filtrer les éléments en fonction du status");
+
+      String text = _getTextMain();
+      RegExp regExp = new RegExp("type\\s*\\(\\s*StatusFilter\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text),
+          "Le constructeur du module WorkshopModule doit déclarer le type StatusFilter");
+
+      String ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
+      regExp = new RegExp("\\|\\s*statusFilter\\s*:\\s*logCtrl\\.status");
+      ok(regExp.hasMatch(ngRepeat),
+          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status"
+          );
+
+      try {
+        logCtrl.methods;
+      } catch (e) {
+        fail("Le controller doit avoir un attribut 'methods'");
+      }
+      ok(logCtrl.methods is Map,
+          "L'attribut 'methods' doit être de type Map<String, bool>");
+
+      ok(logCtrl.methods.length == 4,
+          "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
+
+      ok(logCtrl.methods["GET"] != null && logCtrl.methods["POST"] != null &&
+          logCtrl.methods["PUT"] != null && logCtrl.methods["DELETE"] != null,
+          "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
+      checkbox = querySelectorAll("input[type=checkbox][ng-model]"
+          );
+
+      ok(checkbox != null && checkbox.length == 7,
+          "Binder les checkboxs avec la map 'methods' du logCtrl");
+
+      try {
+        new MethodFilter();
+      } catch (e) {
+        fail("Créer un filter MethodFilter");
+      }
+
+      try {
+        ClassMirror classMirror = reflectClass(MethodFilter);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail(
+            "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
+      }
+      ok(obj != null,
+          "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
+      ok(obj is NgFilter,
+          "Le filter 'MethodFilter' doit avoir l'annotation @NgFilter");
+      ok(obj.name != null,
+          "L'annotation @NgFilter doit avoir un name spécifique");
+      ok(obj.name == "methodFilter",
+          "L'annotation @NgFilter doit avoir le name 'methodFilter'");
+
+      MethodFilter methodFilter = new MethodFilter();
+      try {
+        methodFilter.call(new List(), new Map());
+      } catch (e) {
+        fail(
+            "Le filtrer MethodFilter doit avoir une méthode 'List call(List, Map);'");
+      }
+
+      logCtrl.methods['GET'] = false;
+      logCtrl.methods['POST'] = false;
+      logCtrl.methods['PUT'] = false;
+      logs = MockServiceLog.getLogs();
+      logs = methodFilter.call(MockServiceLog.getLogs(), logCtrl.methods);
+      ok(logs.length == 2,
+          "La méthode call doit filtrer les éléments en fonction de la méthode");
+
+      regExp = new RegExp("type\\s*\\(\\s*MethodFilter\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text),
+          "Le constructeur du module WorkshopModule doit déclarer le type MethodFilter");
+
+      ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
+      regExp = new RegExp("\\|\\s*methodFilter\\s*:\\s*logCtrl\\.methods");
+      ok(regExp.hasMatch(ngRepeat),
+          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status"
+          );
+
 
     }));
     //

@@ -13,7 +13,8 @@ class WorkshopModule extends Module {
   WorkshopModule()  {
     type(LogController);
     type(TruncateFilter);
-    //type(StatusFilter);
+    type(StatusFilter);
+    type(MethodFilter);
   }
 }
 
@@ -23,7 +24,4 @@ void main() {
   
   // Don't touch this =====
   tutoBootstrap();
-  // ======================
-  String toto = "toto";
-
 }

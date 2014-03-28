@@ -30,32 +30,31 @@
 
     <div id="navigation">
       <div>HTTP status</div>
-      <ul>ng-model="logCtrl.status['200']"
-        <li><input type="checkbox"  id="200"><label
+      <ul>
+        <li><input type="checkbox" ng-model="logCtrl.status['200']"  id="200"><label
           for="200">200</label></li>
-        <li><input type="checkbox"  id="404"><label
+        <li><input type="checkbox" ng-model="logCtrl.status['404']" id="404"><label
           for="404">404</label></li>
-        <li><input type="checkbox"  id="500"><label
+        <li><input type="checkbox" ng-model="logCtrl.status['500']" id="500"><label
           for="500">500</label></li>
       </ul>
       <br>
       <div>HTTP method</div>
       <ul>
-        <li><input type="checkbox"  id="GET"><label
+        <li><input type="checkbox" ng-model="logCtrl.methods['GET']" id="GET"><label
           for="GET">GET</label></li>
-        <li><input type="checkbox"  id="POST"><label
+        <li><input type="checkbox" ng-model="logCtrl.methods['POST']" id="POST"><label
           for="POST">POST</label></li>
-        <li><input type="checkbox"  id="PUT"><label
+        <li><input type="checkbox" ng-model="logCtrl.methods['PUT']" id="PUT"><label
           for="PUT">PUT</label></li>
-        <li><input type="checkbox"  id="DELETE"><label
+        <li><input type="checkbox" ng-model="logCtrl.methods['DELETE']" id="DELETE"><label
           for="DELETE">DELETE</label></li>
       </ul>
     </div>
 
     <div id="content">
-    statusFilter:logCtrl.status
-      <table>
-        <tr ng-repeat="log in logCtrl.logs | filter:{message:query}">
+    <table>
+        <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods">
           <td>{{log.id}}</td>
           <td>{{log.message}}</td>
           <td>{{log.status}}</td>

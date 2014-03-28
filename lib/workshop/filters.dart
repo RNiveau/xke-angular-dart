@@ -19,3 +19,12 @@ class StatusFilter {
     }
   }
 }
+
+@NgFilter(name:"methodFilter")
+class MethodFilter {
+  List call(List logs, Map<String, bool> filterMap) {
+    if (logs is Iterable && filterMap is Map) {
+       return logs.where((i) => filterMap[i.method] == true).toList();
+    }
+  }
+}
