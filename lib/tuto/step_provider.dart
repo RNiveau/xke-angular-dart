@@ -19,7 +19,9 @@ class StepProvider {
 
   List<Step> get steps => _steps;
 
-  StepProvider() {
+  Http _http;
+  
+  StepProvider(Http this._http) {
     init();
   }
 
@@ -345,8 +347,7 @@ class StepProvider {
       ok(logCtrl.methods["GET"] != null && logCtrl.methods["POST"] != null &&
           logCtrl.methods["PUT"] != null && logCtrl.methods["DELETE"] != null,
           "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
-      checkbox = querySelectorAll("input[type=checkbox][ng-model]"
-          );
+      checkbox = querySelectorAll("input[type=checkbox][ng-model]");
 
       ok(checkbox != null && checkbox.length == 7,
           "Binder les checkboxs avec la map 'methods' du logCtrl");
@@ -402,11 +403,24 @@ class StepProvider {
 
 
     }));
-    //
-    //    _steps.add(new Step("Requêter le backend",
-    //        "tuto/steps/tutorial-step-requete-backend.html",
-    //        "tuto/steps/tutorial-solution-requete-backend.html", () {}));
-    //
+
+    _steps.add(new Step("Requêter le backend",
+        "tuto/steps/tutorial-step-requete-backend.html",
+        "tuto/steps/tutorial-solution-requete-backend.html", () {
+      ngScope(querySelector("input")).apply("query = ''");
+      try {
+        new LogController(_http);
+      } catch (e) {
+        fail("Le constructeur du 'LogController' doit prendre en paramètre un service 'Http'");
+      }
+      
+      LogController logCtrlInstance = null;
+      ngProbe(querySelector("#angular-app")).injector.instances.forEach((e, v) => logCtrlInstance = v is LogController ? v : logCtrlInstance);
+      ok(logCtrlInstance != null, "LogController n'existe pas dans l'application");
+      ok(logCtrlInstance.logs.length == 291, "Charger le fichier 'apache-log.json' et le mapper dans l'attribut 'logs' du controller");
+      
+    }));
+
     //    _steps.add(new Step("Utiliser le routeur",
     //        "tuto/steps/tutorial-step-routeur.html",
     //        "tuto/steps/tutorial-solution-routeur.html", () {}));
