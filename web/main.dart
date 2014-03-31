@@ -5,9 +5,11 @@ import 'dart:html';
 import 'dart:mirrors';
 
 import 'package:angular/angular.dart';
+import 'package:angular/routing/module.dart';
 import '../lib/tuto/tuto_module.dart';
 import '../lib/workshop/log_controller.dart';
 import '../lib/workshop/filters.dart';
+import '../lib/workshop/router.dart';
 
 class WorkshopModule extends Module {
   WorkshopModule()  {
@@ -15,6 +17,7 @@ class WorkshopModule extends Module {
     type(TruncateFilter);
     type(StatusFilter);
     type(MethodFilter);
+    value(RouteInitializerFn, recipeBookRouteInitializer);
   }
 }
 

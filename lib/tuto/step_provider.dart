@@ -21,7 +21,7 @@ class StepProvider {
 
   Http _http;
   
-  StepProvider(Http this._http) {
+  StepProvider(Http this._http, NgRoutingHelper helper) {
     init();
   }
 
@@ -421,10 +421,16 @@ class StepProvider {
       
     }));
 
-    //    _steps.add(new Step("Utiliser le routeur",
-    //        "tuto/steps/tutorial-step-routeur.html",
-    //        "tuto/steps/tutorial-solution-routeur.html", () {}));
-    //
+    _steps.add(new Step("Utiliser le routeur",
+            "tuto/steps/tutorial-step-routeur.html",
+            "tuto/steps/tutorial-solution-routeur.html", () {
+      ngScope(querySelector("input")).apply("query = ''");
+      
+      
+      
+      
+    }));
+    
     //    _steps.add(new Step("Afficher le détail d'un log",
     //        "tuto/steps/tutorial-step-log-details.html",
     //        "tuto/steps/tutorial-solution-log-details.html", () {}));
