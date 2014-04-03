@@ -52,17 +52,9 @@
       </ul>
     </div>
 
-    <div id="content">
-    <table>
-        <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods">
-          <td>{{log.id}}</td>
-          <td>{{log.message}}</td>
-          <td>{{log.status}}</td>
-          <td>{{log.url | truncate}}</td>
-          <td>{{log.method}}</td>
-        </tr>
-      </table>
-    </div>
+   <ng-view></ng-view>
+
+    
 
     <!-- Do not remove. Used for test purposes -->
     <div id="test" style="display: none">{{"Test"}}</div>

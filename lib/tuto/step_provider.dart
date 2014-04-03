@@ -7,11 +7,13 @@ import 'failed.dart';
 import 'dart:mirrors';
 import 'package:angular/angular.dart';
 
+
 import '../../web/main.dart';
 import '../workshop/log_controller.dart';
 import '../workshop/log.dart';
 import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
+import '../workshop/router.dart';
 
 @NgInjectableService()
 class StepProvider {
@@ -21,7 +23,7 @@ class StepProvider {
 
   Http _http;
   
-  StepProvider(Http this._http, NgRoutingHelper helper) {
+  StepProvider(Http this._http) { 
     init();
   }
 
@@ -415,7 +417,7 @@ class StepProvider {
       }
       
       LogController logCtrlInstance = null;
-      ngProbe(querySelector("#angular-app")).injector.instances.forEach((e, v) => logCtrlInstance = v is LogController ? v : logCtrlInstance);
+      logCtrlInstance = ngProbe(querySelector("#angular-app")).injector.get(LogController);
       ok(logCtrlInstance != null, "LogController n'existe pas dans l'application");
       ok(logCtrlInstance.logs.length == 291, "Charger le fichier 'apache-log.json' et le mapper dans l'attribut 'logs' du controller");
       
@@ -426,8 +428,44 @@ class StepProvider {
             "tuto/steps/tutorial-solution-routeur.html", () {
       ngScope(querySelector("input")).apply("query = ''");
       
+      try {
+        routeInitializer;
+      } catch (e) {
+        fail("Créer une fonction 'routeInitializer'");
+      }
       
       
+      Injector injector = ngInjector(querySelector("#angular-app"));
+        List list = reflect(routeInitializer).function.parameters;
+        ok(list.length >= 1 && list[0].type.qualifiedName.toString() == "Symbol(\"route.client.Router\")", "Le premier paramètre de la function doit être de type 'Router'");
+        ok(list.length > 1 && list[1].type.qualifiedName.toString() == "Symbol(\"angular.routing.RouteViewFactory\")", "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
+    
+        NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
+                            new NgApp(querySelector("#angular-app")));
+        RouteViewFactory route = new RouteViewFactory(helper);
+        try {
+          routeInitializer(new Router(), route);
+          ok(helper.router.root.getRoute("/") != null, "Créer une route '/' qui a pour view 'view-list.html'");
+        } catch (e) {
+          if (e is Failed)
+            throw e;
+        }
+        
+        ok(injector.get(RouteInitializerFn) != null, "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'");
+        
+//      InstanceMirror ins = reflect(ngProbe(querySelector("#angular-app")).injector);
+//      ins = ins;
+//      //ins.type.typeVariables
+//      //reflectClass(ngProbe(querySelector("#angular-dart")).injector).declarations.values.forEach((e) => print(e))
+//      var test = reflect(ngProbe(querySelector("#angular-app")).injector);
+//      var s = MirrorSystem.getSymbol('_providers', test.type.owner); 
+//      currentMirrorSystem().libraries
+//      //reflectClass(DynamicInjector).declarations.values.forEach((e) => test.getField(e.simpleName, test.type.owner))))
+//      ins.getField(new Symbol("_providers"));
+      String view = _getTextMain(path: "view-list.html");
+      ok(view != null && view.length > 0, "Déplacer le tableau de logs dans le fichier 'view-list.html'");
+      
+      ok(querySelector("ng-view") != null, "Insérer la view dans le fichier 'index.html'");
       
     }));
     
@@ -470,11 +508,12 @@ class StepProvider {
         log.status == text || log.url == text;
   }
 
-  String _getTextMain() {
+  String _getTextMain({path: "main.dart"}) {
     HttpRequest request = new HttpRequest();
-    request.open("GET", "main.dart", async: false);
+    request.open("GET", path, async: false);
     request.send();
+    if (request.status == 404)
+      return null;
     return request.responseText;
   }
-
 }

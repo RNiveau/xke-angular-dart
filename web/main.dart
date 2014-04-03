@@ -17,7 +17,7 @@ class WorkshopModule extends Module {
     type(TruncateFilter);
     type(StatusFilter);
     type(MethodFilter);
-    value(RouteInitializerFn, recipeBookRouteInitializer);
+    value(RouteInitializerFn, routeInitializer);
   }
 }
 
