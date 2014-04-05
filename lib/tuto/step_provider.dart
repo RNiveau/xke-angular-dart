@@ -35,12 +35,12 @@ class StepProvider {
       try {
         new WorkshopModule();
       } catch (e) {
-        fail("WorkshopModule is not defined");
+        fail("Définir un module 'WorkshopModule'");
       }
       if (!(new WorkshopModule() is Module)) throw new Failed(
-          "WorkshopModule is not a Module instance");
+          "'WorkshopModule' n'est pas une instance de 'Module'");
       if (querySelector("#angular-app[ng-app]") == null) throw new Failed(
-          "ng-app directive missing");
+          "La directive 'ng-app' n'existe pas");
 
       if (querySelector("#test").text != "Test") throw new Failed(
           "Application n'est pas initialisée");
