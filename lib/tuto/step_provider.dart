@@ -474,12 +474,12 @@ class StepProvider {
       //      currentMirrorSystem().libraries
       //      //reflectClass(DynamicInjector).declarations.values.forEach((e) => test.getField(e.simpleName, test.type.owner))))
       //      ins.getField(new Symbol("_providers"));
-//      HttpRequest.getString("view-list.html").catchError((e) => error = 
-//          "Déplacer le tableau de logs dans le fichier 'view-list.html'").then((e) {
-//          });
-//        Timer timer = new Timer(new Duration(milliseconds: 1000), (){} );
-//        if (error != null)
-//          fail(error);
+      //      HttpRequest.getString("view-list.html").catchError((e) => error =
+      //          "Déplacer le tableau de logs dans le fichier 'view-list.html'").then((e) {
+      //          });
+      //        Timer timer = new Timer(new Duration(milliseconds: 1000), (){} );
+      //        if (error != null)
+      //          fail(error);
       //        ok(view != null && view.length > 0, ");
 
       ok(querySelector("ng-view") != null,
@@ -487,9 +487,11 @@ class StepProvider {
 
     }));
 
-    //    _steps.add(new Step("Afficher le détail d'un log",
-    //        "tuto/steps/tutorial-step-log-details.html",
-    //        "tuto/steps/tutorial-solution-log-details.html", () {}));
+    _steps.add(new Step("Afficher le détail d'un log",
+        "tuto/steps/tutorial-step-log-details.html",
+        "tuto/steps/tutorial-solution-log-details.html", () {
+      ngScope(querySelector("input")).apply("query = ''");
+      fail("test");}));
   }
 
   void ok(bool testPassed, String msg) {
