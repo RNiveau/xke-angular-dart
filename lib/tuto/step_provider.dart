@@ -10,6 +10,7 @@ import 'package:angular/angular.dart';
 
 import '../../web/main.dart';
 import '../workshop/log_controller.dart';
+import '../workshop/detail_controller.dart';
 import '../workshop/log.dart';
 import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
@@ -455,7 +456,7 @@ class StepProvider {
       RouteViewFactory route = new RouteViewFactory(helper);
       try {
         routeInitializer(new Router(), route);
-        ok(helper.router.root.getRoute("/") != null,
+        ok(helper.router.root.findRoute("/") != null,
             "Créer une route nommé '/'");
         ok(reflect(routeInitializer).function.source.contains('view-list.html'), "La view de la route '/' doit être 'view-list.html'");
       } catch (e) {
@@ -492,20 +493,90 @@ class StepProvider {
       RouteViewFactory route = new RouteViewFactory(helper);
       try {
         routeInitializer(new Router(), route);
-        ok(helper.router.root.getRoute("/") != null,
+        ok(helper.router.root.findRoute("/") != null,
         "Créer une route '/' qui a pour view 'view-list.html'");
-        ok(helper.router.root.getRoute("detail") != null,
+        ok(helper.router.root.findRoute("detail") != null,
         "Créer une route nommé 'detail'");
         ok(helper.router.root.findRoute("detail").path.match("/detail/1") != null, "Le path de la route 'detail' doit être '/detail/:detailId'");
         ok(reflect(routeInitializer).function.source.contains('detail.html'), "La view de la route 'detail' doit être 'detail.html'");
-
-
       } catch (e) {
         if (e is Failed) throw e;
       }
+      ok(!ngInjector(querySelector("#angular-app")).get(NgRoutingUsePushState).usePushState, "Ajouter ce code dans le constructeur du 'WorkshopModule': 'factory(NgRoutingUsePushState, (_) => new NgRoutingUsePushState.value(false));'");
 
+      
 
-      fail("test");}));
+      try {
+        new DetailController();
+      } catch (e) {
+        ok(!(e is TypeError), "Créer le controller 'DetailController'");
+      }
+      
+      var obj = null;
+      ClassMirror classMirror = null;
+      try {
+         classMirror = reflectClass(DetailController);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail( 
+            "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur"
+            );
+      }
+
+      ok(obj != null,
+          "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur"
+          );
+      ok(obj is NgController,
+          "Le contrôleur 'DetailController' doit avoir l'annotation @NgController");
+      ok(obj.selector != null,
+          "L'annotation @NgController doit avoir un selecteur spécifique");
+      ok(obj.selector == "[detail-ctrl]",
+          "L'annotation @NgController doit avoir un selecteur [detail-ctrl]");
+      ok(obj.publishAs == "detailCtrl",
+          "L'annotation @NgController doit être publié en tant que 'detailCtrl'");
+
+      bool foundConstructor = false;
+      classMirror.declarations.values.forEach((e) {
+        if (e is MethodMirror && e.isConstructor) {
+          foundConstructor = true;
+          ok(e.parameters.length == 2, "Le constructeur doit avoir deux paramètres (Http, RouteProvider)");
+          ok(e.parameters.elementAt(0).type.simpleName.toString() == "Symbol(\"Http\")", "Le premier argument du constructeur doit être de type 'Http'");
+          ok(e.parameters.elementAt(1).type.simpleName.toString() == "Symbol(\"RouteProvider\")", "Le premier argument du constructeur doit être de type 'RouteProvider'");
+        }
+        });
+      ok(foundConstructor, "Le contrôleur 'DetailController', doit avoir un constructeur");
+
+      DetailController ctrl = null;
+      try {
+        ctrl = ngInjector(querySelector("#angular-app")).get(DetailController);
+      } catch (e) {
+       fail("Le controller doit être déclaré dans le module 'WorkshopModule'"); 
+      }
+      
+      try {
+        ctrl.log;
+      } catch (error) {
+        fail("Le controller doit définir une propriété log de type 'Log'");
+      }
+      
+      ok(querySelector("a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
+      
+      Future f1 = HttpRequest.getString("detail.html")
+                    .then((data) {
+                      if (data.length < 10) {
+                        return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
+                      }
+//                        querySelector("a[href='#/detail/1']").click(() {
+//                          if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll'))
+//                            return new Future.value(new Failed("Ajouter les détails du log (tous les éléments)"));                          
+//                        });
+                    })
+                    .catchError(
+                          (e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));
+      
+      return Future.wait([f1]);
+      }));
   }
 
   void ok(bool testPassed, String msg) {
