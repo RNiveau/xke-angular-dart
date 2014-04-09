@@ -1,11 +1,11 @@
- <div id="content">
-    <table>
-        <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods">
-          <td><a href="#/detail/{{log.id}}" >{{log.id}}</a></td>
-          <td>{{log.message}}</td>
-          <td>{{log.status}}</td>
-          <td>{{log.url | truncate}}</td>
-          <td>{{log.method}}</td>
-        </tr>
-      </table>
-    </div>
+<div id="content">
+  <table>
+    <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods">
+      <td><a href="#/detail/{{log.id}}">{{log.id}}</a></td>
+      <td>{{log.message}}</td>
+      <td>{{log.status}}</td>
+      <td>{{log.url | truncate}}</td>
+      <td>{{log.method}}</td>
+    </tr>
+  </table>
+</div>

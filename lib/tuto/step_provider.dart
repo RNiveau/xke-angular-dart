@@ -451,12 +451,13 @@ class StepProvider {
           "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
 
       NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
-          new NgApp(querySelector("#angular-app")));
+          new NgApp(querySelector("#tutorial")));
       RouteViewFactory route = new RouteViewFactory(helper);
       try {
         routeInitializer(new Router(), route);
         ok(helper.router.root.getRoute("/") != null,
-            "Créer une route '/' qui a pour view 'view-list.html'");
+            "Créer une route nommé '/'");
+        ok(reflect(routeInitializer).function.source.contains('view-list.html'), "La view de la route '/' doit être 'view-list.html'");
       } catch (e) {
         if (e is Failed) throw e;
       }
@@ -465,32 +466,45 @@ class StepProvider {
           "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'"
           );
 
-      //      InstanceMirror ins = reflect(ngProbe(querySelector("#angular-app")).injector);
-      //      ins = ins;
-      //      //ins.type.typeVariables
-      //      //reflectClass(ngProbe(querySelector("#angular-dart")).injector).declarations.values.forEach((e) => print(e))
-      //      var test = reflect(ngProbe(querySelector("#angular-app")).injector);
-      //      var s = MirrorSystem.getSymbol('_providers', test.type.owner);
-      //      currentMirrorSystem().libraries
-      //      //reflectClass(DynamicInjector).declarations.values.forEach((e) => test.getField(e.simpleName, test.type.owner))))
-      //      ins.getField(new Symbol("_providers"));
-      //      HttpRequest.getString("view-list.html").catchError((e) => error =
-      //          "Déplacer le tableau de logs dans le fichier 'view-list.html'").then((e) {
-      //          });
-      //        Timer timer = new Timer(new Duration(milliseconds: 1000), (){} );
-      //        if (error != null)
-      //          fail(error);
-      //        ok(view != null && view.length > 0, ");
+      Future f1 = HttpRequest.getString("view-list.html")
+              .then((data) {
+                if (data.length < 10) {
+                  return new Future.value(new Failed("Déplacer le tableau de logs dans le fichier 'view-list.html'"));
+                }
+              })
+              .catchError(
+                    (e) => new Future.value(new Failed("Créer le fichier 'view-list.html'")));
 
-      ok(querySelector("ng-view") != null,
+      Future f3 = futureOk(querySelector("ng-view") != null,
           "Insérer la view dans le fichier 'index.html'");
 
+      return Future.wait([f1, f3]);
     }));
 
     _steps.add(new Step("Afficher le détail d'un log",
         "tuto/steps/tutorial-step-log-details.html",
         "tuto/steps/tutorial-solution-log-details.html", () {
       ngScope(querySelector("input")).apply("query = ''");
+
+      Injector injector = ngInjector(querySelector("#tutorial"));
+      NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
+      new NgApp(querySelector("#tutorial")));
+      RouteViewFactory route = new RouteViewFactory(helper);
+      try {
+        routeInitializer(new Router(), route);
+        ok(helper.router.root.getRoute("/") != null,
+        "Créer une route '/' qui a pour view 'view-list.html'");
+        ok(helper.router.root.getRoute("detail") != null,
+        "Créer une route nommé 'detail'");
+        ok(helper.router.root.findRoute("detail").path.match("/detail/1") != null, "Le path de la route 'detail' doit être '/detail/:detailId'");
+        ok(reflect(routeInitializer).function.source.contains('detail.html'), "La view de la route 'detail' doit être 'detail.html'");
+
+
+      } catch (e) {
+        if (e is Failed) throw e;
+      }
+
+
       fail("test");}));
   }
 
@@ -500,8 +514,20 @@ class StepProvider {
     }
   }
 
+  Future futureOk(bool testPassed, String msg) {
+    if (!testPassed) {
+      return new Future.value(new Failed(msg));
+    } else {
+      return new Future.value();
+    }
+  }
+
   void fail(msg) {
     ok(false, msg);
+  }
+
+  Future futureFail(msg) {
+    return futureOk(false, msg);
   }
 
   void multiple(List<bool> testArray, String msg) {

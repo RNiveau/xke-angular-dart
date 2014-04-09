@@ -23,9 +23,29 @@ class TutoService {
     bool failed = false;
 
     try {
-      test();
+      Future f = test();
       if (index < steps.length) {
-        execTestsSteps(steps, 1 + index);
+        if (f != null) {
+          String error = null;
+          f.then((asserts) {
+            Failed error = null;
+            asserts.forEach((item) {
+              if (item is Failed) {
+                if (error == null)
+                  error = item;
+              }
+            });
+
+            if (error != null) {
+              pb(step, index, assertionFailed, error);
+            } else {
+              execTestsSteps(steps, 1 + index);
+            }
+          });
+
+        } else {
+          execTestsSteps(steps, 1 + index);
+        }
       }
     } catch (e) {
       window.localStorage["lastRunningTestIdx"] = index.toString();
@@ -40,6 +60,18 @@ class TutoService {
       step.passed = !failed;
       step.errors = assertionFailed;
     }
+  }
+
+  void pb(Step step, int index, List<String> assertionFailed, Exception e) {
+    window.localStorage["lastRunningTestIdx"] = index.toString();
+    if (e is Failed) {
+      assertionFailed.add(e.cause);
+    } else {
+      assertionFailed.add("Error: " + e.toString());
+    }
+    step.executed = true;
+    step.passed = false;
+    step.errors = assertionFailed;
   }
 
 }
