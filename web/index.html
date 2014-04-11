@@ -13,6 +13,7 @@
 
 <link href="css/github-PLS.css" rel="stylesheet" type="text/css">
 <link href="css/styles.css" rel="stylesheet" type="text/css">
+<link href="css/navigation.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -22,35 +23,38 @@
   <div id="angular-app" ng-app log-ctrl>
 
     <header>
-      <span>&lsaquo; Angular/Dart &rsaquo;</span>
-      <div>
-        <input type="text" ng-model="query" placeholder="Search a message..."/>
-      </div>
-
+      <span>&lsaquo; xebia / AngularDart &rsaquo;</span>
     </header>
 
     <div id="navigation">
-      <div>HTTP status</div>
-      <ul>
-        <li><input type="checkbox" ng-model="logCtrl.status['200']"  id="200"><label
-          for="200">200</label></li>
-        <li><input type="checkbox" ng-model="logCtrl.status['404']" id="404"><label
-          for="404">404</label></li>
-        <li><input type="checkbox" ng-model="logCtrl.status['500']" id="500"><label
-          for="500">500</label></li>
-      </ul>
-      <br>
-      <div>HTTP method</div>
-      <ul>
-        <li><input type="checkbox" ng-model="logCtrl.methods['GET']" id="GET"><label
-          for="GET">GET</label></li>
-        <li><input type="checkbox" ng-model="logCtrl.methods['POST']" id="POST"><label
-          for="POST">POST</label></li>
-        <li><input type="checkbox" ng-model="logCtrl.methods['PUT']" id="PUT"><label
-          for="PUT">PUT</label></li>
-        <li><input type="checkbox" ng-model="logCtrl.methods['DELETE']" id="DELETE"><label
-          for="DELETE">DELETE</label></li>
-      </ul>
+      <div class="panel">
+        <div class="label">HTTP status</div>
+        <ul>
+          <li><input type="checkbox" ng-model="logCtrl.status['200']"  id="200"><label
+            for="200">200</label></li>
+          <li><input type="checkbox" ng-model="logCtrl.status['404']" id="404"><label
+            for="404">404</label></li>
+          <li><input type="checkbox" ng-model="logCtrl.status['500']" id="500"><label
+            for="500">500</label></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="label">HTTP method</div>
+        <ul>
+          <li><input type="checkbox" ng-model="logCtrl.methods['GET']" id="GET"><label
+            for="GET">GET</label></li>
+          <li><input type="checkbox" ng-model="logCtrl.methods['POST']" id="POST"><label
+            for="POST">POST</label></li>
+          <li><input type="checkbox" ng-model="logCtrl.methods['PUT']" id="PUT"><label
+            for="PUT">PUT</label></li>
+          <li><input type="checkbox" ng-model="logCtrl.methods['DELETE']" id="DELETE"><label
+            for="DELETE">DELETE</label></li>
+        </ul>
+      </div>
+      <div class="panel search">
+        <div class="label">Search</div>
+        <input type="text" ng-model="query" placeholder="Search a message..."/>
+      </div>
     </div>
    <ng-view></ng-view>    
 

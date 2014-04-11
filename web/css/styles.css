@@ -7,7 +7,7 @@
 
 header {
     color: #7F3272;
-    padding: 20px 20px 20px 0;
+    padding: 20px 20px 12px 0;
     border-bottom: solid 1px #DDD;
     margin-bottom: 20px;
     min-height: 30px;
@@ -69,50 +69,6 @@ header .search_clear {
     opacity: 0.5;
 }
 
-#navigation {
-    width: 120px;
-    float: left;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-#navigation div {
-    color: rgb(184, 195, 201);
-    font-size: 10px;
-    height: 10px;
-    line-height: 10px;
-    margin-bottom: 6px;
-    padding-bottom: 0px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 0px;
-    text-transform: uppercase;
-}
-
-#navigation ul {
-    margin: 0;
-}
-
-#navigation li {
-    color: rgb(75, 92, 102);
-    display: block;
-    padding: 2px 5px 2px 10px;
-}
-
-#navigation input {
-    margin-top: 0px;
-}
-
-#navigation label {
-    margin-left: 8px;
-    display: inline;
-    vertical-align: middle;
-}
 
 #content {
     min-height: 250px;
@@ -122,21 +78,22 @@ header .search_clear {
 
 #content table th {
     color: rgb(184, 195, 201);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: normal;
     text-transform: uppercase;
 }
 
 #content table {
-    width: 80%;
+    width: 100%;
+    border: solid 1px #DDD;
 }
 
 #content table tr {
-    line-height: 40px;
+    line-height: 35px;
 }
 
 #content table tr:nth-child(even) {
-    background: rgba(127, 50, 111, 0.1);
+    background: #f6f6f6;
 }
 
 #content table td {
@@ -144,11 +101,10 @@ header .search_clear {
 }
 
 #content table td:nth-child(1) {
-    width: 150px;
     text-align: center;
 }
 
-#content table td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6) {
-    width: 120px;
+#content table td, #content table th{
     text-align: center;
+    border-left: solid 1px #DDD;
 }
