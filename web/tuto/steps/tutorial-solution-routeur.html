@@ -1,0 +1,23 @@
+<br/>Fichier xke-angular-dart/lib/workshop/router.dart
+<pre><code class="dart" >...
+void routeInitializer(Router router, RouteViewFactory views) {
+  views.configure({
+    '/': ngRoute(path: '/', view: 'view-list.html', defaultRoute : true)
+  });
+}...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/main.dart
+<pre><code class="dart" >...
+WorkshopModule()  {
+  ...
+  value(RouteInitializerFn, routeInitializer);
+}
+...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/index.html
+<pre><code class="dart" >...
+&lt;div id="navigation"&gt;
+...
+&lt;/div&gt;
+&lt;ng-view&gt;&lt;/ng-view&gt;    
+...</code></pre>

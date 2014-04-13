@@ -1,5 +1,5 @@
 <p>
-    Le framework AngularJS a pour cible le développement d'application dîtes "single-page application". En d'autres termes, tout ou partie des fonctionnalités d'une application sont exposées au sein d'une même page.
+    Le framework AngularDart a pour cible le développement d'application dîtes "single-page application". En d'autres termes, tout ou partie des fonctionnalités d'une application sont exposées au sein d'une même page.
 </p>
 
 <p>
@@ -7,9 +7,12 @@
 </p>
 
 <p>
-    Le <a href="http://docs.angularjs.org/api/ng.$route" target="_blank">routeur</a> est un composant AngularJS qui permet de faire le mapping entre une URL (avec potentiellement des paramètres dynamiques), un contrôleur et un template.
-    Cela permet au framework d'émuler une navigation à l'aide de liens préfixés avec un # (e.g /#logs/1 pour afficher le log dont l'ID est 1). L'avantage est que ces URLs sont bookmarkables et donc accessibles de l'extérieur sans avoir eu
+    Le <a href="https://docs.angulardart.org/#angular-routing" target="_blank">routeur</a> est un composant AngularDart qui permet de faire le mapping entre une URL (avec potentiellement des paramètres dynamiques), un contrôleur et un template.
+    Cela permet au framework d'émuler une navigation à l'aide de liens préfixés avec un # (ex /#detail/1 pour afficher le log dont l'ID est 1). L'avantage est que ces URLs sont bookmarkables et donc accessibles de l'extérieur sans avoir eu
     besoin d'effectuer un quelconque parcours sur le site Web.
+</p>
+<p>
+  Pour initialiser le routeur, AngularDart fait appel à une méthode <a href="https://docs.angulardart.org/#angular-routing.RouteInitializerFn" target="_blank" >RouteInitializerFn</a> définie pour chaque application et indiquée à AngularDart à travers la méthode <a href="https://docs.angulardart.org/#di.Module@id_value" target="_blank" >value</a> 
 </p>
 
 <p>
@@ -17,8 +20,8 @@
     Pour ce faire :
 
     <ul>
-        <li>Dans le fichier workshop-angular/app/js/app.js, mettre en place le <a href="http://docs.angularjs.org/api/ng.$route" target="_blank">routeur</a> et créer une route <code>/</code> faisant référence au template <code>views/log-list.html</code> et gérée par le contrôleur LogCtrl</li>
-        <li>Dans le fichier workshop-angular/app/index.html, rajouter la propriété <a href="http://docs.angularjs.org/api/ng.directive:ngView" target="_blank">ng-view</a> au niveau du div <code>#angular-app</code></li>
-        <li>Dans le fichier workshop-angular/app/views/log-list.html, externaliser le contenu du fichier workshop-angular/app/index.html permettant l'affichage des logs</li>
+        <li>Dans le fichier xke-angular-dart/lib/workshop/router.dart, définir la méthode <code>routeInitializer</code> répondant au prototype <a href="https://docs.angulardart.org/#angular-routing.RouteInitializerFn" target="_blank" >RouteInitializerFn</a>  et créer une route <code>/</code> faisant référence au template <code>view-list.html</code></li>
+        <li>Dans le fichier xke-angular-dart/web/index.html, rajouter la propriété <a href="https://docs.angulardart.org/#angular-routing.NgViewDirective" target="_blank">ng-view</a> sous la div <code>#navigation</code></li>
+        <li>Dans le fichier xke-angular-dart/web/view-list.html, externaliser le contenu du fichier xke-angular-dart/web/index.html permettant l'affichage des logs</li>
     </ul>
 </p>
