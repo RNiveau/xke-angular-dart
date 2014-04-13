@@ -1,16 +1,23 @@
-Fichier workshop-angular/app/js/app.js
-<script type="syntaxhighlighter" class="brush: js"><![CDATA[
-    ...
-    app.filter('truncate', function () {
-        return function (text) {
-            return text.length > 12 ? text.substring(0, 12) + '...' : text;
-        };
-    });
-    ...
-]]></script>
+<br/>Fichier xke-angular-dart/lib/filters.dart
+<pre><code class="dart" >...
+@NgFilter(name:"truncate")
+class TruncateFilter {
+  String call(String url) {
+    if (url.length > 12)
+      return url.substring(0, 12) + "...";
+    return url;
+  }
+}
+...</code></pre>
 
-Fichier workshop-angular/app/index.html
-<pre highlight conf="brush: html">
-    ...
-    ...
-</pre>
+<br/>
+<br/>Fichier xke-angular-dart/web/main.dart
+<pre><code class="dart" >...
+WorkshopModule()  {...
+  type(TruncateFilter);
+}...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/index.html
+<pre><code class="html" >...
+&lt;td&gt;{{"\{\{log.url | truncate\}\}"}}&lt;/td&gt;
+...</code></pre>
