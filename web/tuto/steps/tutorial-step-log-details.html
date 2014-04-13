@@ -1,14 +1,16 @@
 <p>
-    Un <a href="http://docs.angularjs.org/api/ng.$route" target="_blank">routeur</a> qui gère une seule route, c'est dommage ! L'objectif de cette étape est de gérer une seconde route (avec un second contrôleur et un second template) pour afficher les détails d'une log.
+    Un routeur qui gère une seule route, c'est dommage ! L'objectif de cette étape est de gérer une seconde route (avec un second contrôleur et un second template) pour afficher les détails d'un log.
 </p>
 
 <p>
     Pour ce faire :
   <ul>
-    <li>Dans le fichier workshop-angular/app/js/app.js, déclarer une nouvelle route au niveau du routeur qui match l'URL <code>/logs/:logId</code> avec le template <code>views/log-details.html</code> et géree par le contrôleur <code>LogDetailCtrl</code></li>
-    <li>Déclarer un contrôleur <code>LogDetailCtrl</code> qui prend en paramètre <code>$scope</code>, <code>$routeParams</code> et <code>$http</code></li>
-    <li>Au sein du contrôleur, appeler le backend à l'URL <code>/logs/logId</code> où <code>logId</code> correspond au paramètre logId extrait du service <a href="http://docs.angularjs.org/api/ng.$routeParams" target="_blank">$routeParams</a></li> et stocker le résultat de l'appel dans la propriété <code>log</code> de l'objet <code>$scope</code></li>
-    <li>Dans le fichier workshop-angular/views/log-list.html, rajouter sur les dates des logs un lien pointant vers la nouvelle route.</li>
-    <li>Dans le fichier workshop-angular/views/log-details.html, afficher dans le tableau les différentes informations du log courant (date, url, method, status, message)</li>
+    <li>Dans le constructeur du <code>WorkshopModule</code>, ajouter le code suivant: <code>factory(NgRoutingUsePushState, (_) =&gt;
+    <br/> new <a href="https://docs.angulardart.org/#angular-routing.NgRoutingUsePushState" target="_blank" >NgRoutingUsePushState</a>.value(false));</code></li>
+    <li>Dans le fichier xke-angular-dart/lib/workshop/router.dart, déclarer une nouvelle route <code>detail</code> au niveau du routeur qui match l'URL <code>/detail/:detailId</code> avec le template <code>detail.html</code></li>
+    <li>Créer un contrôleur <code>DetailController</code> exposé comme <code>detailCtrl</code> et ayant pour directive <code>detail-ctrl</code>. Le constructeur de ce contrôlleur prend en paramètre un service <a href="https://docs.angulardart.org/#angular-core.Http" target="_blank" >Http</a> et un <a href="https://docs.angulardart.org/#angular-routing.RouteProvider" target="_blank" >RouteProvider</a></li>
+    <li>Le 'DetailController' expose le log sélectionné dans l'attribut <code>log</code></li>
+    <li>Dans le fichier xke-angular-dart/web/view-list.html, rajouter sur les id des logs un lien pointant vers la nouvelle route.</li>
+    <li>Dans le fichier xke-angular-dart/web/detail.html, afficher dans le tableau les différentes informations du log courant (id, date, url, method, status, message)</li>
   </ul>
 </p>
