@@ -1,1 +1,34 @@
-Fichier workshop-angular/app/js/app.js
+<br/>Fichier xke-angular-dart/lib/filters.dart
+<pre><code class="dart" >...
+@NgFilter(name:"statusFilter")
+class StatusFilter {
+  List call(List logs, Map<String, bool> filterMap) {
+    if (logs is Iterable && filterMap is Map) {
+       return logs.where((i) => filterMap[i.status] == true).toList();
+    }
+  }
+}
+
+@NgFilter(name:"methodFilter")
+class MethodFilter {
+  List call(List logs, Map<String, bool> filterMap) {
+    if (logs is Iterable && filterMap is Map) {
+       return logs.where((i) => filterMap[i.method] == true).toList();
+    }
+  }
+}...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/main.dart
+<pre><code class="dart" >...
+WorkshopModule()  {
+  ...
+    type(StatusFilter);
+    type(MethodFilter);
+  ...
+}
+...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/index.html
+<pre><code class="html" >...
+&lt;tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter : logCtrl.status | methodFilter : logCtrl.methods" &gt;
+...</code></pre>

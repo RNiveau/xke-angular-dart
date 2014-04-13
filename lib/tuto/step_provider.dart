@@ -396,7 +396,7 @@ class StepProvider {
 
       regExp = new RegExp("type\\s*\\(\\s*MethodFilter\\s*\\)\\s*;");
       ok(regExp.hasMatch(text),
-          "Le constructeur du module WorkshopModule doit déclarer le type MethodFilter");
+          "Le constructeur du module 'WorkshopModule' doit déclarer le type 'MethodFilter'");
 
       ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
       regExp = new RegExp("\\|\\s*methodFilter\\s*:\\s*logCtrl\\.methods");
