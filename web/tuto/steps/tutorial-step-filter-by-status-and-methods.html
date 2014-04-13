@@ -14,8 +14,8 @@
         <li>Déclarer un attribut <code>status</code> dans le contrôlleur 'LogController' ayant pour clé un verbe HTTP (GET, POST, PUT, DELETE) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
         <li>Déclarer un attribut <code>methods</code> dans le contrôlleur 'LogController' ayant pour clé un status HTTP (200, 404, 500) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
         <li>Dans le fichier xke-angular-dart/web/index.html, binder à l'aide de l'attribut <code>ng-model</code> les différentes checkbox en faisant référence à la propriété de l'objet concernée (ex: <code>logCtrl.methods['GET']</code> pour la checkbox concernant GET)
-        <li>Dans le fichier xke-angular-dart/lib/filters.dart, créer un filtre 'StatusFilter' nommé 'statusFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de status</li>
-        <li>Dans le fichier xke-angular-dart/lib/filters.dart, créer un filtre 'MethodFilter' nommé 'methodFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de méthodes</li>
+        <li>Dans le fichier xke-angular-dart/lib/workshop/filters.dart, créer un filtre 'StatusFilter' nommé 'statusFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de status</li>
+        <li>Dans le fichier xke-angular-dart/lib/workshop/filters.dart, créer un filtre 'MethodFilter' nommé 'methodFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de méthodes</li>
         <li>Déclarer le deux types dans le 'WorkshopModule'</li>
         <li>Appliquer les filtres dans le <code>ng-repeat</code></li>
     </ul>
