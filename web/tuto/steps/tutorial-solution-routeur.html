@@ -4,7 +4,8 @@ void routeInitializer(Router router, RouteViewFactory views) {
   views.configure({
     '/': ngRoute(path: '/', view: 'view-list.html', defaultRoute : true)
   });
-}...</code></pre>
+}
+...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/main.dart
 <pre><code class="dart" >...
@@ -14,8 +15,29 @@ WorkshopModule()  {
 }
 ...</code></pre>
 
+<br/>Fichier xke-angular-dart/web/view-list.html
+<pre><code class="html" >&lt;div id="content"&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;#&lt;/th&gt;
+      &lt;th&gt;Message&lt;/th&gt;
+      &lt;th&gt;Status&lt;/th&gt;
+      &lt;th&gt;Url&lt;/th&gt;
+      &lt;th&gt;Method&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods"&gt;
+      &lt;td&gt;&lt;a href="#/detail/{{log.id}}"&gt;{{log.id}}&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;{{"\{\{log.message\}\}"}}&lt;/td&gt;
+      &lt;td&gt;{{"\{\{log.status\}\}"}}&lt;/td&gt;
+      &lt;td&gt;{{"\{\{log.url | truncate\}\}"}}&lt;/td&gt;
+      &lt;td&gt;{{"\{\{log.method\}\}"}}&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+</code></pre>
+
 <br/>Fichier xke-angular-dart/web/index.html
-<pre><code class="dart" >...
+<pre><code class="html" >...
 &lt;div id="navigation"&gt;
 ...
 &lt;/div&gt;
