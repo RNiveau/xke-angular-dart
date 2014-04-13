@@ -157,7 +157,7 @@ class StepProvider {
       ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr),
           "La directive ng-repeat doit parcourir l'attribut logs du controller");
       ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-          "#angular-app tr").length == 7, "Afficher les logs dans le tableau");
+          "#angular-app tr").length >= 7, "Afficher les logs dans le tableau");
 
       multiple([_stringExistInLog(querySelector(
           "#angular-app tr td:nth-child(1)"), MockServiceLog.getLogs()[0]),

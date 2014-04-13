@@ -27,8 +27,6 @@ class WorkshopModule extends Module {
 
 void main() {
   // Write your code here
-  Logger.root.level = Level.FINEST;
-  Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
   ngBootstrap(     module   : new WorkshopModule());
   
   // Don't touch this =====
