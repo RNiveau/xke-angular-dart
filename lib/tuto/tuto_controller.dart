@@ -20,7 +20,7 @@ class TutoController {
     _steps = _stepProvider.steps;
     _tutoService.start(_steps);
 
-    new Timer(new Duration(milliseconds: 100), () {
+    new Timer(new Duration(milliseconds: 300), () {
       context['hljs'].callMethod('initHighlighting');
     });
   }

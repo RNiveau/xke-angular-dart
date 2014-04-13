@@ -17,8 +17,4 @@ class MyTutoModule extends Module {
 
 void tutoBootstrap() {
   ngBootstrap(module: new MyTutoModule(), element:querySelector('#tutorial'));
-  
-//querySelector("#angular-app");
-//ngProbe (querySelector("#sample_container_id")).injector.instances.values.first is AngularController;
-
 }
