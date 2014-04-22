@@ -12,22 +12,8 @@ import '../lib/workshop/detail_controller.dart';
 import '../lib/workshop/filters.dart';
 import '../lib/workshop/router.dart';
 
-class WorkshopModule extends Module {
-  WorkshopModule()  {
-    type(LogController);
-    type(TruncateFilter);
-    type(StatusFilter);
-    type(MethodFilter);
-    type(DetailController);
-    value(RouteInitializerFn, routeInitializer);
-    factory(NgRoutingUsePushState,
-            (_) => new NgRoutingUsePushState.value(false));
-  }
-}
-
 void main() {
   // Write your code here
-  ngBootstrap(     module   : new WorkshopModule());
   
   // Don't touch this =====
   tutoBootstrap();
