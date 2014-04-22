@@ -54,16 +54,16 @@ class StepProvider {
       ok(querySelector('#angular-app input[ng-model="query"]') != null,
           "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
 
-      querySelector("input")
+      querySelector('input[type="text"]')
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "TestDataBinding"));
       bool found = querySelectorAll('#angular-app')[0].text.contains(
           "TestDataBinding");
-      querySelector("input").value = "";
-      querySelector("input")
+      querySelector('input[type="text"]').value = "";
+      querySelector('input[type="text"]')
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: " "));
-      querySelector("input").value = "";
+      querySelector('input[type="text"]').value = "";
       ok(found,
           "La valeur entrée dans le champ de recherche doit être affichée dans la page");
     }));
