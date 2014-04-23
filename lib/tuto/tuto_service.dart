@@ -6,7 +6,7 @@ import 'step.dart';
 import 'failed.dart';
 import 'dart:html';
 
-@NgInjectableService()
+@Injectable()
 class TutoService {
   String get name => "tuto";
 

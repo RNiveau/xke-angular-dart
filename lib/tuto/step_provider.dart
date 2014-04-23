@@ -16,7 +16,7 @@ import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
 import '../workshop/router.dart';
 
-@NgInjectableService()
+@Injectable()
 class StepProvider {
   List<Step> _steps = new List();
 

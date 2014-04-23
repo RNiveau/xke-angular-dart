@@ -1,5 +1,5 @@
 name: xke_angular_dart
 description: A sample web application
 dependencies:
-  angular: 0.9.10
-  browser: 0.9.1
+  angular: 0.10.0
+  browser: 0.10.0

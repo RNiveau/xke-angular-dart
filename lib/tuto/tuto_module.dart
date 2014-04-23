@@ -1,6 +1,7 @@
 library tuto_module;
 
 import 'package:angular/angular.dart';
+import 'package:angular/application_factory.dart';
 import 'tuto_controller.dart';
 import 'tuto_service.dart';
 import 'step_provider.dart';
@@ -14,7 +15,9 @@ class MyTutoModule extends Module {
   }
 }
 
-
 void tutoBootstrap() {
-  ngBootstrap(module: new MyTutoModule(), element:querySelector('#tutorial'));
+  (applicationFactory()
+      ..addModule(new MyTutoModule())
+      ..selector('#tutorial'))
+      .run();
 }

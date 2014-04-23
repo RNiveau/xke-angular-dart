@@ -9,7 +9,7 @@ import 'tuto_service.dart';
 import 'step_provider.dart';
 
 
-@NgController(selector: '[tuto-ctrl]', publishAs: 'tutoCtrl')
+@Controller(selector: '[tuto-ctrl]', publishAs: 'tutoCtrl')
 class TutoController {
   TutoService _tutoService;
   StepProvider _stepProvider;
