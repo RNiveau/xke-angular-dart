@@ -95,14 +95,14 @@ class StepProvider {
       ok(obj != null,
           "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur"
           );
-      ok(obj is NgController,
-          "Le contrôleur 'LogController' doit avoir l'annotation @NgController");
+      ok(obj is Controller,
+          "Le contrôleur 'LogController' doit avoir l'annotation @Controller");
       ok(obj.selector != null,
-          "L'annotation @NgController doit avoir un selecteur spécifique");
+          "L'annotation @Controller doit avoir un selecteur spécifique");
       ok(obj.selector == "[log-ctrl]",
-          "L'annotation @NgController doit avoir un selecteur [log-ctrl]");
+          "L'annotation @Controller doit avoir un selecteur [log-ctrl]");
       ok(obj.publishAs == "logCtrl",
-          "L'annotation @NgController doit être publié en tant que 'logCtrl'");
+          "L'annotation @Controller doit être publié en tant que 'logCtrl'");
 
       // This can be used when testing private fields presence ;)
       //   reflectClass(LogController).declarations.keys.forEach((Simbol e) => print(e))
@@ -136,7 +136,7 @@ class StepProvider {
           "Le constructeur du module doit déclarer le type LogController");
 
       regExp = new RegExp(
-          "ngBootstrap\\(\\s*module\\s*:\\s*new\\s*WorkshopModule\\(\\)\\s*\\)\\s*;");
+          "applicationFactory\\(\\s*\\)\\s*\\.\\s*addModule\\s*\\(new\\s*WorkshopModule\\s*\\(\\s*\\)\\s*\\)\\s*\\.run\\s*\\(\\s*\\)");
       ok(regExp.hasMatch(text),
           "L'applicatin doit être bootstrapper avec le module WorkshopModule");
 
@@ -195,12 +195,12 @@ class StepProvider {
       }
       ok(obj != null,
           "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is NgFilter,
-          "Le filter 'TruncateFilter' doit avoir l'annotation @NgFilter");
+      ok(obj is Formatter,
+          "Le filter 'TruncateFilter' doit avoir l'annotation @Formatter");
       ok(obj.name != null,
-          "L'annotation @NgFilter doit avoir un name spécifique");
+          "L'annotation @Formatter doit avoir un name spécifique");
       ok(obj.name == "truncate",
-          "L'annotation @NgFilter doit avoir le name 'truncate'");
+          "L'annotation @Formatter doit avoir le name 'truncate'");
 
       TruncateFilter truncateFilter = null;
       try {
@@ -224,7 +224,7 @@ class StepProvider {
       ok(regExp.hasMatch(text),
           "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter"
           );
-      ok(querySelector("#angular-app tr").text.contains("..."),
+      ok(querySelectorAll("#angular-app tr")[1].text.contains("..."),
           "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
 
     }));
@@ -237,7 +237,7 @@ class StepProvider {
           "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
           );
 
-      InputElement input = querySelector("input");
+      InputElement input = querySelector('input[type="text"]');
       input
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
@@ -258,7 +258,7 @@ class StepProvider {
           ..focus()
           ..dispatchEvent(new TextEvent('textInput', data: "OK"));
       ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-          "#angular-app tr").length == 3,
+          "#angular-app tr").length == 4,
           "Les logs doivent être filtrées avec la valeur du champ de recherche");
       ngScope(input).apply("query = ''");
     }));
@@ -305,12 +305,12 @@ class StepProvider {
       }
       ok(obj != null,
           "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is NgFilter,
-          "Le filter 'StatusFilter' doit avoir l'annotation @NgFilter");
+      ok(obj is Formatter,
+          "Le filter 'StatusFilter' doit avoir l'annotation @Formatter");
       ok(obj.name != null,
-          "L'annotation @NgFilter doit avoir un name spécifique");
+          "L'annotation @Formatter doit avoir un name spécifique");
       ok(obj.name == "statusFilter",
-          "L'annotation @NgFilter doit avoir le name 'statusFilter'");
+          "L'annotation @Formatter doit avoir le name 'statusFilter'");
 
       StatusFilter filter = new StatusFilter();
       try {
@@ -371,12 +371,12 @@ class StepProvider {
       }
       ok(obj != null,
           "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is NgFilter,
-          "Le filter 'MethodFilter' doit avoir l'annotation @NgFilter");
+      ok(obj is Formatter,
+          "Le filter 'MethodFilter' doit avoir l'annotation @Formatter");
       ok(obj.name != null,
-          "L'annotation @NgFilter doit avoir un name spécifique");
+          "L'annotation @Formatter doit avoir un name spécifique");
       ok(obj.name == "methodFilter",
-          "L'annotation @NgFilter doit avoir le name 'methodFilter'");
+          "L'annotation @Formatter doit avoir le name 'methodFilter'");
 
       MethodFilter methodFilter = new MethodFilter();
       try {
@@ -527,14 +527,14 @@ class StepProvider {
       ok(obj != null,
           "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur"
           );
-      ok(obj is NgController,
-          "Le contrôleur 'DetailController' doit avoir l'annotation @NgController");
+      ok(obj is Controller,
+          "Le contrôleur 'DetailController' doit avoir l'annotation @Controller");
       ok(obj.selector != null,
-          "L'annotation @NgController doit avoir un selecteur spécifique");
+          "L'annotation @Controller doit avoir un selecteur spécifique");
       ok(obj.selector == "[detail-ctrl]",
-          "L'annotation @NgController doit avoir un selecteur [detail-ctrl]");
+          "L'annotation @Controller doit avoir un selecteur [detail-ctrl]");
       ok(obj.publishAs == "detailCtrl",
-          "L'annotation @NgController doit être publié en tant que 'detailCtrl'");
+          "L'annotation @Controller doit être publié en tant que 'detailCtrl'");
 
       bool foundConstructor = false;
       classMirror.declarations.values.forEach((e) {
