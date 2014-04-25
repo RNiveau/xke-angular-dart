@@ -5,7 +5,9 @@ import 'dart:html';
 import 'step.dart';
 import 'failed.dart';
 import 'dart:mirrors';
+import 'package:di/src/provider.dart';
 import 'package:angular/angular.dart';
+import 'package:angular/application_factory.dart';
 
 
 import '../../web/main.dart';
@@ -456,8 +458,10 @@ class StepProvider {
           "Symbol(\"angular.routing.RouteViewFactory\")",
           "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
 
+      Application application = (applicationFactory()
+          ..selector('#tutorial'));
       NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
-          new NgApp(querySelector("#tutorial")));
+          application);
       RouteViewFactory route = new RouteViewFactory(helper);
       try {
         routeInitializer(new Router(), route);
@@ -492,9 +496,11 @@ class StepProvider {
         "tuto/steps/tutorial-solution-log-details.html", () {
       ngScope(querySelector("input")).apply("query = ''");
 
-      Injector injector = ngInjector(querySelector("#tutorial"));
-      NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
-      new NgApp(querySelector("#tutorial")));
+      Injector injector = ngInjector(querySelector("#tutorial"));  
+      Application application = (applicationFactory()
+          ..selector('#tutorial'));
+      NgRoutingHelper helper = new NgRoutingHelper( null, injector, new Router(),
+          application);
       RouteViewFactory route = new RouteViewFactory(helper);
       try {
         routeInitializer(new Router(), route);
@@ -565,17 +571,19 @@ class StepProvider {
         fail("Le controller doit définir une propriété log de type 'Log'");
       }
       
-      ok(querySelector("a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
+      ok(querySelector("td a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
       
       Future f1 = HttpRequest.getString("detail.html")
                     .then((data) {
                       if (data.length < 10) {
                         return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
                       }
-//                        querySelector("a[href='#/detail/1']").click(() {
-//                          if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll'))
-//                            return new Future.value(new Failed("Ajouter les détails du log (tous les éléments)"));                          
-//                        });
+                        querySelector("a[href='#/detail/1']").click();
+                        if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll')) {
+                          window.location.assign('#/');
+                            return new Future.value(new Failed("Ajouter les détails du log (tous les éléments)"));
+                        }
+                        window.location = '#/';
                     })
                     .catchError(
                           (e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));

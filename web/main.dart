@@ -16,9 +16,13 @@ import '../lib/workshop/router.dart';
 class WorkshopModule extends Module {
   WorkshopModule() {
     type(LogController);
+    type(DetailController);
     type(TruncateFilter);
     type(StatusFilter);
     type(MethodFilter);
+    value(RouteInitializerFn, routeInitializer);
+    factory(NgRoutingUsePushState, (_) => 
+      new NgRoutingUsePushState.value(false));
   }
 }
 
