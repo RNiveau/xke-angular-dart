@@ -11,12 +11,16 @@
 <p>
     Pour ce faire, il faut créer les filtres de la même façon que le filtre 'TruncateFilter', déclarer leur type et appliquer les filtres sur le <code>ng-repeat</code>:
     <ul>
-        <li>Déclarer un attribut <code>status</code> dans le contrôlleur 'LogController' ayant pour clé un verbe HTTP (GET, POST, PUT, DELETE) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
-        <li>Déclarer un attribut <code>methods</code> dans le contrôlleur 'LogController' ayant pour clé un status HTTP (200, 404, 500) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
-        <li>Dans le fichier xke-angular-dart/web/index.html, binder à l'aide de l'attribut <code>ng-model</code> les différentes checkbox en faisant référence à la propriété de l'objet concernée (ex: <code>logCtrl.methods['GET']</code> pour la checkbox concernant GET)
+        <li>Déclarer un attribut <code>status</code> dans le contrôlleur 'LogController' ayant pour clé un verbe HTTP (200, 404, 500) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
+        <li>Dans le fichier xke-angular-dart/web/index.html, binder à l'aide de l'attribut <code>ng-model</code> les différentes checkbox en faisant référence à la propriété de l'objet concernée (ex: <code>logCtrl.methods['200']</code> pour la checkbox concernant 200)
         <li>Dans le fichier xke-angular-dart/lib/workshop/filters.dart, créer un filtre 'StatusFilter' nommé 'statusFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de status</li>
+        <li>Déclarer le type StatusFilter dans le 'WorkshopModule'</li>
+        <li>Appliquer le filtre StatusFilter dans le <code>ng-repeat</code></li>
+        
+        <li>Déclarer un attribut <code>methods</code> dans le contrôlleur 'LogController' ayant pour clé un status HTTP (GET, POST, PUT, DELETE) et pour valeur un booléen à <code>true</code> (par défaut, tous les filtres sont sélectionnés)</li>
+        <li>Dans le fichier xke-angular-dart/web/index.html, binder à l'aide de l'attribut <code>ng-model</code> les différentes checkbox en faisant référence à la propriété de l'objet concernée (ex: <code>logCtrl.methods['GET']</code> pour la checkbox concernant GET)        
         <li>Dans le fichier xke-angular-dart/lib/workshop/filters.dart, créer un filtre 'MethodFilter' nommé 'methodFilter' ayant une méthode <code>call</code> prenant la collection en paramètre ainsi que l'état des checboxs de méthodes</li>
-        <li>Déclarer le deux types dans le 'WorkshopModule'</li>
-        <li>Appliquer les filtres dans le <code>ng-repeat</code></li>
+        <li>Déclarer le type MethodFilter dans le 'WorkshopModule'</li>
+        <li>Appliquer les filtre MethodFilter dans le <code>ng-repeat</code></li>
     </ul>
 </p>

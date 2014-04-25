@@ -14,10 +14,19 @@ import '../lib/workshop/filters.dart';
 import '../lib/workshop/router.dart';
 
 class WorkshopModule extends Module {
+  WorkshopModule() {
+    type(LogController);
+    type(TruncateFilter);
+    type(StatusFilter);
+    type(MethodFilter);
+  }
 }
 
 void main() {
   // Write your code here
+  applicationFactory()
+    .addModule(new WorkshopModule())
+    .run();
   
   // Don't touch this =====
   tutoBootstrap();

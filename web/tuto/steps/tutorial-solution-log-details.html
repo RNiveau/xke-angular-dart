@@ -10,7 +10,7 @@ void routeInitializer(Router router, RouteViewFactory views) {
 
 <br/>Fichier xke-angular-dart/web/view-list.html
 <pre><code class="dart" >...
-&lt;td&gt;&lt;a href="#/detail/{{"\{\{log.id\}\}"}}"&gt;{{"\{\{log.id\}\}"}}&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="#/detail/<span>{{</span>log.id<span>}}</span>"&gt;<span>{{</span>log.id<span>}}</span>&lt;/a&gt;&lt;/td&gt;
 ...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/main.dart
@@ -24,12 +24,12 @@ WorkshopModule()  {
 
 
 <br/>Fichier xke-angular-dart/web/detail.html
-<pre><code class="html" >&lt;div {{"detail-ctrl"}}&gt;
-&lt;p&gt;Id:  {{"\{\{detailCtrl.log.id\{\{"}}&lt;/p&gt;
-&lt;p&gt;Method:  {{"\{\{detailCtrl.log.method\}\}"}}&lt;/p&gt;
-&lt;p&gt;Status:  {{"\{\{detailCtrl.log.status\}\}"}}&lt;/p&gt;
-&lt;p&gt;Message:  {{"\{\{detailCtrl.log.message\}\}"}}&lt;/p&gt;
-&lt;p&gt;Date:  {{"\{\{detailCtrl.log.date\}\}"}}&lt;/p&gt;
-&lt;p&gt;Url:  {{"\{\{detailCtrl.log.url\}\}"}}&lt;/p&gt;
+<pre><code class="html" >&lt;div <span>{{</span>detail-ctrl<span>}}</span>&gt;
+&lt;p&gt;Id:  <span>{{</span>detailCtrl.log.id<span>}}</span>&lt;/p&gt;
+&lt;p&gt;Method:  <span>{{</span>detailCtrl.log.method<span>}}</span>&lt;/p&gt;
+&lt;p&gt;Status:  <span>{{</span>detailCtrl.log.status<span>}}</span>&lt;/p&gt;
+&lt;p&gt;Message:  <span>{{</span>detailCtrl.log.message<span>}}</span>&lt;/p&gt;
+&lt;p&gt;Date:  <span>{{</span>detailCtrl.log.date<span>}}</span>&lt;/p&gt;
+&lt;p&gt;Url:  <span>{{</span>detailCtrl.log.url<span>}}</span>&lt;/p&gt;
 &lt;a href="#/" &gt;Retour au tableau&lt;/a&gt;
 &lt;/div&gt;</code></pre>

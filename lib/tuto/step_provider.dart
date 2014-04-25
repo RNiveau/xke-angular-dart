@@ -283,10 +283,10 @@ class StepProvider {
       ok(logCtrl.status["200"] != null && logCtrl.status["404"] != null &&
           logCtrl.status["500"] != null,
           "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
-      List<Element> checkbox = querySelectorAll("input[type=checkbox][ng-model]"
+      List<Element> checkbox = querySelectorAll("input[type=checkbox][ng-model^='logCtrl.status']"
           );
 
-      ok(checkbox != null && (checkbox.length == 3 || checkbox.length == 7),
+      ok(checkbox != null && (checkbox.length == 3),
           "Binder les checkboxs avec la map 'status' du logCtrl");
       try {
         new StatusFilter();
@@ -336,6 +336,7 @@ class StepProvider {
           "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status"
           );
 
+      // Methods
       try {
         logCtrl.methods;
       } catch (e) {
@@ -350,9 +351,9 @@ class StepProvider {
       ok(logCtrl.methods["GET"] != null && logCtrl.methods["POST"] != null &&
           logCtrl.methods["PUT"] != null && logCtrl.methods["DELETE"] != null,
           "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
-      checkbox = querySelectorAll("input[type=checkbox][ng-model]");
+      checkbox = querySelectorAll("input[type=checkbox][ng-model^='logCtrl.methods']");
 
-      ok(checkbox != null && checkbox.length == 7,
+      ok(checkbox != null && checkbox.length == 4,
           "Binder les checkboxs avec la map 'methods' du logCtrl");
 
       try {
@@ -401,7 +402,7 @@ class StepProvider {
       ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
       regExp = new RegExp("\\|\\s*methodFilter\\s*:\\s*logCtrl\\.methods");
       ok(regExp.hasMatch(ngRepeat),
-          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status"
+          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de methods"
           );
 
 
@@ -411,13 +412,17 @@ class StepProvider {
         "tuto/steps/tutorial-step-requete-backend.html",
         "tuto/steps/tutorial-solution-requete-backend.html", () {
       ngScope(querySelector("input")).apply("query = ''");
+      var logCtrl;
       try {
-        new LogController(_http);
+        logCtrl = new LogController(_http);
       } catch (e) {
         fail(
             "Le constructeur du 'LogController' doit prendre en paramètre un service 'Http'"
             );
       }
+      
+      ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
+      ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
       LogController logCtrlInstance = null;
       logCtrlInstance = ngProbe(querySelector("#angular-app")).injector.get(

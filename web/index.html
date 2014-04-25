@@ -20,7 +20,7 @@
   <div id="tutorial" ng-include="tuto/tuto.html"></div>
 
   <!-- Your code here -->
-  <div id="angular-app">
+  <div id="angular-app" ng-app log-ctrl>
 
     <header>
       <span>&lsaquo; xebia / AngularDart &rsaquo;</span>
@@ -30,30 +30,30 @@
       <div class="panel">
         <div class="label">HTTP status</div>
         <ul>
-          <li><input type="checkbox" id="200"><label
+          <li><input type="checkbox" id="200" ng-model="logCtrl.status['200']"><label
             for="200">200</label></li>
-          <li><input type="checkbox" id="404"><label
+          <li><input type="checkbox" id="404" ng-model="logCtrl.status['404']"><label
             for="404">404</label></li>
-          <li><input type="checkbox" id="500"><label
+          <li><input type="checkbox" id="500" ng-model="logCtrl.status['500']"><label
             for="500">500</label></li>
         </ul>
       </div>
       <div class="panel">
         <div class="label">HTTP method</div>
         <ul>
-          <li><input type="checkbox" id="GET"><label
+          <li><input type="checkbox" id="GET" ng-model="logCtrl.methods['GET']"><label
             for="GET">GET</label></li>
-          <li><input type="checkbox" id="POST"><label
+          <li><input type="checkbox" id="POST" ng-model="logCtrl.methods['POST']"><label
             for="POST">POST</label></li>
-          <li><input type="checkbox" id="PUT"><label
+          <li><input type="checkbox" id="PUT" ng-model="logCtrl.methods['PUT']"><label
             for="PUT">PUT</label></li>
-          <li><input type="checkbox" id="DELETE"><label
+          <li><input type="checkbox" id="DELETE" ng-model="logCtrl.methods['DELETE']"><label
             for="DELETE">DELETE</label></li>
         </ul>
       </div>
       <div class="panel search">
         <div class="label">Search</div>
-        <input type="text" placeholder="Search a message..."/>
+        <input type="text" placeholder="Search a message..." ng-model="query"/>
       </div>
     </div>
    <div id="content">
@@ -64,6 +64,13 @@
       <th>Status</th>
       <th>Url</th>
       <th>Method</th>
+    </tr>
+    <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter:logCtrl.status | methodFilter:logCtrl.methods">
+      <td>{{log.id}}</td>
+      <td>{{log.message}}</td>
+      <td>{{log.status}}</td>
+      <td>{{log.url | truncate}}</td>
+      <td>{{log.method}}</td>
     </tr>
     </table></div>  
 

@@ -1,22 +1,24 @@
 <br/>Fichier xke-angular-dart/lib/workshop/filters.dart
 <pre><code class="dart" >...
-@NgFilter(name:"statusFilter")
+@Formatter(name:"statusFilter")
 class StatusFilter {
   List call(List logs, Map&lt;String, bool&gt; filterMap) {
     if (logs is Iterable && filterMap is Map) {
        return logs.where((i) => filterMap[i.status] == true).toList();
     }
+    return [];
   }
 }
 
-@NgFilter(name:"methodFilter")
+@Formatter(name:"methodFilter")
 class MethodFilter {
   List call(List logs, Map<String, bool> filterMap) {
     if (logs is Iterable && filterMap is Map) {
        return logs.where((i) => filterMap[i.method] == true).toList();
     }
+    return [];
   }
-}...</code></pre>
+}</code></pre>
 
 <br/>Fichier xke-angular-dart/lib/workshop/log_controller.dart
 <pre><code class="dart" >...
