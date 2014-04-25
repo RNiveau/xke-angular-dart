@@ -18,6 +18,8 @@ import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
 import '../workshop/router.dart';
 
+//import 'package:angular/mock/module.dart';
+
 @Injectable()
 class StepProvider {
   List<Step> _steps = new List();
@@ -32,6 +34,9 @@ class StepProvider {
 
 
   void init() {
+    // -------------------------------------------------------------------------------
+    // --- 0 : Initialisation de l'application
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Initialisation de l'application",
         "tuto/steps/tutorial-step-initialisation.html",
         "tuto/steps/tutorial-solution-initialisation.html", () {
@@ -49,6 +54,9 @@ class StepProvider {
           "Application n'est pas initialisée");
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 1 : Le two-way data binding
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Le two-way data binding",
         "tuto/steps/tutorial-step-two-way-binding.html",
         "tuto/steps/tutorial-solution-two-way-binding.html", () {
@@ -70,6 +78,9 @@ class StepProvider {
           "La valeur entrée dans le champ de recherche doit être affichée dans la page");
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 2 : Création d'un contrôleur
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Création d'un contrôleur",
         "tuto/steps/tutorial-step-creation-controleur.html",
         "tuto/steps/tutorial-solution-creation-controleur.html", () {
@@ -147,6 +158,9 @@ class StepProvider {
       ok(found, "Les logs doivent être affichés dans la page");
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 3 : Mise en forme des logs
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Mise en forme des logs",
         "tuto/steps/tutorial-step-mise-en-forme-log.html",
         "tuto/steps/tutorial-solution-mise-en-forme-log.html", () {
@@ -176,6 +190,9 @@ class StepProvider {
 
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 4 : Tronquer les URL
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Tronquer les URL",
         "tuto/steps/tutorial-step-trunc-long-url.html",
         "tuto/steps/tutorial-solution-trunc-long-url.html", () {
@@ -231,6 +248,9 @@ class StepProvider {
 
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 5 : Filtrer les logs par mots clés
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Filtrer les logs par mots clés",
         "tuto/steps/tutorial-step-filtrer-log.html",
         "tuto/steps/tutorial-solution-filtrer-log.html", () {
@@ -265,6 +285,9 @@ class StepProvider {
       ngScope(input).apply("query = ''");
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 6 : Filtrer les logs par statuts et verbes HTTP
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
         "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
         "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {
@@ -410,6 +433,9 @@ class StepProvider {
 
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 7 : Requêter le backend
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Requêter le backend",
         "tuto/steps/tutorial-step-requete-backend.html",
         "tuto/steps/tutorial-solution-requete-backend.html", () {
@@ -422,7 +448,7 @@ class StepProvider {
             "Le constructeur du 'LogController' doit prendre en paramètre un service 'Http'"
             );
       }
-      
+
       ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
       ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
@@ -437,6 +463,9 @@ class StepProvider {
 
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 8 : Utiliser le routeur
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Utiliser le routeur",
         "tuto/steps/tutorial-step-routeur.html",
         "tuto/steps/tutorial-solution-routeur.html", () {
@@ -458,20 +487,15 @@ class StepProvider {
           "Symbol(\"angular.routing.RouteViewFactory\")",
           "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
 
-      Application application = (applicationFactory()
-          ..selector('#tutorial'));
-      NgRoutingHelper helper = new NgRoutingHelper(null, injector, new Router(),
-          application);
-      RouteViewFactory route = new RouteViewFactory(helper);
       try {
-        routeInitializer(new Router(), route);
-        ok(helper.router.root.findRoute("/") != null,
-            "Créer une route nommé '/'");
+        Router router = initRouter(routeInitializer);
+        ok(router.root.findRoute("/") != null, "Créer une route nommé '/'");
+        ok(router.root.findRoute("/").path.match("/") != null, "Le path de la route '/' doit être '/'");
         ok(reflect(routeInitializer).function.source.contains('view-list.html'), "La view de la route '/' doit être 'view-list.html'");
       } catch (e) {
         if (e is Failed) throw e;
       }
-
+      
       ok(injector.get(RouteInitializerFn) != null,
           "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'"
           );
@@ -491,38 +515,33 @@ class StepProvider {
       return Future.wait([f1, f3]);
     }));
 
+    // -------------------------------------------------------------------------------
+    // --- 9 : Afficher le détail d'un log
+    // -------------------------------------------------------------------------------
     _steps.add(new Step("Afficher le détail d'un log",
         "tuto/steps/tutorial-step-log-details.html",
         "tuto/steps/tutorial-solution-log-details.html", () {
       ngScope(querySelector("input")).apply("query = ''");
 
-      Injector injector = ngInjector(querySelector("#tutorial"));  
-      Application application = (applicationFactory()
-          ..selector('#tutorial'));
-      NgRoutingHelper helper = new NgRoutingHelper( null, injector, new Router(),
-          application);
-      RouteViewFactory route = new RouteViewFactory(helper);
       try {
-        routeInitializer(new Router(), route);
-        ok(helper.router.root.findRoute("/") != null,
-        "Créer une route '/' qui a pour view 'view-list.html'");
-        ok(helper.router.root.findRoute("detail") != null,
-        "Créer une route nommé 'detail'");
-        ok(helper.router.root.findRoute("detail").path.match("/detail/1") != null, "Le path de la route 'detail' doit être '/detail/:detailId'");
+        Router router = initRouter(routeInitializer);
+        
+        ok(router.root.findRoute("/") != null, "Créer une route '/' qui a pour view 'view-list.html'");
+        ok(router.root.findRoute("detail") != null, "Créer une route nommé 'detail'");
+        ok(router.root.findRoute("detail").path.match("/detail/1") != null, "Le path de la route 'detail' doit être '/detail/:detailId'");
         ok(reflect(routeInitializer).function.source.contains('detail.html'), "La view de la route 'detail' doit être 'detail.html'");
       } catch (e) {
         if (e is Failed) throw e;
       }
       ok(!ngInjector(querySelector("#angular-app")).get(NgRoutingUsePushState).usePushState, "Ajouter ce code dans le constructeur du 'WorkshopModule': 'factory(NgRoutingUsePushState, (_) => new NgRoutingUsePushState.value(false));'");
 
-      
 
       try {
         new DetailController();
       } catch (e) {
         ok(!(e is TypeError), "Créer le controller 'DetailController'");
       }
-      
+
       var obj = null;
       ClassMirror classMirror = null;
       try {
@@ -530,22 +549,14 @@ class StepProvider {
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
-        fail( 
-            "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur"
-            );
+        fail("Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur");
       }
 
-      ok(obj != null,
-          "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur"
-          );
-      ok(obj is Controller,
-          "Le contrôleur 'DetailController' doit avoir l'annotation @Controller");
-      ok(obj.selector != null,
-          "L'annotation @Controller doit avoir un selecteur spécifique");
-      ok(obj.selector == "[detail-ctrl]",
-          "L'annotation @Controller doit avoir un selecteur [detail-ctrl]");
-      ok(obj.publishAs == "detailCtrl",
-          "L'annotation @Controller doit être publié en tant que 'detailCtrl'");
+      ok(obj != null, "Le contrôleur 'DetailController' doit avoir l'annotation décrivant le controlleur");
+      ok(obj is Controller, "Le contrôleur 'DetailController' doit avoir l'annotation @Controller");
+      ok(obj.selector != null, "L'annotation @Controller doit avoir un selecteur spécifique");
+      ok(obj.selector == "[detail-ctrl]", "L'annotation @Controller doit avoir un selecteur [detail-ctrl]");
+      ok(obj.publishAs == "detailCtrl", "L'annotation @Controller doit être publié en tant que 'detailCtrl'");
 
       bool foundConstructor = false;
       classMirror.declarations.values.forEach((e) {
@@ -562,33 +573,54 @@ class StepProvider {
       try {
         ctrl = ngInjector(querySelector("#angular-app")).get(DetailController);
       } catch (e) {
-       fail("Le controller doit être déclaré dans le module 'WorkshopModule'"); 
+       fail("Le controller doit être déclaré dans le module 'WorkshopModule'");
       }
-      
+
       try {
         ctrl.log;
       } catch (error) {
         fail("Le controller doit définir une propriété log de type 'Log'");
       }
-      
+
       ok(querySelector("td a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
       
+      Router realRouter = ngInjector(querySelector("#angular-app")).get(Router);
+  
+      
       Future f1 = HttpRequest.getString("detail.html")
-                    .then((data) {
-                      if (data.length < 10) {
-                        return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
-                      }
-                        querySelector("a[href='#/detail/1']").click();
-                        if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll')) {
-                          window.location.assign('#/');
-                            return new Future.value(new Failed("Ajouter les détails du log (tous les éléments)"));
-                        }
-                        window.location = '#/';
-                    })
-                    .catchError(
-                          (e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));
+          .then((data) {
+            if (data.length < 10) {
+              return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
+            }
+            
+            //querySelector("a[href='#/detail/1']").click();
+            
+            /*
+            ngInjector(querySelector("#angular-app")).get(Router).go('detail', {"detailId":"1"} ).then((_) {
+              
+              if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll')) {
+                //window.location.assign('#/');
+                
+                ngInjector(querySelector("#angular-app")).get(Router).go('/', {} ).then((_) =>
+                  new Future.value(new Failed("Ajouter les détails du log (tous les éléments)"))
+                );
+                
+                
+              }
+              
+              ngInjector(querySelector("#angular-app")).get(Router).go('/', {} );
+              
+            }); */
+          })
+          .catchError(
+                (e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));
+
+      
+//      fail("For test");
+
       
       return Future.wait([f1]);
+      
       }));
   }
 
@@ -639,5 +671,15 @@ class StepProvider {
     request.send();
     if (request.status == 404) return null;
     return request.responseText;
+  }
+
+  initRouter(initializer) {
+    var app = applicationFactory()
+//      .addModule(new AngularMockModule())
+        ..addModule(new Module()..value(RouteInitializerFn, initializer))
+        ..selector('#tutorial');
+      var injector = app.createInjector();
+    injector.get(NgRoutingHelper); // force routing initialization
+    return injector.get(Router);
   }
 }
