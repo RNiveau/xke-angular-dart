@@ -15,15 +15,21 @@
     font-size: 10px;
     height: 10px;
     line-height: 10px;
-    margin-bottom: 6px;
     padding-bottom: 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 0px;
     text-transform: uppercase;
     position: absolute;
-    margin-top: -9px;
-    margin-left: 5px;
+    margin: -9px 0 6px 5px;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #999999;
 }
 
 #navigation .panel {
@@ -32,10 +38,19 @@
     border-radius: 4px;
     padding: 3px;
     margin-bottom: 10px;
+    float: left;
+    margin-right: 3px;
 }
 
-#navigation .panel.search1 {
-    padding: 2px 2px 1px 2px;
+#navigation .panel.search {
+    font-size: 12px;
+    height: 25px;
+    line-height: 20px;
+}
+
+#navigation .panel.search input {
+    width: 206px;
+    outline: none;
 }
 
 #navigation .panel input {
@@ -43,10 +58,12 @@
     box-shadow: none;
     margin: 0;
     padding: 3px 6px 2px;
+    font-size: 14px;
 }
 
 #navigation ul {
     margin: 0;
+    padding: 0;
 }
 
 #navigation li {
@@ -57,11 +74,14 @@
 }
 
 #navigation input {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 #navigation label {
     margin-left: 8px;
     display: inline;
     vertical-align: middle;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
 }
