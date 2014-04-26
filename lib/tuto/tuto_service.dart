@@ -40,11 +40,13 @@ class TutoService {
             if (error != null) {
               pb(step, index, assertionFailed, error);
             } else {
+              window.localStorage["lastRunningTestIdx"] = (1 + index).toString();
               execTestsSteps(steps, 1 + index);
             }
           });
 
         } else {
+          window.localStorage["lastRunningTestIdx"] = (1 + index).toString();
           execTestsSteps(steps, 1 + index);
         }
       }
