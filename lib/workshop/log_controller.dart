@@ -23,14 +23,15 @@ class LogController {
     "PUT": true,
     "DELETE": true
   };
-  
+  String query = "";
+
   LogController(Http http) {
       Future.wait([http.get("apache-log.json").then((HttpResponse httpResponse) {
         for (Map log in httpResponse.data) {
           Log l = new Log.fromJsonMap(log);
           logs.add(l);
         }
-      })]);;
+      })]);
     }
   
 }

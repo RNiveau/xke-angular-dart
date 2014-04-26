@@ -12,6 +12,7 @@ import '../lib/workshop/log_controller.dart';
 import '../lib/workshop/detail_controller.dart';
 import '../lib/workshop/filters.dart';
 import '../lib/workshop/router.dart';
+import '../lib/workshop/navigate/navigate_component.dart';
 
 class WorkshopModule extends Module {
   WorkshopModule() {
@@ -20,6 +21,7 @@ class WorkshopModule extends Module {
     type(TruncateFilter);
     type(StatusFilter);
     type(MethodFilter);
+    type(NavigateComponent);
     value(RouteInitializerFn, routeInitializer);
     factory(NgRoutingUsePushState, (_) => 
       new NgRoutingUsePushState.value(false));

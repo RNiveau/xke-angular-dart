@@ -17,8 +17,7 @@ import '../workshop/log.dart';
 import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
 import '../workshop/router.dart';
-
-//import 'package:angular/mock/module.dart';
+import '../workshop/navigate/navigate_component.dart';
 
 @Injectable()
 class StepProvider {
@@ -37,60 +36,47 @@ class StepProvider {
     // -------------------------------------------------------------------------------
     // --- 0 : Initialisation de l'application
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Initialisation de l'application",
-        "tuto/steps/tutorial-step-initialisation.html",
-        "tuto/steps/tutorial-solution-initialisation.html", () {
+    _steps.add(new Step("Initialisation de l'application", "tuto/steps/tutorial-step-initialisation.html", "tuto/steps/tutorial-solution-initialisation.html", () {
       try {
         new WorkshopModule();
       } catch (e) {
         fail("Définir un module 'WorkshopModule'");
       }
-      if (!(new WorkshopModule() is Module)) throw new Failed(
-          "'WorkshopModule' n'est pas une instance de 'Module'");
-      if (querySelector("#angular-app[ng-app]") == null) throw new Failed(
-          "La directive 'ng-app' n'existe pas");
+      if (!(new WorkshopModule() is Module)) throw new Failed("'WorkshopModule' n'est pas une instance de 'Module'");
+      if (querySelector("#angular-app[ng-app]") == null) throw new Failed("La directive 'ng-app' n'existe pas");
 
-      if (querySelector("#test").text != "Test") throw new Failed(
-          "Application n'est pas initialisée");
+      if (querySelector("#test").text != "Test") throw new Failed("Application n'est pas initialisée");
     }));
 
     // -------------------------------------------------------------------------------
     // --- 1 : Le two-way data binding
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Le two-way data binding",
-        "tuto/steps/tutorial-step-two-way-binding.html",
-        "tuto/steps/tutorial-solution-two-way-binding.html", () {
+    _steps.add(new Step("Le two-way data binding", "tuto/steps/tutorial-step-two-way-binding.html", "tuto/steps/tutorial-solution-two-way-binding.html", () {
 
-      ok(querySelector('#angular-app input[ng-model="query"]') != null,
-          "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
+      ok(querySelector('#angular-app input[ng-model="query"]') != null, "Ajouter au champ de recherche l'attribut ng-model avec la valeur query");
 
       querySelector('input[type="text"]')
-          ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: "TestDataBinding"));
-      bool found = querySelectorAll('#angular-app')[0].text.contains(
-          "TestDataBinding");
+        ..focus()
+        ..dispatchEvent(new TextEvent('textInput', data: "TestDataBinding"));
+      bool found = querySelectorAll('#angular-app')[0].text.contains("TestDataBinding");
       querySelector('input[type="text"]').value = "";
       querySelector('input[type="text"]')
-          ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: " "));
+        ..focus()
+        ..dispatchEvent(new TextEvent('textInput', data: " "));
       querySelector('input[type="text"]').value = "";
-      ok(found,
-          "La valeur entrée dans le champ de recherche doit être affichée dans la page");
+      ok(found, "La valeur entrée dans le champ de recherche doit être affichée dans la page");
     }));
 
     // -------------------------------------------------------------------------------
     // --- 2 : Création d'un contrôleur
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Création d'un contrôleur",
-        "tuto/steps/tutorial-step-creation-controleur.html",
-        "tuto/steps/tutorial-solution-creation-controleur.html", () {
+    _steps.add(new Step("Création d'un contrôleur", "tuto/steps/tutorial-step-creation-controleur.html", "tuto/steps/tutorial-solution-creation-controleur.html", () {
 
       var logCtrl;
       try {
         logCtrl = new LogController();
       } catch (error) {
-        if (error is TypeError) fail(
-            "Le contrôleur 'LogController' n'est pas défini");
+        if (error is TypeError) fail("Le contrôleur 'LogController' n'est pas défini");
         throw error;
       }
 
@@ -100,22 +86,14 @@ class StepProvider {
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
-        fail(
-            "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur"
-            );
+        fail("Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
       }
 
-      ok(obj != null,
-          "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur"
-          );
-      ok(obj is Controller,
-          "Le contrôleur 'LogController' doit avoir l'annotation @Controller");
-      ok(obj.selector != null,
-          "L'annotation @Controller doit avoir un selecteur spécifique");
-      ok(obj.selector == "[log-ctrl]",
-          "L'annotation @Controller doit avoir un selecteur [log-ctrl]");
-      ok(obj.publishAs == "logCtrl",
-          "L'annotation @Controller doit être publié en tant que 'logCtrl'");
+      ok(obj != null, "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
+      ok(obj is Controller, "Le contrôleur 'LogController' doit avoir l'annotation @Controller");
+      ok(obj.selector != null, "L'annotation @Controller doit avoir un selecteur spécifique");
+      ok(obj.selector == "[log-ctrl]", "L'annotation @Controller doit avoir un selecteur [log-ctrl]");
+      ok(obj.publishAs == "logCtrl", "L'annotation @Controller doit être publié en tant que 'logCtrl'");
 
       // This can be used when testing private fields presence ;)
       //   reflectClass(LogController).declarations.keys.forEach((Simbol e) => print(e))
@@ -130,61 +108,36 @@ class StepProvider {
       ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
       ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
-      ok(logCtrl.logs.length == 7 && logCtrl.logs[0] is Log &&
-          logCtrl.logs[0].url ==
-          "http://my/site/name/for/fun/and/filtering/demonstration/ok.html",
-          "Utiliser le MockServiceLog pour injecter les logs dans le controller");
+      ok(logCtrl.logs.length == 7 && logCtrl.logs[0] is Log && logCtrl.logs[0].url == "http://my/site/name/for/fun/and/filtering/demonstration/ok.html", "Utiliser le MockServiceLog pour injecter les logs dans le controller");
 
-      ok(querySelector('#angular-app[log-ctrl]') != null,
-          "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl"
-          );
+      ok(querySelector('#angular-app[log-ctrl]') != null, "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl");
 
       String text = _getTextMain();
       RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
-      ok(regExp.hasMatch(text),
-          "Le module WorkshopModule doit contenir un constructeur");
+      ok(regExp.hasMatch(text), "Le module WorkshopModule doit contenir un constructeur");
 
       regExp = new RegExp("type\\s*\\(\\s*LogController\\s*\\)\\s*;");
-      ok(regExp.hasMatch(text),
-          "Le constructeur du module doit déclarer le type LogController");
+      ok(regExp.hasMatch(text), "Le constructeur du module doit déclarer le type LogController");
 
-      regExp = new RegExp(
-          "applicationFactory\\(\\s*\\)\\s*\\.\\s*addModule\\s*\\(new\\s*WorkshopModule\\s*\\(\\s*\\)\\s*\\)\\s*\\.run\\s*\\(\\s*\\)");
-      ok(regExp.hasMatch(text),
-          "L'applicatin doit être bootstrapper avec le module WorkshopModule");
+      regExp = new RegExp("applicationFactory\\(\\s*\\)\\s*\\.\\s*addModule\\s*\\(new\\s*WorkshopModule\\s*\\(\\s*\\)\\s*\\)\\s*\\.run\\s*\\(\\s*\\)");
+      ok(regExp.hasMatch(text), "L'applicatin doit être bootstrapper avec le module WorkshopModule");
 
-      bool found = querySelectorAll('#angular-app')[0].text.contains(
-          "http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
+      bool found = querySelectorAll('#angular-app')[0].text.contains("http://my/site/name/for/fun/and/filtering/demonstration/ok.html");
       ok(found, "Les logs doivent être affichés dans la page");
     }));
 
     // -------------------------------------------------------------------------------
     // --- 3 : Mise en forme des logs
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Mise en forme des logs",
-        "tuto/steps/tutorial-step-mise-en-forme-log.html",
-        "tuto/steps/tutorial-solution-mise-en-forme-log.html", () {
+    _steps.add(new Step("Mise en forme des logs", "tuto/steps/tutorial-step-mise-en-forme-log.html", "tuto/steps/tutorial-solution-mise-en-forme-log.html", () {
 
       var repeat = querySelector("[ng-repeat]");
-      ok(repeat != null,
-          "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau"
-          );
+      ok(repeat != null, "Utiliser la directive ng-repeat pour parcourir les logs et les afficher dans le tableau");
       String attr = repeat.attributes["ng-repeat"];
-      ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr),
-          "La directive ng-repeat doit parcourir l'attribut logs du controller");
-      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-          "#angular-app tr").length >= 7, "Afficher les logs dans le tableau");
+      ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr), "La directive ng-repeat doit parcourir l'attribut logs du controller");
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll("#angular-app tr").length >= 7, "Afficher les logs dans le tableau");
 
-      multiple([_stringExistInLog(querySelector(
-          "#angular-app tr td:nth-child(1)"), MockServiceLog.getLogs()[0]),
-          _stringExistInLog(querySelector("#angular-app tr td:nth-child(2)"),
-          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector(
-          "#angular-app tr td:nth-child(3)"), MockServiceLog.getLogs()[0]),
-          _stringExistInLog(querySelector("#angular-app tr td:nth-child(4)"),
-          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector(
-          "#angular-app tr td:nth-child(5)"), MockServiceLog.getLogs()[0])],
-          "Le tableau doit afficher la date, l'url, le verbe, le statut et le message de chaque log"
-          );
+      multiple([_stringExistInLog(querySelector("#angular-app tr td:nth-child(1)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(2)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(3)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(4)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(5)"), MockServiceLog.getLogs()[0])], "Le tableau doit afficher la date, l'url, le verbe, le statut et le message de chaque log");
       bool found = querySelectorAll('#angular-app')[0].text.contains("[{");
       ok(!found, "Le JSON brut ne doit plus être affiché");
 
@@ -193,9 +146,7 @@ class StepProvider {
     // -------------------------------------------------------------------------------
     // --- 4 : Tronquer les URL
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Tronquer les URL",
-        "tuto/steps/tutorial-step-trunc-long-url.html",
-        "tuto/steps/tutorial-solution-trunc-long-url.html", () {
+    _steps.add(new Step("Tronquer les URL", "tuto/steps/tutorial-step-trunc-long-url.html", "tuto/steps/tutorial-solution-trunc-long-url.html", () {
 
       try {
         new TruncateFilter();
@@ -209,88 +160,63 @@ class StepProvider {
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
-        fail(
-            "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
+        fail("Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
       }
-      ok(obj != null,
-          "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is Formatter,
-          "Le filter 'TruncateFilter' doit avoir l'annotation @Formatter");
-      ok(obj.name != null,
-          "L'annotation @Formatter doit avoir un name spécifique");
-      ok(obj.name == "truncate",
-          "L'annotation @Formatter doit avoir le name 'truncate'");
+      ok(obj != null, "Le filter 'TruncateFilter' doit avoir l'annotation décrivant le filter");
+      ok(obj is Formatter, "Le filter 'TruncateFilter' doit avoir l'annotation @Formatter");
+      ok(obj.name != null, "L'annotation @Formatter doit avoir un name spécifique");
+      ok(obj.name == "truncate", "L'annotation @Formatter doit avoir le name 'truncate'");
 
       TruncateFilter truncateFilter = null;
       try {
         truncateFilter = new TruncateFilter();
         truncateFilter.call("unelongueurljustepourtester");
       } catch (e) {
-        fail(
-            "Le filter doit posséder une méthode call qui prend un String en paramètre et le retourne tronqué à 12 caractères, suivie de '...'"
-            );
+        fail("Le filter doit posséder une méthode call qui prend un String en paramètre et le retourne tronqué à 12 caractères, suivie de '...'");
       }
 
-      ok(truncateFilter.call("shorturl") == "shorturl",
-          "Si on passe 'shorturl' en paramètre du filtre, il doit retourner 'shorturl'");
-      ok(truncateFilter.call("unelongueurljustepourtester") ==
-          "unelongueurl...",
-          "Si on passe 'unelongueurljustepourtester' en paramètre du filtre, il doit retourner 'unelongueurl...'"
-          );
+      ok(truncateFilter.call("shorturl") == "shorturl", "Si on passe 'shorturl' en paramètre du filtre, il doit retourner 'shorturl'");
+      ok(truncateFilter.call("unelongueurljustepourtester") == "unelongueurl...", "Si on passe 'unelongueurljustepourtester' en paramètre du filtre, il doit retourner 'unelongueurl...'");
 
       String text = _getTextMain();
       RegExp regExp = new RegExp("type\\s*\\(\\s*TruncateFilter\\s*\\)\\s*;");
-      ok(regExp.hasMatch(text),
-          "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter"
-          );
-      ok(querySelectorAll("#angular-app tr")[1].text.contains("..."),
-          "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type TruncateFilter");
+      ok(querySelectorAll("#angular-app tr")[1].text.contains("..."), "Appliquer le filtre dans le template html pour tronquer l'URL des logs");
 
     }));
 
     // -------------------------------------------------------------------------------
     // --- 5 : Filtrer les logs par mots clés
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Filtrer les logs par mots clés",
-        "tuto/steps/tutorial-step-filtrer-log.html",
-        "tuto/steps/tutorial-solution-filtrer-log.html", () {
+    _steps.add(new Step("Filtrer les logs par mots clés", "tuto/steps/tutorial-step-filtrer-log.html", "tuto/steps/tutorial-solution-filtrer-log.html", () {
 
-      ok(querySelector('#angular-app input[ng-model="query"]') != null,
-          "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche"
-          );
+      ok(querySelector('#angular-app input[ng-model="query"]') != null, "L'attribut ng-model avec la valeur query doit être défini au niveau du champ de recherche");
 
       InputElement input = querySelector('input[type="text"]');
       input
-          ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
-      bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk"
-          );
+        ..focus()
+        ..dispatchEvent(new TextEvent('textInput', data: "zhkc8fjk"));
+      bool found = querySelectorAll('#angular-app')[0].text.contains("zhkc8fjk");
       try {
         ngScope(input).apply("query = ''");
       } catch (e) {
-        fail(
-            "La valeur du champ de recherche ne doit plus être affichée dans la page");
+        fail("La valeur du champ de recherche ne doit plus être affichée dans la page");
       }
 
-      ok(!found,
-          "La valeur du champ de recherche ne doit plus être affichée dans la page");
+      ok(!found, "La valeur du champ de recherche ne doit plus être affichée dans la page");
 
       input.value = "";
       input
-          ..focus()
-          ..dispatchEvent(new TextEvent('textInput', data: "OK"));
-      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll(
-          "#angular-app tr").length == 4,
-          "Les logs doivent être filtrées avec la valeur du champ de recherche");
+        ..focus()
+        ..dispatchEvent(new TextEvent('textInput', data: "OK"));
+      ok(querySelectorAll("#angular-app tr") != null && querySelectorAll("#angular-app tr").length == 4, "Les logs doivent être filtrées avec la valeur du champ de recherche");
       ngScope(input).apply("query = ''");
     }));
 
     // -------------------------------------------------------------------------------
     // --- 6 : Filtrer les logs par statuts et verbes HTTP
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP",
-        "tuto/steps/tutorial-step-filter-by-status-and-methods.html",
-        "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {
+    _steps.add(new Step("Filtrer les logs par statuts et verbes HTTP", "tuto/steps/tutorial-step-filter-by-status-and-methods.html", "tuto/steps/tutorial-solution-filter-by-status-and-methods.html", () {
 
       ngScope(querySelector("input")).apply("query = ''");
       LogController logCtrl = new LogController();
@@ -299,20 +225,14 @@ class StepProvider {
       } catch (e) {
         fail("Le controller doit avoir un attribut 'status'");
       }
-      ok(logCtrl.status is Map,
-          "L'attribut 'status' doit être de type Map<String, bool>");
+      ok(logCtrl.status is Map, "L'attribut 'status' doit être de type Map<String, bool>");
 
-      ok(logCtrl.status.length == 3,
-          "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
+      ok(logCtrl.status.length == 3, "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
 
-      ok(logCtrl.status["200"] != null && logCtrl.status["404"] != null &&
-          logCtrl.status["500"] != null,
-          "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
-      List<Element> checkbox = querySelectorAll("input[type=checkbox][ng-model^='logCtrl.status']"
-          );
+      ok(logCtrl.status["200"] != null && logCtrl.status["404"] != null && logCtrl.status["500"] != null, "L'attribut 'status' doit contenir les 3 status (200, 404, 500)");
+      List<Element> checkbox = querySelectorAll("input[type=checkbox][ng-model^='logCtrl.status']");
 
-      ok(checkbox != null && (checkbox.length == 3),
-          "Binder les checkboxs avec la map 'status' du logCtrl");
+      ok(checkbox != null && (checkbox.length == 3), "Binder les checkboxs avec la map 'status' du logCtrl");
       try {
         new StatusFilter();
       } catch (e) {
@@ -325,41 +245,31 @@ class StepProvider {
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
-        fail(
-            "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
+        fail("Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
       }
-      ok(obj != null,
-          "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is Formatter,
-          "Le filter 'StatusFilter' doit avoir l'annotation @Formatter");
-      ok(obj.name != null,
-          "L'annotation @Formatter doit avoir un name spécifique");
-      ok(obj.name == "statusFilter",
-          "L'annotation @Formatter doit avoir le name 'statusFilter'");
+      ok(obj != null, "Le filter 'StatusFilter' doit avoir l'annotation décrivant le filter");
+      ok(obj is Formatter, "Le filter 'StatusFilter' doit avoir l'annotation @Formatter");
+      ok(obj.name != null, "L'annotation @Formatter doit avoir un name spécifique");
+      ok(obj.name == "statusFilter", "L'annotation @Formatter doit avoir le name 'statusFilter'");
 
       StatusFilter filter = new StatusFilter();
       try {
         filter.call(new List(), new Map());
       } catch (e) {
-        fail(
-            "Le filtrer StatusFilter doit avoir une méthode 'List call(List, Map);'");
+        fail("Le filtrer StatusFilter doit avoir une méthode 'List call(List, Map);'");
       }
 
       logCtrl.status['404'] = false;
       List logs = filter.call(MockServiceLog.getLogs(), logCtrl.status);
-      ok(logs.length == 5,
-          "La méthode call doit filtrer les éléments en fonction du status");
+      ok(logs.length == 5, "La méthode call doit filtrer les éléments en fonction du status");
 
       String text = _getTextMain();
       RegExp regExp = new RegExp("type\\s*\\(\\s*StatusFilter\\s*\\)\\s*;");
-      ok(regExp.hasMatch(text),
-          "Le constructeur du module WorkshopModule doit déclarer le type StatusFilter");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type StatusFilter");
 
       String ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
       regExp = new RegExp("\\|\\s*statusFilter\\s*:\\s*logCtrl\\.status");
-      ok(regExp.hasMatch(ngRepeat),
-          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status"
-          );
+      ok(regExp.hasMatch(ngRepeat), "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de status");
 
       // Methods
       try {
@@ -367,19 +277,14 @@ class StepProvider {
       } catch (e) {
         fail("Le controller doit avoir un attribut 'methods'");
       }
-      ok(logCtrl.methods is Map,
-          "L'attribut 'methods' doit être de type Map<String, bool>");
+      ok(logCtrl.methods is Map, "L'attribut 'methods' doit être de type Map<String, bool>");
 
-      ok(logCtrl.methods.length == 4,
-          "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
+      ok(logCtrl.methods.length == 4, "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
 
-      ok(logCtrl.methods["GET"] != null && logCtrl.methods["POST"] != null &&
-          logCtrl.methods["PUT"] != null && logCtrl.methods["DELETE"] != null,
-          "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
+      ok(logCtrl.methods["GET"] != null && logCtrl.methods["POST"] != null && logCtrl.methods["PUT"] != null && logCtrl.methods["DELETE"] != null, "L'attribut 'methods' doit contenir les 4 status (GET, POST, PUT, DELETE)");
       checkbox = querySelectorAll("input[type=checkbox][ng-model^='logCtrl.methods']");
 
-      ok(checkbox != null && checkbox.length == 4,
-          "Binder les checkboxs avec la map 'methods' du logCtrl");
+      ok(checkbox != null && checkbox.length == 4, "Binder les checkboxs avec la map 'methods' du logCtrl");
 
       try {
         new MethodFilter();
@@ -392,24 +297,18 @@ class StepProvider {
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
-        fail(
-            "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
+        fail("Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
       }
-      ok(obj != null,
-          "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
-      ok(obj is Formatter,
-          "Le filter 'MethodFilter' doit avoir l'annotation @Formatter");
-      ok(obj.name != null,
-          "L'annotation @Formatter doit avoir un name spécifique");
-      ok(obj.name == "methodFilter",
-          "L'annotation @Formatter doit avoir le name 'methodFilter'");
+      ok(obj != null, "Le filter 'MethodFilter' doit avoir l'annotation décrivant le filter");
+      ok(obj is Formatter, "Le filter 'MethodFilter' doit avoir l'annotation @Formatter");
+      ok(obj.name != null, "L'annotation @Formatter doit avoir un name spécifique");
+      ok(obj.name == "methodFilter", "L'annotation @Formatter doit avoir le name 'methodFilter'");
 
       MethodFilter methodFilter = new MethodFilter();
       try {
         methodFilter.call(new List(), new Map());
       } catch (e) {
-        fail(
-            "Le filtrer MethodFilter doit avoir une méthode 'List call(List, Map);'");
+        fail("Le filtrer MethodFilter doit avoir une méthode 'List call(List, Map);'");
       }
 
       logCtrl.methods['GET'] = false;
@@ -417,18 +316,14 @@ class StepProvider {
       logCtrl.methods['PUT'] = false;
       logs = MockServiceLog.getLogs();
       logs = methodFilter.call(MockServiceLog.getLogs(), logCtrl.methods);
-      ok(logs.length == 2,
-          "La méthode call doit filtrer les éléments en fonction de la méthode");
+      ok(logs.length == 2, "La méthode call doit filtrer les éléments en fonction de la méthode");
 
       regExp = new RegExp("type\\s*\\(\\s*MethodFilter\\s*\\)\\s*;");
-      ok(regExp.hasMatch(text),
-          "Le constructeur du module 'WorkshopModule' doit déclarer le type 'MethodFilter'");
+      ok(regExp.hasMatch(text), "Le constructeur du module 'WorkshopModule' doit déclarer le type 'MethodFilter'");
 
       ngRepeat = querySelector("tr[ng-repeat]").attributes['ng-repeat'];
       regExp = new RegExp("\\|\\s*methodFilter\\s*:\\s*logCtrl\\.methods");
-      ok(regExp.hasMatch(ngRepeat),
-          "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de methods"
-          );
+      ok(regExp.hasMatch(ngRepeat), "Appliquer le filtre sur les logs dans le ng-repeat. Passer en paramètre du filtre la map de methods");
 
 
     }));
@@ -436,39 +331,29 @@ class StepProvider {
     // -------------------------------------------------------------------------------
     // --- 7 : Requêter le backend
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Requêter le backend",
-        "tuto/steps/tutorial-step-requete-backend.html",
-        "tuto/steps/tutorial-solution-requete-backend.html", () {
+    _steps.add(new Step("Requêter le backend", "tuto/steps/tutorial-step-requete-backend.html", "tuto/steps/tutorial-solution-requete-backend.html", () {
       ngScope(querySelector("input")).apply("query = ''");
       var logCtrl;
       try {
         logCtrl = new LogController(_http);
       } catch (e) {
-        fail(
-            "Le constructeur du 'LogController' doit prendre en paramètre un service 'Http'"
-            );
+        fail("Le constructeur du 'LogController' doit prendre en paramètre un service 'Http'");
       }
 
       ok(logCtrl.logs != null, "La proprieté 'logs' ne doit pas être null");
       ok(logCtrl.logs is List, "La proprieté 'logs' doit être un list");
 
       LogController logCtrlInstance = null;
-      logCtrlInstance = ngProbe(querySelector("#angular-app")).injector.get(
-          LogController);
-      ok(logCtrlInstance != null,
-          "LogController n'existe pas dans l'application");
-      ok(logCtrlInstance.logs.length == 291,
-          "Charger le fichier 'apache-log.json' et le mapper dans l'attribut 'logs' du controller"
-          );
+      logCtrlInstance = ngProbe(querySelector("#angular-app")).injector.get(LogController);
+      ok(logCtrlInstance != null, "LogController n'existe pas dans l'application");
+      ok(logCtrlInstance.logs.length == 291, "Charger le fichier 'apache-log.json' et le mapper dans l'attribut 'logs' du controller");
 
     }));
 
     // -------------------------------------------------------------------------------
     // --- 8 : Utiliser le routeur
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Utiliser le routeur",
-        "tuto/steps/tutorial-step-routeur.html",
-        "tuto/steps/tutorial-solution-routeur.html", () {
+    _steps.add(new Step("Utiliser le routeur", "tuto/steps/tutorial-step-routeur.html", "tuto/steps/tutorial-solution-routeur.html", () {
       ngScope(querySelector("input")).apply("query = ''");
 
       try {
@@ -480,12 +365,8 @@ class StepProvider {
 
       Injector injector = ngInjector(querySelector("#angular-app"));
       List list = reflect(routeInitializer).function.parameters;
-      ok(list.length >= 1 && list[0].type.qualifiedName.toString() ==
-          "Symbol(\"route.client.Router\")",
-          "Le premier paramètre de la function doit être de type 'Router'");
-      ok(list.length > 1 && list[1].type.qualifiedName.toString() ==
-          "Symbol(\"angular.routing.RouteViewFactory\")",
-          "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
+      ok(list.length >= 1 && list[0].type.qualifiedName.toString() == "Symbol(\"route.client.Router\")", "Le premier paramètre de la function doit être de type 'Router'");
+      ok(list.length > 1 && list[1].type.qualifiedName.toString() == "Symbol(\"angular.routing.RouteViewFactory\")", "Le deuxième paramètre de la function doit être de type 'RouteViewFactory'");
 
       try {
         Router router = initRouter(routeInitializer);
@@ -495,22 +376,16 @@ class StepProvider {
       } catch (e) {
         if (e is Failed) throw e;
       }
-      
-      ok(injector.get(RouteInitializerFn) != null,
-          "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'"
-          );
 
-      Future f1 = HttpRequest.getString("view-list.html")
-              .then((data) {
-                if (data.length < 10) {
-                  return new Future.value(new Failed("Déplacer le tableau de logs dans le fichier 'view-list.html'"));
-                }
-              })
-              .catchError(
-                    (e) => new Future.value(new Failed("Créer le fichier 'view-list.html'")));
+      ok(injector.get(RouteInitializerFn) != null, "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'");
 
-      Future f3 = futureOk(querySelector("ng-view") != null,
-          "Insérer la view dans le fichier 'index.html'");
+      Future f1 = HttpRequest.getString("view-list.html").then((data) {
+        if (data.length < 10) {
+          return new Future.value(new Failed("Déplacer le tableau de logs dans le fichier 'view-list.html'"));
+        }
+      }).catchError((e) => new Future.value(new Failed("Créer le fichier 'view-list.html'")));
+
+      Future f3 = futureOk(querySelector("ng-view") != null, "Insérer la view dans le fichier 'index.html'");
 
       return Future.wait([f1, f3]);
     }));
@@ -518,14 +393,12 @@ class StepProvider {
     // -------------------------------------------------------------------------------
     // --- 9 : Afficher le détail d'un log
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("Afficher le détail d'un log",
-        "tuto/steps/tutorial-step-log-details.html",
-        "tuto/steps/tutorial-solution-log-details.html", () {
+    _steps.add(new Step("Afficher le détail d'un log", "tuto/steps/tutorial-step-log-details.html", "tuto/steps/tutorial-solution-log-details.html", () {
       ngScope(querySelector("input")).apply("query = ''");
 
       try {
         Router router = initRouter(routeInitializer);
-        
+
         ok(router.root.findRoute("/") != null, "Créer une route '/' qui a pour view 'view-list.html'");
         ok(router.root.findRoute("detail") != null, "Créer une route nommé 'detail'");
         ok(router.root.findRoute("detail").path.match("/detail/1") != null, "Le path de la route 'detail' doit être '/detail/:detailId'");
@@ -545,7 +418,7 @@ class StepProvider {
       var obj = null;
       ClassMirror classMirror = null;
       try {
-         classMirror = reflectClass(DetailController);
+        classMirror = reflectClass(DetailController);
         List<InstanceMirror> metadata = classMirror.metadata;
         obj = metadata.first.reflectee;
       } catch (error) {
@@ -566,14 +439,14 @@ class StepProvider {
           ok(e.parameters.elementAt(0).type.simpleName.toString() == "Symbol(\"Http\")", "Le premier argument du constructeur doit être de type 'Http'");
           ok(e.parameters.elementAt(1).type.simpleName.toString() == "Symbol(\"RouteProvider\")", "Le premier argument du constructeur doit être de type 'RouteProvider'");
         }
-        });
+      });
       ok(foundConstructor, "Le contrôleur 'DetailController', doit avoir un constructeur");
 
       DetailController ctrl = null;
       try {
         ctrl = ngInjector(querySelector("#angular-app")).get(DetailController);
       } catch (e) {
-       fail("Le controller doit être déclaré dans le module 'WorkshopModule'");
+        fail("Le controller doit être déclaré dans le module 'WorkshopModule'");
       }
 
       try {
@@ -583,19 +456,18 @@ class StepProvider {
       }
 
       ok(querySelector("td a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
-      
+
       Router realRouter = ngInjector(querySelector("#angular-app")).get(Router);
-  
-      
-      Future f1 = HttpRequest.getString("detail.html")
-          .then((data) {
-            if (data.length < 10) {
-              return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
-            }
-            
-            //querySelector("a[href='#/detail/1']").click();
-            
-            /*
+
+
+      Future f1 = HttpRequest.getString("detail.html").then((data) {
+        if (data.length < 10) {
+          return new Future.value(new Failed("Ajouter le détail d'un log dans le fichier 'detail.html'"));
+        }
+
+        //querySelector("a[href='#/detail/1']").click();
+
+        /*
             ngInjector(querySelector("#angular-app")).get(Router).go('detail', {"detailId":"1"} ).then((_) {
               
               if (!querySelectorAll('#angular-app')[0].text.contains('/scripts/nsiislog.dll')) {
@@ -611,18 +483,113 @@ class StepProvider {
               ngInjector(querySelector("#angular-app")).get(Router).go('/', {} );
               
             }); */
-          })
-          .catchError(
-                (e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));
+      }).catchError((e) => new Future.value(new Failed("Créer le fichier 'detail.html'")));
 
-      
+
 //      fail("For test");
 
-      
+
       return Future.wait([f1]);
-      
-      }));
+
+    }));
+
+    // -------------------------------------------------------------------------------
+    // --- 10 : Créer un Web Component !
+    // -------------------------------------------------------------------------------
+    _steps.add(new Step("Créer un Web Component",
+    "tuto/steps/tutorial-step-component.html",
+    "tuto/steps/tutorial-solution-component.html", () {
+
+      try {
+        NavigateComponent;
+      } catch (e) {
+        fail("Créer la class 'NavigateComponent' dans le fichier lib/workshop/navigate/navigate_component.dart");
+      }
+
+      var obj;
+      ClassMirror classMirror;
+      try {
+        classMirror = reflectClass(NavigateComponent);
+        List<InstanceMirror> metadata = classMirror.metadata;
+        obj = metadata.first.reflectee;
+      } catch (error) {
+        fail("Le component 'NavigateComponent' doit avoir l'annotation décrivant le component");
+      }
+
+      ok(obj != null, "Le component 'NavigateComponent' doit avoir l'annotation décrivant le component");
+      ok(obj is Component, "Le component 'NavigateComponent' doit avoir l'annotation @Component");
+      ok(obj.selector != null, "L'annotation @Component doit avoir un selecteur spécifique");
+      ok(obj.selector == "navigate", "L'annotation @Component doit avoir un selecteur 'navigate'");
+      ok(obj.publishAs == "cmp", "L'annotation @Component doit être publié en tant que 'cmp'");
+      ok(obj.templateUrl == "packages/xke_angular_dart/workshop/navigate/navigate_component.html", "L'annotation @Component doit avoir l'attribut templateUrl positionné à 'packages/xke_angular_dart/workshop/navigate/navigate_component.html'");
+      ok(obj.cssUrls != null, "L'annotation @Component doit avoir un attribut cssUrl");
+      ok(obj.cssUrls.length == 1, "L'annotation @Component doit avoir un attribut cssUrl");
+      ok(obj.cssUrls[0] == "packages/xke_angular_dart/workshop/navigate/navigate_component.css", "L'annotation @Component doit avoir l'attribut cssUrl positionné à 'packages/xke_angular_dart/workshop/navigate/navigate_component.css'");
+
+      // Verif argument "status"
+      var symbolStatusElements = classMirror.declarations.keys.where((item) => item.toString() == 'Symbol("status")');
+      ok(symbolStatusElements.length == 1, "La class NavigateComponent doit declarer l'attribut 'status'");
+      var metaStatus = classMirror.declarations[symbolStatusElements.first].metadata;
+      ok(metaStatus.length == 1, "L'attribut 'status' doit declarer le binding bi-directionnel à l'aide de l'annotation");
+      ok(metaStatus.first.reflectee is NgTwoWay, "L'attribut 'status' doit être annoté avec @NgTwoWay");
+      ok(metaStatus.first.reflectee.attrName == 'status', "L'annotation @NgTwoWay du attribut 'status' doit avoir 'status' en parametre");
+
+      // Verif argument "methods"
+      var symbolMethodsElements = classMirror.declarations.keys.where((item) => item.toString() == 'Symbol("methods")');
+      ok(symbolMethodsElements.length == 1, "La class NavigateComponent medoit declarer l'attribut 'methods'");
+      var metaMethods = classMirror.declarations[symbolMethodsElements.first].metadata;
+      ok(metaMethods.length == 1, "L'attribut 'methods' doit declarer le binding bi-directionnel à l'aide de l'annotation");
+      ok(metaMethods.first.reflectee is NgTwoWay, "L'attribut 'methods' doit être annoté avec @NgTwoWay");
+      ok(metaMethods.first.reflectee.attrName == 'methods', "L'annotation @NgTwoWay du attribut 'methods' doit avoir 'methods' en parametre");
+
+      // Verif argument "query"
+      var symbolQueryElements = classMirror.declarations.keys.where((item) => item.toString() == 'Symbol("query")');
+      ok(symbolQueryElements.length == 1, "La class NavigateComponent medoit declarer l'attribut 'query'");
+      var metaQuery = classMirror.declarations[symbolMethodsElements.first].metadata;
+      ok(metaQuery.length == 1, "L'attribut 'query' doit declarer le binding bi-directionnel à l'aide de l'annotation");
+      ok(metaQuery.first.reflectee is NgTwoWay, "L'attribut 'query' doit être annoté avec @NgTwoWay");
+      ok(metaQuery.first.reflectee.attrName == 'methods', "L'annotation @NgTwoWay du attribut 'query' doit avoir 'query' en parametre");
+
+
+      // Type declatation
+      String text = _getTextMain();
+      RegExp regExp = new RegExp("type\\s*\\(\\s*NavigateComponent\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type NavigateComponent");
+
+
+      // Il faut ajouter "query" ds controller
+      Http http = ngProbe(querySelector("#angular-app")).injector.get(Http);
+      LogController logCtrl = new LogController(http);
+      try {
+        logCtrl.query;
+      } catch (error) {
+        fail("La proprieté 'query' doit être definit dans le LogController");
+      }
+      ok(logCtrl.query != null, "La proprieté 'query' ne doit pas être null");
+      ok(logCtrl.query is String, "La proprieté 'query' doit être un String");
+      ok(logCtrl.query == "", "La proprieté 'query' doit être un String vide");
+
+      // Changer le param du filter
+      text = _getTextMain(path:'view-list.html');
+      regExp = new RegExp("\\|\\s*filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
+      ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à logCtrl.query");
+
+
+      // Test navigate_component.css presence. Just !404 when web/packages/xke_angular_dart/workshop/navigate/navigate_component.css ?
+      // Test navigate_component.html presence. Just !404 when web/packages/xke_angular_dart/workshop/navigate/navigate_component.html ?
+      // Test navigate_component.css content. Just size ?
+      // Test navigate_component.html content with ng-model="cmp.status..."
+
+      // Test index html has no more <div id="navigation">
+      //  .. and has <navigate status="logCtrl.status" methods="logCtrl.methods" query="logCtrl.query"></navigate>
+
+      // STOP here !!!
+
+      fail('Test');
+    }));
+
   }
+
 
   void ok(bool testPassed, String msg) {
     if (!testPassed) {
@@ -675,7 +642,6 @@ class StepProvider {
 
   initRouter(initializer) {
     var app = applicationFactory()
-//      .addModule(new AngularMockModule())
         ..addModule(new Module()..value(RouteInitializerFn, initializer))
         ..selector('#tutorial');
       var injector = app.createInjector();

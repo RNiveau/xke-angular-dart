@@ -8,7 +8,7 @@
       <th>Url</th>
       <th>Method</th>
     </tr>
-    <tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter:logCtrl.status | methodFilter:logCtrl.methods">
+    <tr ng-repeat="log in logCtrl.logs | filter:{message:logCtrl.query} | statusFilter:logCtrl.status | methodFilter:logCtrl.methods">
       <td><a href="#/detail/{{log.id}}">{{log.id}}</a></td>
       <td>{{log.message}}</td>
       <td>{{log.status}}</td>

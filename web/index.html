@@ -27,6 +27,7 @@
       <a id="a" href="#/main">Test</a>
     </header>
 
+<!--
     <div id="navigation">
       <div class="panel">
         <div class="label">HTTP status</div>
@@ -54,11 +55,13 @@
       </div>
       <div class="panel search">
         <div class="label">Search</div>
-        <input type="text" placeholder="Search a message..." ng-model="query"/>
+        <input type="text" placeholder="Search a message..." ng-model="logCtrl.query"/>
       </div>
     </div>
-    
-   <ng-view></ng-view> 
+-->
+
+    <navigate status="logCtrl.status" methods="logCtrl.methods" query="logCtrl.query"></navigate>
+    <ng-view></ng-view>
 
     <!-- Do not remove. Used for test purposes -->
     <div id="test" style="display: none">{{"Test"}}</div>
