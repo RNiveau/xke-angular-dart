@@ -574,18 +574,29 @@ class StepProvider {
       regExp = new RegExp("\\|\\s*filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
       ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à logCtrl.query");
 
+      // Test navigate_component.css
+      String componentCss = _getTextMain(path: "packages/xke_angular_dart/workshop/navigate/navigate_component.css");
+      regExp = new RegExp("#navigation \.panel\.search input");
+      ok(componentCss != null && componentCss.length > 1000 && regExp.hasMatch(componentCss), "Créer le fichier navigate_component.css dans le repertoir lib/workshop/navigate et y deplacer le contenue du web/css/navigation.css");
 
-      // Test navigate_component.css presence. Just !404 when web/packages/xke_angular_dart/workshop/navigate/navigate_component.css ?
-      // Test navigate_component.html presence. Just !404 when web/packages/xke_angular_dart/workshop/navigate/navigate_component.html ?
-      // Test navigate_component.css content. Just size ?
-      // Test navigate_component.html content with ng-model="cmp.status..."
+      // Test navigate_component.html
+      String componentHtml = _getTextMain(path: "packages/xke_angular_dart/workshop/navigate/navigate_component.html");
+      regExp = new RegExp('<div id="navigation">');
+      ok(componentHtml != null && componentHtml.length > 800 && regExp.hasMatch(componentHtml), "Créer le fichier navigate_component.html dans le repertoir lib/workshop/navigate et y deplacer l'entegralité de l'élément #navigation (depuis index.html)");
 
       // Test index html has no more <div id="navigation">
+      ok(querySelector("#navigation") == null, "Supprimer l'élément #navigation depuis index.html");
+
       //  .. and has <navigate status="logCtrl.status" methods="logCtrl.methods" query="logCtrl.query"></navigate>
+      ok(querySelector("navigate") != null, "Ajouter le component 'navigate' dans index.html");
+      ok(querySelector("navigate[status]") != null, "Binder 'status' dans le component 'navigate'");
+      ok(querySelector("navigate[status='logCtrl.status']") != null, "Le 'status' du component 'navigate' doit être bindé avec 'logCtrl.status'");
+      ok(querySelector("navigate[methods]") != null, "Binder 'methods' dans le component 'navigate'");
+      ok(querySelector("navigate[methods='logCtrl.methods']") != null, "Le 'methods' du component 'navigate' doit être bindé avec 'logCtrl.methods'");
+      ok(querySelector("navigate[query]") != null, "Binder 'query' dans le component 'navigate'");
+      ok(querySelector("navigate[query='logCtrl.query']") != null, "Le 'query' du component 'navigate' doit être bindé avec 'logCtrl.query'");
 
-      // STOP here !!!
-
-      fail('Test');
+//      fail('Test');
     }));
 
   }
