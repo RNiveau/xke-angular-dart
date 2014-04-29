@@ -14,25 +14,9 @@ import '../lib/workshop/filters.dart';
 import '../lib/workshop/router.dart';
 import '../lib/workshop/navigate/navigate_component.dart';
 
-class WorkshopModule extends Module {
-  WorkshopModule() {
-    type(LogController);
-    type(DetailController);
-    type(TruncateFilter);
-    type(StatusFilter);
-    type(MethodFilter);
-    type(NavigateComponent);
-    value(RouteInitializerFn, routeInitializer);
-    factory(NgRoutingUsePushState, (_) => 
-      new NgRoutingUsePushState.value(false));
-  }
-}
 
 void main() {
   // Write your code here
-  applicationFactory()
-    .addModule(new WorkshopModule())
-    .run();
   
   // Don't touch this =====
   tutoBootstrap();
