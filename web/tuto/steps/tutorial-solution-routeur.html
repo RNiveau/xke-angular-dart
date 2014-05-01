@@ -26,7 +26,7 @@ WorkshopModule()  {
       &lt;th&gt;Method&lt;/th&gt;
     &lt;/tr&gt;
     &lt;tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods"&gt;
-      &lt;td&gt;&lt;a href="#/detail/<span>{{</span>log.id<span>}}</span>"&gt;<span>{{</span>log.id<span>}}</span>&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;<span>{{</span>log.id<span>}}</span>&lt;/td&gt;
       &lt;td&gt;<span>{{</span>log.message<span>}}</span>&lt;/td&gt;
       &lt;td&gt;<span>{{</span>log.status<span>}}</span>&lt;/td&gt;
       &lt;td&gt;<span>{{</span>log.url | truncate<span>}}</span>&lt;/td&gt;
