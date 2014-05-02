@@ -500,6 +500,20 @@ class StepProvider {
     "tuto/steps/tutorial-step-component.html",
     "tuto/steps/tutorial-solution-component.html", () {
 
+      // Il faut ajouter "query" ds controller
+      LogController logCtrl = new LogController(_http);
+      try {
+        logCtrl.query;
+      } catch (error) {
+        fail("La proprieté 'query' doit être definit dans le LogController");
+      }
+      ok(logCtrl.query is String && logCtrl.query == "", "La proprieté 'query' doit être de type String et être une chaine vide");
+
+      // Changer le param du filter
+      String text = _getTextMain(path:'view-list.html');
+      RegExp regExp = new RegExp("\\|\\s*filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
+      ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à <code>filter:{message:logCtrl.query}</code>");
+
       try {
         NavigateComponent;
       } catch (e) {
@@ -552,27 +566,9 @@ class StepProvider {
 
 
       // Type declatation
-      String text = _getTextMain();
-      RegExp regExp = new RegExp("type\\s*\\(\\s*NavigateComponent\\s*\\)\\s*;");
+      text = _getTextMain();
+      regExp = new RegExp("type\\s*\\(\\s*NavigateComponent\\s*\\)\\s*;");
       ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type NavigateComponent");
-
-
-      // Il faut ajouter "query" ds controller
-      Http http = ngProbe(querySelector("#angular-app")).injector.get(Http);
-      LogController logCtrl = new LogController(http);
-      try {
-        logCtrl.query;
-      } catch (error) {
-        fail("La proprieté 'query' doit être definit dans le LogController");
-      }
-      ok(logCtrl.query != null, "La proprieté 'query' ne doit pas être null");
-      ok(logCtrl.query is String, "La proprieté 'query' doit être un String");
-      ok(logCtrl.query == "", "La proprieté 'query' doit être un String vide");
-
-      // Changer le param du filter
-      text = _getTextMain(path:'view-list.html');
-      regExp = new RegExp("\\|\\s*filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
-      ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à logCtrl.query");
 
       // Test navigate_component.css
       String componentCss = _getTextMain(path: "packages/xke_angular_dart/workshop/navigate/navigate_component.css");
@@ -583,6 +579,17 @@ class StepProvider {
       String componentHtml = _getTextMain(path: "packages/xke_angular_dart/workshop/navigate/navigate_component.html");
       regExp = new RegExp('<div id="navigation">');
       ok(componentHtml != null && componentHtml.length > 800 && regExp.hasMatch(componentHtml), "Créer le fichier navigate_component.html dans le repertoir lib/workshop/navigate et y deplacer l'entegralité de l'élément #navigation (depuis index.html)");
+
+      // Test logCtrl.* -> cmp.*
+      var badRegExp = new RegExp('logCtrl\.status');
+      var goodRegExp = new RegExp('cmp\.status');
+      ok(!badRegExp.hasMatch(componentHtml) && goodRegExp.allMatches(componentHtml).length == 3, "Dans navigate_component.html remplacer logCtrl.status par cmp.status");
+      badRegExp = new RegExp('logCtrl\.methods');
+      goodRegExp = new RegExp('cmp\.methods');
+      ok(!badRegExp.hasMatch(componentHtml) && goodRegExp.allMatches(componentHtml).length == 4, "Dans navigate_component.html remplacer logCtrl.methods par cmp.methods");
+      badRegExp = new RegExp('logCtrl\.query');
+      goodRegExp = new RegExp('cmp\.query');
+      ok(!badRegExp.hasMatch(componentHtml) && goodRegExp.allMatches(componentHtml).length == 1, "Dans navigate_component.html remplacer logCtrl.query par cmp.query");
 
       // Test index html has no more <div id="navigation">
       ok(querySelector("#navigation") == null, "Supprimer l'élément #navigation depuis index.html");

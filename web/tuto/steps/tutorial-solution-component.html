@@ -1,1 +1,160 @@
-to do
+<br/>Fichier xke-angular-dart/lib/workshop/log_controller.dart
+<pre><code class="dart" >...
+  String query = "";
+...</code></pre>
+
+
+<br/>Fichier xke-angular-dart/web/view-list.html
+<pre><code class="html" >...
+&lt;tr ng-repeat="log in logCtrl.logs | filter:{message:<span class="new-line">logCtrl.</span>query} | statusFilter : logCtrl.status | methodFilter : logCtrl.methods"&gt;
+...</code></pre>
+
+
+<br/>Fichier xke-angular-dart/lib/workshop/navigate/navigate_component.dart
+<pre><code class="dart" >@Component(
+  selector: 'navigate',
+  templateUrl: 'packages/xke_angular_dart/workshop/navigate/navigate_component.html',
+  cssUrl: 'packages/xke_angular_dart/workshop/navigate/navigate_component.css',
+  publishAs: 'cmp'
+)
+class NavigateComponent {
+  @NgTwoWay('status')
+  var status;
+  @NgTwoWay('methods')
+  var methods;
+  @NgTwoWay('query')
+  String query;
+}</code></pre>
+
+<br/>Fichier xke-angular-dart/lib/workshop/navigate/navigate_component.html (copié-collé d'élément #navigation avec les modifs)
+<pre><code class="html" >&lt;div id="navigation"&gt;
+  &lt;div class="panel"&gt;
+    &lt;div class="label"&gt;HTTP status&lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="200" ng-model="<span class="new-line">cmp</span>.status['200']"&gt;&lt;label for="200"&gt;200&lt;/label&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="404" ng-model="<span class="new-line">cmp</span>.status['404']"&gt;&lt;label for="404"&gt;404&lt;/label&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="500" ng-model="<span class="new-line">cmp</span>.status['500']"&gt;&lt;label for="500"&gt;500&lt;/label&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="panel"&gt;
+    &lt;div class="label"&gt;HTTP method&lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="GET" ng-model="<span class="new-line">cmp</span>.methods['GET']"&gt;&lt;label for="GET"&gt;GET&lt;/label&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="POST" ng-model="<span class="new-line">cmp</span>.methods['POST']"&gt;&lt;label for="POST"&gt;POST&lt;/label&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="PUT" ng-model="<span class="new-line">cmp</span>.methods['PUT']"&gt;&lt;label for="PUT"&gt;PUT&lt;/label&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;input type="checkbox" id="DELETE" ng-model="<span class="new-line">cmp</span>.methods['DELETE']"&gt;&lt;label for="DELETE"&gt;DELETE&lt;/label&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="panel search"&gt;
+    &lt;div class="label"&gt;Search&lt;/div&gt;
+    &lt;input type="text" placeholder="Search a message..." ng-model="<span class="new-line">cmp</span>.query"/&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+
+<br/>Fichier xke-angular-dart/web/main.dart
+<pre><code class="dart" >...
+  WorkshopModule() {
+    type(NavigateComponent);
+    ...
+  }
+...</code></pre>
+
+
+<br/>Fichier xke-angular-dart/web/index.html
+<pre><code class="html" >...
+  &lt;/header&gt;
+  <span class="new-line">&lt;navigate status="logCtrl.status" methods="logCtrl.methods" query="logCtrl.query"&gt;&lt;/navigate&gt;</span>
+  &lt;ng-view&gt;&lt;/ng-view&gt;
+...</code></pre>
+
+
+<br/>Fichier xke-angular-dart/lib/workshop/navigate/navigate_component.css (copié-collé de navigation.css)
+<pre><code class="css" >#navigation {
+    width: 100%;
+    float: left;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-bottom: 10px;
+}
+
+#navigation .label {
+    font-size: 10px;
+    height: 10px;
+    line-height: 10px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    text-transform: uppercase;
+    position: absolute;
+    margin: -9px 0 6px 5px;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #999999;
+}
+
+#navigation .panel {
+    display: inline-block;
+    border: solid 1px #DDD;
+    border-radius: 4px;
+    padding: 3px;
+    margin-bottom: 10px;
+    float: left;
+    margin-right: 3px;
+}
+
+#navigation .panel.search {
+    font-size: 12px;
+    height: 25px;
+    line-height: 20px;
+}
+
+#navigation .panel.search input {
+    width: 206px;
+    outline: none;
+}
+
+#navigation .panel input {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 3px 6px 2px;
+    font-size: 14px;
+}
+
+#navigation ul {
+    margin: 0;
+    padding: 0;
+}
+
+#navigation li {
+    color: rgb(75, 92, 102);
+    display: block;
+    padding: 2px 5px 2px 10px;
+    display: inline-block;
+}
+
+#navigation input {
+    margin-top: 0;
+}
+
+#navigation label {
+    margin-left: 8px;
+    display: inline;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}</code></pre>
+

@@ -108,3 +108,7 @@ header .search_clear {
     text-align: center;
     border-left: solid 1px #DDD;
 }
+
+.new-line {
+    background-color: rgb(205, 255, 196);
+}
