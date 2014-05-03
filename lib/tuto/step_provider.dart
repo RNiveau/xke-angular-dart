@@ -92,6 +92,7 @@ class StepProvider {
       ok(obj != null, "Le contrôleur 'LogController' doit avoir l'annotation décrivant le controlleur");
       ok(obj is Controller, "Le contrôleur 'LogController' doit avoir l'annotation @Controller");
       ok(obj.selector != null, "L'annotation @Controller doit avoir un selecteur spécifique");
+      ok(obj.selector != "log-ctrl", "Selector d'annotation doit être entre 'square brackets': []");
       ok(obj.selector == "[log-ctrl]", "L'annotation @Controller doit avoir un selecteur [log-ctrl]");
       ok(obj.publishAs == "logCtrl", "L'annotation @Controller doit être publié en tant que 'logCtrl'");
 
@@ -113,7 +114,7 @@ class StepProvider {
       ok(querySelector('#angular-app[log-ctrl]') != null, "Le contrôleur 'LogController' doit être défini au niveau du div #angular-app à l'aide de l'attribut log-ctrl");
 
       String text = _getTextMain();
-      RegExp regExp = new RegExp("WorkshopModule\\(\\)\\s*{");
+      RegExp regExp = new RegExp("WorkshopModule\\s*\\(\\s*\\)\\s*{");
       ok(regExp.hasMatch(text), "Le module WorkshopModule doit contenir un constructeur");
 
       regExp = new RegExp("type\\s*\\(\\s*LogController\\s*\\)\\s*;");

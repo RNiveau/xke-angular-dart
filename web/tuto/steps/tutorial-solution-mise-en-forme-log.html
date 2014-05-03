@@ -1,12 +1,20 @@
 <br/>Fichier xke-angular-dart/web/index.html
 <pre><code class="html" >...
+
 &lt;table&gt;
-    &lt;tr ng-repeat="log in logCtrl.logs"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;#&lt;/th&gt;
+        &lt;th&gt;Message&lt;/th&gt;
+        &lt;th&gt;Status&lt;/th&gt;
+        &lt;th&gt;Url&lt;/th&gt;
+        &lt;th&gt;Method&lt;/th&gt;
+    &lt;/tr&gt;
+<span class="new-line">    &lt;tr ng-repeat="log in logCtrl.logs"&gt;
         &lt;td&gt;<span>{{</span>log.id<span>}}</span>&lt;/td&gt;
         &lt;td&gt;<span>{{</span>log.message<span>}}</span>&lt;/td&gt;
         &lt;td&gt;<span>{{</span>log.status<span>}}</span>&lt;/td&gt;
         &lt;td&gt;<span>{{</span>log.url<span>}}</span>&lt;/td&gt;
         &lt;td&gt;<span>{{</span>log.method<span>}}</span>&lt;/td&gt;
-    &lt;/tr&gt;
+    &lt;/tr&gt;</span>
 &lt;/table&gt;
 ...</code></pre>
