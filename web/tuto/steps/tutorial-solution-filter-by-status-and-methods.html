@@ -31,13 +31,41 @@ class MethodFilter {
 <pre><code class="dart" >...
 WorkshopModule()  {
   ...
-    type(StatusFilter);
-    type(MethodFilter);
+    <span class="new-line">type(StatusFilter);</span>
+    <span class="new-line">type(MethodFilter);</span>
   ...
 }
 ...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/index.html
 <pre><code class="html" >...
-&lt;tr ng-repeat="log in logCtrl.logs | filter:{message:query} | statusFilter : logCtrl.status | methodFilter : logCtrl.methods" &gt;
+&lt;tr ng-repeat="log in logCtrl.logs | filter:{message:query} <span class="new-line">| statusFilter : logCtrl.status | methodFilter : logCtrl.methods"</span> &gt;
+...</code></pre>
+
+<br/>Fichier xke-angular-dart/web/index.html
+<pre><code class="html" >...
+&lt;div class="panel"&gt;
+  &lt;div class="label"&gt;HTTP status&lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.status['200']"</span> id="200" &gt;&lt;label
+      for="200"&gt;200&lt;/label&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.status['404']"</span> id="404" &gt;&lt;label
+      for="404"&gt;404&lt;/label&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.status['500']"</span> id="500" &gt;&lt;label
+      for="500"&gt;500&lt;/label&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="panel"&gt;
+  &lt;div class="label"&gt;HTTP method&lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.methods['GET']"</span> id="GET" &gt;&lt;label
+      for="GET"&gt;GET&lt;/label&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.methods['POST']"</span> id="POST" &gt;&lt;label
+      for="POST"&gt;POST&lt;/label&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;input type="checkbox" id="PUT"  <span class="new-line">ng-model="logCtrl.methods['PUT']"</span> &gt;&lt;label
+      for="PUT"&gt;PUT&lt;/label&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;input type="checkbox" <span class="new-line">ng-model="logCtrl.methods['DELETE']"</span> id="DELETE" &gt;&lt;label
+      for="DELETE"&gt;DELETE&lt;/label&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
 ...</code></pre>
