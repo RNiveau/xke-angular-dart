@@ -1,11 +1,12 @@
 <br/>Fichier xke-angular-dart/lib/workshop/log_controller.dart
 <pre><code class="dart" >...
-  LogController(Http http) {
-    Future.wait([http.get("apache-log.json").then((HttpResponse httpResponse) {
+  LogController(<span class="new-line">Http http</span>) {
+<span class="new-line">    logs = [];
+      Future.wait([http.get("apache-log.json").then((HttpResponse httpResponse) {
       for (Map log in httpResponse.data) {
         Log l = new Log.fromJsonMap(log);
         logs.add(l);
       }
-    })]);;
+    })]);</span>
   }
 ...</code></pre>
