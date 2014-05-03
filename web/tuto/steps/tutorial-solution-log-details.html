@@ -3,22 +3,22 @@
 void routeInitializer(Router router, RouteViewFactory views) {
   views.configure({
     '/': ngRoute(path: '/', view: 'view-list.html', defaultRoute : true),
-    'detail': ngRoute(path: '/detail/:detailId', view: 'detail.html')
+    <span class="new-line">'detail': ngRoute(path: '/detail/:detailId', view: 'detail.html')</span>
   });
 }
 ...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/view-list.html
 <pre><code class="dart" >...
-&lt;td&gt;&lt;a href="#/detail/<span>{{</span>log.id<span>}}</span>"&gt;<span>{{</span>log.id<span>}}</span>&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;<span class="new-line">&lt;a href="#/detail/<span>{{</span>log.id<span>}}</span>"&gt;<span>{{</span>log.id<span>}}</span>&lt;/a&gt;</span>&lt;/td&gt;
 ...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/main.dart
 <pre><code class="dart" >...
 WorkshopModule()  {
   ...
-  factory(NgRoutingUsePushState,
-            (_) =&gt; new NgRoutingUsePushState.value(false));
+  <span class="new-line">factory(NgRoutingUsePushState,
+            (_) =&gt; new NgRoutingUsePushState.value(false));</span>
 }
 ...</code></pre>
 

@@ -378,13 +378,13 @@ class StepProvider {
         if (e is Failed) throw e;
       }
 
-      ok(injector.get(RouteInitializerFn) != null, "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule'");
+      ok(injector.get(RouteInitializerFn) != null, "Déclarer la fonction en tant que 'RouteInitializerFn' dans le constructeur du 'WorkshopModule' à l'aide de value(...)");
 
       Future f1 = HttpRequest.getString("view-list.html").then((data) {
         if (data.length < 10) {
-          return new Future.value(new Failed("Déplacer le tableau de logs dans le fichier 'view-list.html'"));
+          return new Future.value(new Failed("Déplacer le tableau de logs (élément #content depuis index.html) dans le fichier 'view-list.html'"));
         }
-      }).catchError((e) => new Future.value(new Failed("Créer le fichier 'view-list.html'")));
+      }).catchError((e) => new Future.value(new Failed("Créer le fichier 'xke-angular-dart/web/view-list.html'")));
 
       Future f3 = futureOk(querySelector("ng-view") != null, "Insérer la view dans le fichier 'index.html'");
 
@@ -447,7 +447,7 @@ class StepProvider {
       try {
         ctrl = ngInjector(querySelector("#angular-app")).get(DetailController);
       } catch (e) {
-        fail("Le controller doit être déclaré dans le module 'WorkshopModule'");
+        fail("Le controller DetailController doit être déclaré dans le module 'WorkshopModule'");
       }
 
       try {
