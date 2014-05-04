@@ -512,8 +512,14 @@ class StepProvider {
 
       // Changer le param du filter
       String text = _getTextMain(path:'view-list.html');
-      RegExp regExp = new RegExp("\\|\\s*filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
-      ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à <code>filter:{message:logCtrl.query}</code>");
+      RegExp regExp = new RegExp("filter\\s*:\\s*{\\s*message\\s*:\\s*logCtrl\\.query\\s*}");
+      ok(regExp.hasMatch(text), "Changer le parametre de filtre sur ng-repeat de query à 'filter:{message:logCtrl.query}' (fichier view-list.html)");
+
+      // Test binding
+//      InputElement input = querySelector('input[type="text"]');
+//      ngScope(input).apply("logCtrl.query = 'Test'");
+//      ok(input.value == 'Test', "Binder input 'Search a message' à logCtrl.query");
+//      ngScope(input).apply("logCtrl.query = ''");
 
       try {
         NavigateComponent;
