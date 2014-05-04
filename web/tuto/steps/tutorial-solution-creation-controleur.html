@@ -16,7 +16,12 @@ class LogController {
 WorkshopModule()  {
   type(LogController);
 }
-...</code></pre>
+...
+void main() {
+ applicationFactory()
+  .addModule(new WorkshopModule())
+  .run();
+}</code></pre>
 
 
 Fichier xke-angular-dart/web/index.html
