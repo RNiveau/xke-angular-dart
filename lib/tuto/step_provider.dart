@@ -610,8 +610,18 @@ class StepProvider {
       ok(querySelector("navigate[methods='logCtrl.methods']") != null, "Le 'methods' du component 'navigate' doit être bindé avec 'logCtrl.methods'");
       ok(querySelector("navigate[query]") != null, "Binder 'query' dans le component 'navigate'");
       ok(querySelector("navigate[query='logCtrl.query']") != null, "Le 'query' du component 'navigate' doit être bindé avec 'logCtrl.query'");
+      
+    }));
 
-//      fail('Test');
+    // -------------------------------------------------------------------------------
+    // --- 11 : Poney
+    // -------------------------------------------------------------------------------
+    _steps.add(new Step("nteropérabilité JS",
+    "tuto/steps/tutorial-step-interop-js.html",
+    "tuto/steps/tutorial-solution-interop-js.html", () {
+      LogController logCtrl = new LogController(_http);
+      logCtrl.poney();    
+      fail('Vive les poneys !');
     }));
 
   }
