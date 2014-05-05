@@ -10,31 +10,13 @@ import 'package:angular/routing/module.dart';
 import '../lib/tuto/tuto_module.dart';
 import '../lib/workshop/log_controller.dart';
 import '../lib/workshop/detail_controller.dart';
-import '../lib/workshop/logs_service.dart';
 import '../lib/workshop/filters.dart';
 import '../lib/workshop/router.dart';
 import '../lib/workshop/navigate/navigate_component.dart';
 
-class WorkshopModule extends Module {
-    WorkshopModule()  {
-      type(LogController);
-      type(DetailController);
-      type(LogsService);
-      type(NavigateComponent);
-      type(TruncateFilter);
-      type(StatusFilter);
-      type(MethodFilter);
-      value(RouteInitializerFn, routeInitializer);
-      factory(NgRoutingUsePushState,
-                (_) => new NgRoutingUsePushState.value(false));
-    }
-}
-
 
 void main() {
   // Write your code here
-  applicationFactory().addModule(new WorkshopModule())
-    .run();
   
   // Don't touch this =====
   tutoBootstrap();

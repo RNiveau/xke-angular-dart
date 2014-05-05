@@ -14,22 +14,64 @@
 <link href="css/github-PLS.css" rel="stylesheet" type="text/css">
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 <link href="css/navigation.css" rel="stylesheet" type="text/css">
-
 </head>
 <body>
 
   <div id="tutorial" ng-include="tuto/tuto.html"></div>
 
   <!-- Your code here -->
-  <div id="angular-app" ng-app log-ctrl>
-  
+  <div id="angular-app" >
+
     <header>
       <span>&lsaquo; xebia / AngularDart &rsaquo;</span>
     </header>
 
-    <navigate status="logCtrl.status" methods="logCtrl.methods" query="logCtrl.query"></navigate>
 
-    <ng-view></ng-view>
+    <div id="navigation">
+      <div class="panel">
+        <div class="label">HTTP status</div>
+        <ul>
+          <li><input type="checkbox" id="200" ><label
+            for="200">200</label></li>
+          <li><input type="checkbox" id="404" ><label
+            for="404">404</label></li>
+          <li><input type="checkbox" id="500" ><label
+            for="500">500</label></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="label">HTTP method</div>
+        <ul>
+          <li><input type="checkbox" id="GET" ><label
+            for="GET">GET</label></li>
+          <li><input type="checkbox" id="POST" ><label
+            for="POST">POST</label></li>
+          <li><input type="checkbox" id="PUT" ><label
+            for="PUT">PUT</label></li>
+          <li><input type="checkbox" id="DELETE" ><label
+            for="DELETE">DELETE</label></li>
+        </ul>
+      </div>
+      <div class="panel search">
+        <div class="label">Search</div>
+        <input type="text" placeholder="Search a message..." />
+      </div>
+    </div>
+
+ <div id="content">
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Message</th>
+      <th>Status</th>
+      <th>Url</th>
+      <th>Method</th>
+    </tr>
+  </table>
+</div>
+
+
+
 
     <!-- Do not remove. Used for test purposes -->
     <div id="test" style="display: none">{{"Test"}}</div>
@@ -41,8 +83,5 @@
   <script src="packages/browser/interop.js"></script>
   <script src="js/less.js"></script>
   <script src="js/highlight-PLS.js"></script>
-  <script type="text/javascript" src="http://panzi.github.io/Browser-Ponies/basecfg.js" id="browser-ponies-config"></script>
-  <script type="text/javascript" src="http://panzi.github.io/Browser-Ponies/browserponies.js" id="browser-ponies-script"></script>
-  <script type="text/javascript">/* <![CDATA[ */ (function (cfg) {BrowserPonies.setBaseUrl(cfg.baseurl);BrowserPonies.loadConfig(BrowserPoniesBaseConfig);BrowserPonies.loadConfig(cfg);})({"baseurl":"http://panzi.github.io/Browser-Ponies/","fadeDuration":500,"volume":1,"fps":25,"speed":3,"audioEnabled":false,"showFps":false,"showLoadProgress":true,"speakProbability":0.1,"spawn":{"applejack":1,"fluttershy":1,"pinkie pie":1,"rainbow dash":1,"rarity":1,"twilight sparkle":1},"autostart":false}); /* ]]> */</script>
 </body>
 </html>
