@@ -24,7 +24,8 @@ WorkshopModule()  {
 ...</code></pre>
 
 <br/>Fichier xke-angular-dart/web/workshop/detail_controller.dart
-<pre><code class="dart" >...
+<pre><code class="dart" >
+...
 @Controller(
     selector: '[detail-ctrl]',
     publishAs: 'detailCtrl')
@@ -32,16 +33,8 @@ class DetailController {
   
   Log log;
   
-  DetailController(Http _http, RouteProvider _routeProvider) {
-    Future.wait([_http.get("apache-log.json").then((HttpResponse httpResponse) {
-    	for (Map mLog in httpResponse.data) {
-        	Log l = new Log.fromJsonMap(mLog);
-            if (l.id == _routeProvider.parameters['detailId']) {
-              log = l;
-              break;
-            }
-        }
-    })]);
+  DetailController(LogsService logsService, RouteProvider routeProvider) {
+    log = logsService.getLogById(routeProvider.parameters['detailId']);
   }
   
 }

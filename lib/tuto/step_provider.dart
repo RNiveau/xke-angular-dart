@@ -2,6 +2,7 @@ library step_provider;
 
 import 'dart:async';
 import 'dart:html';
+import 'dart:js';
 import 'step.dart';
 import 'failed.dart';
 import 'dart:mirrors';
@@ -17,6 +18,7 @@ import '../workshop/log.dart';
 import '../workshop/mock_service_log.dart';
 import '../workshop/filters.dart';
 import '../workshop/router.dart';
+import '../workshop/logs_service.dart';
 import '../workshop/navigate/navigate_component.dart';
 
 @Injectable()
@@ -436,26 +438,25 @@ class StepProvider {
       classMirror.declarations.values.forEach((e) {
         if (e is MethodMirror && e.isConstructor) {
           foundConstructor = true;
-          ok(e.parameters.length == 2, "Le constructeur doit avoir deux paramètres (Http, RouteProvider)");
-          ok(e.parameters.elementAt(0).type.simpleName.toString() == "Symbol(\"Http\")", "Le premier argument du constructeur doit être de type 'Http'");
+          ok(e.parameters.length == 2, "Le constructeur doit avoir deux paramètres (LogsService, RouteProvider)");
+          ok(e.parameters.elementAt(0).type.simpleName.toString() == "Symbol(\"LogsService\")", "Le premier argument du constructeur doit être de type 'LogsService'");
           ok(e.parameters.elementAt(1).type.simpleName.toString() == "Symbol(\"RouteProvider\")", "Le premier argument du constructeur doit être de type 'RouteProvider'");
         }
       });
       ok(foundConstructor, "Le contrôleur 'DetailController', doit avoir un constructeur");
 
       DetailController ctrl = null;
-      try {
-        ctrl = ngInjector(querySelector("#angular-app")).get(DetailController);
-      } catch (e) {
-        fail("Le controller DetailController doit être déclaré dans le module 'WorkshopModule'");
-      }
+      // Type declatation
+      var text = _getTextMain();
+      RegExp regExp = new RegExp("type\\s*\\(\\s*LogsService\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type LogsService");
+      regExp = new RegExp("type\\s*\\(\\s*DetailController\\s*\\)\\s*;");
+      ok(regExp.hasMatch(text), "Le constructeur du module WorkshopModule doit déclarer le type DetailController");
 
-      try {
-        ctrl.log;
-      } catch (error) {
-        fail("Le controller doit définir une propriété log de type 'Log'");
-      }
-
+      text = _getTextMain(path:"packages/xke_angular_dart/workshop/detail_controller.dart");
+      regExp = new RegExp("Log +log *;");
+      ok(regExp.hasMatch(text), "Le DetailController doit déclarer une variable log");
+      
       ok(querySelector("td a[href='#/detail/1']") != null, "Ajouter sur les éléments du tableau de log, un lien routant vers le détail du log");
 
       Router realRouter = ngInjector(querySelector("#angular-app")).get(Router);
