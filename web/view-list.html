@@ -1,0 +1,18 @@
+<div id="content">
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Message</th>
+      <th>Status</th>
+      <th>Url</th>
+      <th>Method</th>
+    </tr>
+    <tr ng-repeat="log in logCtrl.logs | filter:{message:logCtrl.query} | statusFilter   :  logCtrl.status | methodFilter   :  logCtrl.methods">
+      <td><a href="#/detail/{{log.id}}">{{log.id}}</a></td>
+      <td>{{log.message}}</td>
+      <td>{{log.status}}</td>
+      <td>{{log.url | truncate}}</td>
+      <td>{{log.method}}</td>
+    </tr>
+  </table>
+</div>
