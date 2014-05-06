@@ -616,7 +616,7 @@ class StepProvider {
     // -------------------------------------------------------------------------------
     // --- 11 : Poney
     // -------------------------------------------------------------------------------
-    _steps.add(new Step("nteropérabilité JS",
+    _steps.add(new Step("Interopérabilité JS & Poney",
     "tuto/steps/tutorial-step-interop-js.html",
     "tuto/steps/tutorial-solution-interop-js.html", () {
       LogController logCtrl = new LogController(_http);
