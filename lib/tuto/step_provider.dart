@@ -140,7 +140,12 @@ class StepProvider {
       ok(new RegExp("\\s*\\w\\s+in\\s+logCtrl.logs").hasMatch(attr), "La directive ng-repeat doit parcourir l'attribut logs du controller");
       ok(querySelectorAll("#angular-app tr") != null && querySelectorAll("#angular-app tr").length >= 7, "Afficher les logs dans le tableau");
 
-      multiple([_stringExistInLog(querySelector("#angular-app tr td:nth-child(1)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(2)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(3)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(4)"), MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(5)"), MockServiceLog.getLogs()[0])], "Le tableau doit afficher la date, l'url, le verbe, le statut et le message de chaque log");
+      multiple([_stringExistInLog(querySelector("#angular-app tr td:nth-child(1)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(2)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(3)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(4)"),
+          MockServiceLog.getLogs()[0]), _stringExistInLog(querySelector("#angular-app tr td:nth-child(5)"),
+          MockServiceLog.getLogs()[0])], "Le tableau doit afficher l'id, la date, l'url, le verbe, le statut et le message de chaque log");
       bool found = querySelectorAll('#angular-app')[0].text.contains("[{");
       ok(!found, "Le JSON brut ne doit plus être affiché");
 
