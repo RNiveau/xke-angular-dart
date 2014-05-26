@@ -6,9 +6,9 @@
     Pour ce faire :
   <ul>
     <li>Dans le constructeur du <code>WorkshopModule</code>, ajouter le code suivant: <code>factory(NgRoutingUsePushState, (_) =&gt;
-    <br/> new <a href="https://docs.angulardart.org/#angular-routing.NgRoutingUsePushState" target="_blank" >NgRoutingUsePushState</a>.value(false));</code></li>
+    <br/> new <a href="https://docs.angulardart.org/#angular/angular-routing.NgRoutingUsePushState" target="_blank" >NgRoutingUsePushState</a>.value(false));</code></li>
     <li>Dans le fichier xke-angular-dart/lib/workshop/router.dart, déclarer une nouvelle route <code>detail</code> au niveau du routeur qui match l'URL <code>/detail/:detailId</code> avec le template <code>detail.html</code></li>
-    <li>Créer un contrôleur <code>DetailController</code> exposé comme <code>detailCtrl</code> et ayant pour directive <code>detail-ctrl</code>. Le constructeur de ce contrôlleur prend en paramètre un service <a href="https://docs.angulardart.org/#angular-core.Http" target="_blank" >Http</a> et un <a href="https://docs.angulardart.org/#angular-routing.RouteProvider" target="_blank" >RouteProvider</a></li>
+    <li>Créer un contrôleur <code>DetailController</code> exposé comme <code>detailCtrl</code> et ayant pour directive <code>detail-ctrl</code>. Le constructeur de ce contrôlleur prend en paramètre un service <a href="https://docs.angulardart.org/#angular/angular-core.Http" target="_blank" >Http</a> et un <a href="https://docs.angulardart.org/#angular/angular-routing.RouteProvider" target="_blank" >RouteProvider</a></li>
     <li>Le 'DetailController' expose le log sélectionné dans l'attribut <code>log</code></li>
     <li>Dans le fichier xke-angular-dart/web/view-list.html, rajouter sur les id des logs un lien pointant vers la nouvelle route.</li>
     <li>Dans le fichier xke-angular-dart/web/detail.html, afficher dans le tableau les différentes informations du log courant (id, date, url, method, status, message)</li>

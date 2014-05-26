@@ -4,3 +4,4 @@ packages
 *.iml
 .settings/
 build/
+.DS_Store
