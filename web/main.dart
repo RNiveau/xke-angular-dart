@@ -16,19 +16,8 @@ import '../lib/workshop/navigate/navigate_component.dart';
 
 
 void main() {
-  applicationFactory()
-        .addModule(new WorkshopModule ())
-        .run();
+  // Write your code here
   
   // Don't touch this =====
   tutoBootstrap();
-}
-
-class WorkshopModule extends Module {
-  WorkshopModule() {
-    type(LogController);
-    type(TruncateFilter);
-    type(StatusFilter);
-        type(MethodFilter);
-  }
 }
