@@ -10,6 +10,6 @@ ou Dart SDK et Dartium seulement si vous voulez obligatoirement utiliser votre I
 
 - Le DartEditor installe les dépendances ... ![installing dependencies](/web/img/analazing.jpg "installing dependencies")
 
-- Dans le DartEditor, déplier le dossier __xke-angular-dart__, puis faite un clique droit sur le fichier __index.html__ et cliquer sur __Run in Dartium__
+- Dans le DartEditor, déplier le dossier __xke-angular-dart/web__, puis faite un clique droit sur le fichier __index.html__ et cliquer sur __Run in Dartium__
 
 - A vous de jouer
